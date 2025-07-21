@@ -28,7 +28,7 @@ export const dataControlOccupancyChannelId = "game.dataControlsOccupancy"
 //export const streamUrl = "https://vimeo.com/1073970603"
 
 //  AWS IVS exports
-export const IVS_PLAYBACK_URL = "https://5167a9755a8b.us-west-2.playback.live-video.net/api/video/v1/us-west-2.417887267817.channel.LyHsP83pWuGP.m3u8"
+export const streamUrl = "https://5167a9755a8b.us-west-2.playback.live-video.net/api/video/v1/us-west-2.417887267817.channel.LyHsP83pWuGP.m3u8"
 
 export const reactions = ["👍", "❤️", "😂", "😮", "👏"]
 

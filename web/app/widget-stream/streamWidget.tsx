@@ -6,8 +6,7 @@ import {
   illuminateUpgradeReaction,
   dataControlOccupancyChannelId,
   AlertType,
-  streamUrl,
-  IVS_PLAYBACK_URL
+  streamUrl
 } from '../data/constants'
 import { PlayCircle } from '../side-menu/sideMenuIcons'
 import Alert from '../components/alert'
@@ -230,7 +229,7 @@ export default function StreamWidget ({
             <div className='pointer-events-none'>
               <IvsPlayer
                   ref={playerRef}
-                  url={IVS_PLAYBACK_URL}
+                  url={streamUrl}
                   controls={false}
                   width={isMobilePreview ? 418 : 698}
                   height={isMobilePreview ? 235 : 393}
