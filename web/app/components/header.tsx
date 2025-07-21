@@ -72,8 +72,6 @@ export default function Header ({
 
       // Extract timecode region (x: 1540-1680, y: 1040 to bottom)
       const timecodeRegion = await extractTimecodeRegion(canvas, ctx);
-      
-      console.log('Video frame captured and timecode extracted successfully');
     } catch (error) {
       console.error('Error capturing video screenshot:', error);
       alert('Failed to capture screenshot. This might be due to CORS restrictions or video not being ready.');
@@ -90,7 +88,6 @@ export default function Header ({
 
       // Ensure coordinates are within canvas bounds
       if (x >= canvas.width || y >= canvas.height) {
-        console.log('Timecode region is outside canvas bounds');
         return null;
       }
 
@@ -117,8 +114,6 @@ export default function Header ({
       // Convert cropped canvas to data URL for OCR
       const croppedDataURL = croppedCanvas.toDataURL('image/png');
 
-      console.log(`Extracting timecode from region: x=${x}, y=${y}, width=${actualWidth}, height=${actualHeight}`);
-
       // Use Tesseract.js to extract text from the cropped region
       const worker = await createWorker('eng');
       
@@ -132,17 +127,10 @@ export default function Header ({
 
       // Clean up the extracted text
       const timecode = text.trim().replace(/\s+/g, '');
-      
-      console.log('🕒 Extracted timecode:', timecode);
-      
-      // Also log the raw OCR result for debugging
-      console.log('📄 Raw OCR text:', JSON.stringify(text));
 
       // Parse and convert timecode to milliseconds
       const milliseconds = parseTimecodeToMilliseconds(timecode);
       if (milliseconds !== null) {
-        console.log('⏱️ Timecode in milliseconds:', milliseconds);
-        
         // Publish PubNub message with the extracted timecode
         if (chat) {
           try {
@@ -153,7 +141,6 @@ export default function Header ({
               },
               channel: serverVideoControlChannelId
             });
-            console.log('📡 Published SEEK message to PubNub with playbackTime:', milliseconds);
           } catch (error) {
             console.error('❌ Failed to publish PubNub message:', error);
           }
@@ -202,13 +189,6 @@ export default function Header ({
         (minutes * 60 * 1000) +        // minutes to milliseconds
         (seconds * 1000) +             // seconds to milliseconds
         (hundredths * 10);             // hundredths of seconds to milliseconds
-
-      console.log(`📊 Parsed timecode breakdown:
-        Hours: ${hours} (${hours * 60 * 60 * 1000}ms)
-        Minutes: ${minutes} (${minutes * 60 * 1000}ms)
-        Seconds: ${seconds} (${seconds * 1000}ms)
-        Hundredths: ${hundredths} (${hundredths * 10}ms)
-        Total: ${totalMilliseconds}ms`);
 
       return totalMilliseconds;
     } catch (error) {
