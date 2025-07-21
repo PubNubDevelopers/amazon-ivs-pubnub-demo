@@ -104,6 +104,26 @@ export default function ChatMessage ({
     return ''
   }
 
+  // Check if this is a sticker message
+  const isSticker = () => {
+    try {
+      const messageText = message.getMessageElements().map(renderMessagePart).join('')
+      const parsed = JSON.parse(messageText)
+      return parsed.type === 'sticker'
+    } catch {
+      return false
+    }
+  }
+
+  const getStickerData = () => {
+    try {
+      const messageText = message.getMessageElements().map(renderMessagePart).join('')
+      return JSON.parse(messageText)
+    } catch {
+      return null
+    }
+  }
+
   return (
     <div
       className={`mb-6 flex ${isOwnMessage ? 'justify-end' : 'justify-start'}`}
@@ -144,6 +164,22 @@ export default function ChatMessage ({
             ? 'This user has been banned'
             : userRestrictions.mute
             ? 'This user has been muted'
+            : isSticker()
+            ? (() => {
+                const stickerData = getStickerData()
+                return (
+                  <div className="flex flex-col">
+                    <img
+                      src={stickerData?.stickerUrl}
+                      alt={stickerData?.title || 'Sticker'}
+                      className="max-w-[120px] max-h-[120px] rounded-lg"
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none'
+                      }}
+                    />
+                  </div>
+                )
+              })()
             : message.getMessageElements().map(renderMessagePart)}
         </div>
         <div className={'text-[11px] font-[400] leading-[150%]'}>

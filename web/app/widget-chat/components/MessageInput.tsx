@@ -4,6 +4,8 @@ import { User, MessageDraftV2, Channel } from '@pubnub/chat'
 import { useHover } from '@uidotdev/usehooks'
 import { Restriction } from '../chatWidget'
 import { actionCompleted } from 'pubnub-demo-integration'
+import StickerPicker from './StickerPicker'
+import { GifObject } from '../../utils/giphy'
 
 interface MessageInputProps {
   messageInput: string
@@ -34,6 +36,7 @@ export default function MessageInput ({
   const [mentionQuery, setMentionQuery] = useState('')
   const [suggestedUsers, setSuggestedUsers] = useState<User[]>([])
   const [mentionStartIndex, setMentionStartIndex] = useState(-1)
+  const [showStickerPicker, setShowStickerPicker] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
   const messageDraftRef = useRef<MessageDraftV2 | null>(null)
 
@@ -141,8 +144,37 @@ export default function MessageInput ({
     }
   }
 
+  const handleStickerSelect = async (gif: GifObject) => {
+    try {
+      // Send sticker as a custom message via PubNub SDK directly
+      await channel.sendText(JSON.stringify({
+        type: 'sticker',
+        stickerId: gif.id,
+        stickerUrl: gif.images.fixed_height.url,
+        title: gif.title
+      }))
+      
+      if (!isGuidedDemo) {
+        actionCompleted({
+          action: 'Send a sticker',
+          blockDuplicateCalls: false,
+          debug: false
+        })
+      }
+    } catch (error) {
+      console.error('Error sending sticker:', error)
+    }
+  }
+
   function handleOpenEmoji (event) {
     setShowReactions(!showReactions)
+    setShowStickerPicker(false) // Close sticker picker when opening emoji
+    event.stopPropagation()
+  }
+
+  function handleOpenStickers (event) {
+    setShowStickerPicker(!showStickerPicker)
+    setShowReactions(false) // Close emoji picker when opening stickers
     event.stopPropagation()
   }
 
@@ -162,25 +194,25 @@ export default function MessageInput ({
       >
         <svg
           xmlns='http://www.w3.org/2000/svg'
-          width='18'
-          height='18'
-          viewBox='0 0 18 18'
+          width='22'
+          height='22'
+          viewBox='0 0 22 22'
           fill='none'
         >
           <path
-            d='M11.9165 8.16675C12.6069 8.16675 13.1665 7.6071 13.1665 6.91675C13.1665 6.22639 12.6069 5.66675 11.9165 5.66675C11.2261 5.66675 10.6665 6.22639 10.6665 6.91675C10.6665 7.6071 11.2261 8.16675 11.9165 8.16675Z'
+            d='M14.564 9.98C15.409 9.98 16.093 9.297 16.093 8.451C16.093 7.606 15.409 6.922 14.564 6.922C13.719 6.922 13.036 7.606 13.036 8.451C13.036 9.297 13.719 9.98 14.564 9.98Z'
             fill='#216F7B'
           />
           <path
-            d='M6.08317 8.16675C6.77353 8.16675 7.33317 7.6071 7.33317 6.91675C7.33317 6.22639 6.77353 5.66675 6.08317 5.66675C5.39281 5.66675 4.83317 6.22639 4.83317 6.91675C4.83317 7.6071 5.39281 8.16675 6.08317 8.16675Z'
+            d='M7.435 9.98C8.281 9.98 8.964 9.297 8.964 8.451C8.964 7.606 8.281 6.922 7.435 6.922C6.589 6.922 5.906 7.606 5.906 8.451C5.906 9.297 6.589 9.98 7.435 9.98Z'
             fill='#216F7B'
           />
           <path
-            d='M8.99984 14.0001C10.8998 14.0001 12.5165 12.6167 13.1665 10.6667H4.83317C5.48317 12.6167 7.09984 14.0001 8.99984 14.0001Z'
+            d='M11 17.111C13.331 17.111 15.297 15.529 16.093 13.037H5.907C6.703 15.529 8.669 17.111 11 17.111Z'
             fill='#216F7B'
           />
           <path
-            d='M8.9915 0.666748C4.3915 0.666748 0.666504 4.40008 0.666504 9.00008C0.666504 13.6001 4.3915 17.3334 8.9915 17.3334C13.5998 17.3334 17.3332 13.6001 17.3332 9.00008C17.3332 4.40008 13.5998 0.666748 8.9915 0.666748ZM8.99984 15.6667C5.3165 15.6667 2.33317 12.6834 2.33317 9.00008C2.33317 5.31675 5.3165 2.33341 8.99984 2.33341C12.6832 2.33341 15.6665 5.31675 15.6665 9.00008C15.6665 12.6834 12.6832 15.6667 8.99984 15.6667Z'
+            d='M10.989 0.815C5.367 0.815 0.815 5.367 0.815 10.989C0.815 16.611 5.367 21.163 10.989 21.163C16.611 21.163 21.163 16.611 21.163 10.989C21.163 5.367 16.611 0.815 10.989 0.815ZM11 19.148C6.5 19.148 2.852 15.5 2.852 10.989C2.852 6.478 6.5 2.83 11 2.83C15.5 2.83 19.148 6.478 19.148 10.989C19.148 15.5 15.5 19.148 11 19.148Z'
             fill='#216F7B'
           />
         </svg>
@@ -197,6 +229,53 @@ export default function MessageInput ({
               </button>
             ))}
           </div>
+        )}
+      </div>
+
+      <div
+        className={
+          'group relative rounded w-[32px] h-[32px] p-[6px] cursor-pointer'
+        }
+        onClick={handleOpenStickers}
+      >
+        <svg
+          xmlns='http://www.w3.org/2000/svg'
+          width='22'
+          height='22'
+          viewBox='0 0 22 22'
+          fill='none'
+        >
+          {/* Main star */}
+          <path
+            d='M11 2.5L12.8 7.9L19 7.9L14.1 11.6L15.9 17L11 13.9L6.1 17L7.9 11.6L3 7.9L9.2 7.9L11 2.5Z'
+            fill='#216F7B'
+          />
+          {/* Sparkles around the star */}
+          <path
+            d='M18.3 3.7L18.7 4.5L19.5 4.1L18.7 3.7L18.3 3.7Z'
+            fill='#216F7B'
+          />
+          <path
+            d='M3.7 3.1L4.1 3.9L4.9 3.5L4.1 3.1L3.7 3.1Z'
+            fill='#216F7B'
+          />
+          <path
+            d='M19 15.9L19.4 16.7L20.2 16.3L19.4 15.9L19 15.9Z'
+            fill='#216F7B'
+          />
+          <path
+            d='M2.4 16.5L2.8 17.3L3.6 16.9L2.8 16.5L2.4 16.5Z'
+            fill='#216F7B'
+          />
+          <circle cx='17.1' cy='7.3' r='0.7' fill='#216F7B'/>
+          <circle cx='4.3' cy='13.4' r='0.6' fill='#216F7B'/>
+        </svg>
+
+        {showStickerPicker && (
+          <StickerPicker
+            onStickerSelect={handleStickerSelect}
+            onClose={() => setShowStickerPicker(false)}
+          />
         )}
       </div>
 

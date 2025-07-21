@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@giphy/js-fetch-api": "^5.7.0",
+    "@giphy/react-components": "^10.1.0",
     "@heroui/react": "^2.7.5",
     "@pubnub/chat": "^0.11.7",
     "@types/tesseract.js": "^0.0.2",
