@@ -44,9 +44,9 @@ export default function StreamWidget ({
     { emoji: string; upgraded: boolean }[]
   >([
     { emoji: '👏', upgraded: false },
-    { emoji: '😢', upgraded: false },
+    { emoji: '🦄', upgraded: false },
     { emoji: '😡', upgraded: false },
-    { emoji: '😮', upgraded: false },
+    { emoji: '🐴', upgraded: false },
     { emoji: '🔥', upgraded: false },
     { emoji: '🎉', upgraded: false }
   ])
