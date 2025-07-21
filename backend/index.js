@@ -322,6 +322,7 @@ async function runOnDemandScript(script, delay = 0) {
 // We'll run the timeline in a loop
 async function runLoop() {
   // 1. Check if we have reached or passed the next event in matchScript
+  console.log("currentTime", currentTime);
   while (
     scriptIndex < matchScript.length &&
     matchScript[scriptIndex].timeSinceVideoStartedInMs <= currentTime

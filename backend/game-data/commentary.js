@@ -328,7 +328,19 @@ exports.commentary = [
         "timeCode": "01:27"
       }
     }
+  },
+  {
+    "timeSinceVideoStartedInMs": 1800000,
+    "persistInHistory": false,
+    "action": {
+      "channel": "game.commentary",
+      "data": {
+        "text": "This is 30 minutes.",
+        "timeCode": "30:27"
+      }
+    }
   }
+
 ];
 
 /*
