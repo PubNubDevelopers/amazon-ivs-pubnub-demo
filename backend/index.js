@@ -11,11 +11,7 @@ const { commentary } = require("./game-data/commentary.js");
 const { polls } = require("./game-data/polls.js");
 const { reactions } = require("./game-data/reactions.js");
 const { stats } = require("./game-data/stats.js");
-const { fanExcitement } = require("./on-demand/fan-excitement.js");
-const { fanFrustration } = require("./on-demand/fan-frustration.js");
-const { goalScored } = require("./on-demand/push-goal.js");
-const { fiveMinutesRemaining } = require("./on-demand/push-5mins.js");
-const { angry, cheer } = require("./illuminate/illuminate-polls.js");
+const { betting } = require("./game-data/betting.js");
 
 // Initialize PubNub
 const pubnub = new PubNub({
@@ -105,27 +101,9 @@ async function handleControlMessage(msg) {
 
       var onDemandScript = null;
       var delay = 0;
-      if (scriptName === "fan-excitement") {
-        onDemandScript = shuffleArray(expandRepeatedEvents(fanExcitement));
-      } else if (scriptName === "fan-frustration") {
-        onDemandScript = shuffleArray(expandRepeatedEvents(fanFrustration));
-      } else if (scriptName === "push-goal") {
-        onDemandScript = goalScored;
-      } else if (scriptName === "push-5mins") {
-        onDemandScript = fiveMinutesRemaining;
-      } else if (scriptEmoji === "😡") {
-        onDemandScript = angry;
-        console.log("Angry script");
-        delay = 30000;
-      } else if (scriptEmoji === "🎉") {
-        onDemandScript = cheer;
-        console.log("Cheer script");
-        delay = 30000;
-      } else {
         console.error("[Control] Unknown script name:", scriptName);
         return;
-      }
-      runOnDemandScript(onDemandScript, delay);
+      //runOnDemandScript(onDemandScript, delay);
 
       break;
     default:
@@ -237,7 +215,7 @@ function expandRepeatedEvents(events) {
 // Merge data from all modules and sort by the timeline
 function buildMatchScript() {
   // All modules combined
-  let merged = [...chat, ...commentary, ...polls, ...reactions, ...stats];
+  let merged = [...chat, ...commentary, ...polls, ...reactions, ...stats, ...betting];
 
   // Expand repeats first
   let expanded = expandRepeatedEvents(merged);
