@@ -1,8 +1,8 @@
 export const channelData = [
   {
     id: "game.chat",
-    name: "Game Chat",
-    description: "Public conversation about the game",
+    name: "Stream Chat",
+    description: "Public conversation about the stream",
     avatar:
       "https://pn-solution-live-events.netlify.app/avatars/group/chat2.png",
     createInAppContext: true,
