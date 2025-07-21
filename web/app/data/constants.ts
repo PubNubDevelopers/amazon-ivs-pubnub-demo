@@ -24,6 +24,9 @@ export const serverVideoControlChannelId = "game.server-video-control";
 export const illuminateUpgradeReaction = "illuminate-upgrade-reaction";
 export const dataControlOccupancyChannelId = "game.dataControlsOccupancy"
 
+// Admin settings
+export const adminPin = "8888"
+
 //export const streamUrl = "https://youtu.be/IprCMEH8Vt4";
 //export const streamUrl = "https://vimeo.com/1073970603"
 
