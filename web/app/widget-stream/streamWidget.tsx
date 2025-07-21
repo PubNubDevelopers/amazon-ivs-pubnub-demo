@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from 'react'
-import { motion } from 'framer-motion'
 import {
   streamReactionsChannelId,
   clientVideoControlChannelId,
@@ -7,13 +6,14 @@ import {
   illuminateUpgradeReaction,
   dataControlOccupancyChannelId,
   AlertType,
-  streamUrl
+  streamUrl,
+  IVS_PLAYBACK_URL
 } from '../data/constants'
 import { PlayCircle } from '../side-menu/sideMenuIcons'
 import Alert from '../components/alert'
 import GuideOverlay from '../components/guideOverlay'
 import LiveStreamPoll from '../widget-polls/liveStreamPoll'
-import ReactPlayer from 'react-player'
+import IvsPlayer from './IvsPlayer'
 import { actionCompleted } from 'pubnub-demo-integration'
 
 export default function StreamWidget ({
@@ -51,13 +51,10 @@ export default function StreamWidget ({
     { emoji: '🔥', upgraded: false },
     { emoji: '🎉', upgraded: false }
   ])
-  const [videoUrl, setVideoUrl] = useState(streamUrl)
-  const [isVideoPlaying, setIsVideoPlaying] = useState(false)
-  const [isVideoStarted, setIsVideoStarted] = useState(false)
-  const actualVideoProgressRef = useRef(0)
-  const [requestedVideoProgress, setRequestedVideoProgress] = useState(0)
+  const [isVideoPlaying, setIsVideoPlaying] = useState(true)
+  const [isVideoStarted, setIsVideoStarted] = useState(true)
   const [muted, setMuted] = useState(true)
-  const playerRef = useRef<ReactPlayer>(null)
+  const playerRef = useRef<any>(null)
 
   useEffect(() => {
     //  Handle all types of message other than video control
@@ -184,65 +181,12 @@ export default function StreamWidget ({
   }
 
   function handleVideoControl (messageEvent, isVideoPlaying, isVideoStarted) {
-    if (messageEvent.message.type == 'START_STREAM') {
-      actualVideoProgressRef.current = 0
-      setIsVideoPlaying(true)
-    } else if (messageEvent.message.type == 'STATUS') {
-      if (messageEvent.message.params.videoStarted) {
-        setIsVideoPlaying(true)
-        setRequestedVideoProgress(0)
-        playerRef.current?.seekTo(0, 'seconds')
-      }
-      if (messageEvent.message.params.videoEnded) {
-        //  FYI video is about to loop
-        setIsVideoPlaying(false)
-      }
-      actualVideoProgressRef.current =
-        messageEvent.message.params.playbackTime / 1000
-      if (!isVideoPlaying) {
-        setIsVideoPlaying(true)
-      }
-      if (!isVideoStarted) {
-        //  The video is not playing locally, but the stream is running on the back end.  Join game in progress
-        setRequestedVideoProgress(actualVideoProgressRef.current)
-      }
-      //console.log(actualVideoProgressRef.current)
-      //console.log(messageEvent.message.params.playbackTime / 1000)
-    } else if (messageEvent.message.type == 'END_STREAM') {
-      setIsVideoPlaying(false)
-      setIsVideoStarted(false)
-      actualVideoProgressRef.current = 0
-      setRequestedVideoProgress(0)
-    } else if (messageEvent.message.type == 'SEEK') {
-      const requestedTime = messageEvent.message.params.playbackTime / 1000
-      if (requestedTime) {
-        setRequestedVideoProgress(requestedTime)
-        if (isVideoPlaying) {
-          playerRef.current?.seekTo(requestedTime, 'seconds')
-        }
-      }
-    }
+    //  AWS IVS Player does not support video control
+    return
   }
 
-  function onVideoReady (ev) {
-    //console.log('Video ready')
-  }
 
-  function onVideoStart () {
-    setIsVideoStarted(true)
-    if (requestedVideoProgress > 0) {
-      playerRef.current?.seekTo(requestedVideoProgress, 'seconds')
-    }
-  }
 
-  function onVideoPlay () {
-    //console.log('Video playing')
-    //  Note: Get an onVideoPlay every time you seek
-  }
-
-  function onVideoProgress (ev) {
-    //actualVideoProgressRef.current = ev.playedSeconds
-  }
 
   function upgradeEmoji (
     emoji: string,
@@ -284,22 +228,15 @@ export default function StreamWidget ({
         >
           {isVideoPlaying == true ? (
             <div className='pointer-events-none'>
-              <ReactPlayer
-                ref={playerRef}
-                url={videoUrl}
-                playing={isVideoPlaying}
-                controls={false}
-                width={isMobilePreview ? 418 : 698}
-                height={isMobilePreview ? 235 : 393}
-                loop={false}
-                muted={isMobilePreview ? true : muted}
-                pip={false}
-                onReady={ev => onVideoReady(ev)}
-                onStart={() => onVideoStart()}
-                onPlay={() => onVideoPlay()}
-                onProgress={ev => onVideoProgress(ev)}
-                progressInterval={1000}
-              />
+              <IvsPlayer
+                  ref={playerRef}
+                  url={IVS_PLAYBACK_URL}
+                  controls={false}
+                  width={isMobilePreview ? 418 : 698}
+                  height={isMobilePreview ? 235 : 393}
+                  muted={isMobilePreview ? true : muted}
+                  setIsVideoPlaying={setIsVideoPlaying}
+                />
             </div>
           ) : (
             <div
@@ -323,7 +260,7 @@ export default function StreamWidget ({
                 }}
               >
                 <LiveStreamIcon />{' '}
-                <div className='font-medium text-lg'>Waiting for stream...</div>
+                <div className='flex flex-col items-center font-medium text-lg'><div>Stream not found.</div><div>Start stream and refresh page</div></div>
               </div>
             </div>
           )}

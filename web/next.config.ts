@@ -14,7 +14,17 @@ const nextConfig: NextConfig = {
         hostname: '**',
       },
     ],
-  },  
+  },
+  webpack: (config, { isServer }) => {
+    // Amazon IVS Player is a browser-only package
+    if (isServer) {
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        'amazon-ivs-player': false,
+      };
+    }
+    return config;
+  },
 };
 
 export default nextConfig;
