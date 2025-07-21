@@ -67,6 +67,7 @@ export default function ChatWidget ({
   const [simulatedOccupancy, setSimulatedOccupancy] = useState(0)
   const [activeChannelRestrictions, setActiveChannelRestrictions] =
     useState<Restriction | null>(null)
+  const [subscribersOnly, setSubscribersOnly] = useState(false)
 
   const messagesContainerRef = useRef<HTMLDivElement>(null)
 
@@ -260,7 +261,7 @@ export default function ChatWidget ({
       //setWhoIsPresent(await chat.whoIsPresent(activeChannelId));
 
       // Get channel history
-      /*
+      
       try {
         const history = await channel.getHistory()
 
@@ -269,7 +270,7 @@ export default function ChatWidget ({
         console.error('Error fetching message history:', error)
         setMessages([])
       }
-        */
+        
 
       // Initialize cleanup functions
       let unsubscribeMessages = () => {}
@@ -534,17 +535,34 @@ export default function ChatWidget ({
             {activeChannel.name || activeChannel.id}
           </div>
           <div className={'grow'} />
-          <div className={'flex items-center justify-center gap-1'}>
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              width='8'
-              height='8'
-              viewBox='0 0 8 8'
-              fill='none'
-            >
-              <circle cx='4' cy='4' r='4' fill='#22C55E' />
-            </svg>{' '}
-            {simulatedOccupancy + realOccupancy} online
+          <div className={'flex items-center gap-3'}>
+            <div className={'flex items-center gap-2'}>
+              <label className={'text-sm text-white'}>Subscribers only</label>
+              <button
+                onClick={() => setSubscribersOnly(!subscribersOnly)}
+                className={`relative inline-flex h-[20px] w-[36px] items-center rounded-full transition-colors ${
+                  subscribersOnly ? 'bg-white' : 'bg-gray-400'
+                }`}
+              >
+                <span
+                  className={`inline-block h-[16px] w-[16px] transform rounded-full bg-navy900 transition-transform ${
+                    subscribersOnly ? 'translate-x-[18px]' : 'translate-x-[2px]'
+                  }`}
+                />
+              </button>
+            </div>
+            <div className={'flex items-center justify-center gap-1'}>
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                width='8'
+                height='8'
+                viewBox='0 0 8 8'
+                fill='none'
+              >
+                <circle cx='4' cy='4' r='4' fill='#22C55E' />
+              </svg>{' '}
+              {simulatedOccupancy + realOccupancy} online
+            </div>
           </div>
         </div>
       )}
@@ -568,19 +586,28 @@ export default function ChatWidget ({
               </div>
             ) : (
               <>
-                {messages.map((message, index) => {
-                  // const user = await chat.getUser('')
+                {messages
+                  .filter((message) => {
+                    // If subscribers only is enabled, only show messages from users whose ID starts with 'user'
+                    if (subscribersOnly) {
+                      return message.userId.startsWith('user')
+                    }
+                    // Otherwise show all messages
+                    return true
+                  })
+                  .map((message, index) => {
+                    // const user = await chat.getUser('')
 
-                  return (
-                    <ChatMessage
-                      key={`${message.timetoken}-${index}`}
-                      message={message}
-                      currentUser={chat.currentUser}
-                      users={users}
-                      channel={activeChannel}
-                    />
-                  )
-                })}
+                    return (
+                      <ChatMessage
+                        key={`${message.timetoken}-${index}`}
+                        message={message}
+                        currentUser={chat.currentUser}
+                        users={users}
+                        channel={activeChannel}
+                      />
+                    )
+                  })}
               </>
             )}
           </div>
