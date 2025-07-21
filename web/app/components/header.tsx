@@ -18,6 +18,8 @@ export default function Header ({
   const [pinInput, setPinInput] = useState('')
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [pinError, setPinError] = useState('')
+  const [syncStatus, setSyncStatus] = useState<'idle' | 'syncing' | 'success' | 'error'>('idle')
+  const [syncMessage, setSyncMessage] = useState('')
 
   const handlePinSubmit = (e) => {
     e.preventDefault()
@@ -42,15 +44,21 @@ export default function Header ({
     setPinInput('')
     setIsAuthenticated(false)
     setPinError('')
+    setSyncStatus('idle')
+    setSyncMessage('')
   }
 
   const captureVideoScreenshot = async () => {
+    setSyncStatus('syncing')
+    setSyncMessage('Analyzing video timecode...')
+    
     try {
       // Find the video element in the page
       const videoElement = document.querySelector('video') as HTMLVideoElement;
       
       if (!videoElement) {
-        alert('Video player not found. Please make sure the video is playing.');
+        setSyncStatus('error')
+        setSyncMessage('Video player not found. Please make sure the video is playing.')
         return;
       }
 
@@ -59,7 +67,8 @@ export default function Header ({
       const ctx = canvas.getContext('2d');
       
       if (!ctx) {
-        alert('Failed to create canvas context for screenshot.');
+        setSyncStatus('error')
+        setSyncMessage('Failed to create canvas context for screenshot.')
         return;
       }
 
@@ -72,9 +81,23 @@ export default function Header ({
 
       // Extract timecode region (x: 1540-1680, y: 1040 to bottom)
       const timecodeRegion = await extractTimecodeRegion(canvas, ctx);
+      
+      if (timecodeRegion) {
+        setSyncStatus('success')
+        setSyncMessage('Stream synchronized successfully!')
+        
+        // Auto-close modal after 2 seconds
+        setTimeout(() => {
+          closeModal()
+        }, 2000)
+      } else {
+        setSyncStatus('error')
+        setSyncMessage('Failed to extract timecode from video.')
+      }
     } catch (error) {
       console.error('Error capturing video screenshot:', error);
-      alert('Failed to capture screenshot. This might be due to CORS restrictions or video not being ready.');
+      setSyncStatus('error')
+      setSyncMessage('Failed to capture screenshot. This might be due to CORS restrictions or video not being ready.')
     }
   };
 
@@ -424,13 +447,48 @@ export default function Header ({
               </div>
             ) : (
               <div>
-                <p className='text-green-600 mb-4'>✓ Authentication successful</p>
-                <button
-                  onClick={captureVideoScreenshot}
-                  className='w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors'
-                >
-                  Sync Stream
-                </button>
+                {syncStatus === 'idle' && (
+                  <button
+                    onClick={captureVideoScreenshot}
+                    className='w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors'
+                  >
+                    Sync Stream
+                  </button>
+                )}
+                
+                {syncStatus === 'syncing' && (
+                  <div className='space-y-3'>
+                    <button
+                      disabled
+                      className='w-full bg-gray-400 text-white py-2 px-4 rounded-md cursor-not-allowed'
+                    >
+                      Syncing...
+                    </button>
+                    <p className='text-blue-600 text-center'>{syncMessage}</p>
+                  </div>
+                )}
+                
+                {syncStatus === 'success' && (
+                  <div className='space-y-3'>
+                    <div className='w-full bg-green-600 text-white py-2 px-4 rounded-md text-center'>
+                      ✓ Success
+                    </div>
+                    <p className='text-green-600 text-center'>{syncMessage}</p>
+                    <p className='text-gray-500 text-sm text-center'>Modal will close automatically...</p>
+                  </div>
+                )}
+                
+                {syncStatus === 'error' && (
+                  <div className='space-y-3'>
+                    <button
+                      onClick={captureVideoScreenshot}
+                      className='w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors'
+                    >
+                      Retry Sync
+                    </button>
+                    <p className='text-red-600 text-center'>{syncMessage}</p>
+                  </div>
+                )}
               </div>
             )}
           </div>
