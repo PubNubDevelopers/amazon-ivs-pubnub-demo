@@ -14,6 +14,8 @@ interface MessageInputProps {
   setShowMentions: (input: boolean) => void
   showReactions: boolean
   setShowReactions: (input: boolean) => void
+  showStickerPicker: boolean
+  setShowStickerPicker: (input: boolean) => void
   availableUsers: User[]
   channel: Channel
   activeChannelRestrictions: Restriction | null
@@ -29,6 +31,8 @@ export default function MessageInput ({
   setShowMentions,
   showReactions,
   setShowReactions,
+  showStickerPicker,
+  setShowStickerPicker,
   activeChannelRestrictions,
   isGuidedDemo
 }: MessageInputProps) {
@@ -36,7 +40,6 @@ export default function MessageInput ({
   const [mentionQuery, setMentionQuery] = useState('')
   const [suggestedUsers, setSuggestedUsers] = useState<User[]>([])
   const [mentionStartIndex, setMentionStartIndex] = useState(-1)
-  const [showStickerPicker, setShowStickerPicker] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
   const messageDraftRef = useRef<MessageDraftV2 | null>(null)
 

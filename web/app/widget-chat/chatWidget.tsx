@@ -68,6 +68,7 @@ export default function ChatWidget ({
   const [activeChannelRestrictions, setActiveChannelRestrictions] =
     useState<Restriction | null>(null)
   const [subscribersOnly, setSubscribersOnly] = useState(false)
+  const [showStickerPicker, setShowStickerPicker] = useState(false)
 
   const messagesContainerRef = useRef<HTMLDivElement>(null)
 
@@ -444,6 +445,7 @@ export default function ChatWidget ({
   function backgroundClicked (e) {
     setShowMentions(false)
     setShowReactions(false)
+    setShowStickerPicker(false)
   }
 
   return (
@@ -619,6 +621,8 @@ export default function ChatWidget ({
             setShowMentions={setShowMentions}
             showReactions={showReactions}
             setShowReactions={setShowReactions}
+            showStickerPicker={showStickerPicker}
+            setShowStickerPicker={setShowStickerPicker}
             availableUsers={users}
             channel={activeChannel}
             activeChannelRestrictions={activeChannelRestrictions}

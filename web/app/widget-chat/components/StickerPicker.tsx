@@ -25,7 +25,10 @@ export default function StickerPicker({ onStickerSelect, onClose }: StickerPicke
   }
 
   return (
-    <div className="absolute bottom-[50px] left-0 bg-white border shadow-lg rounded-lg p-4 w-[400px] h-[300px] z-20">
+    <div 
+      className="absolute bottom-[50px] left-0 bg-white border shadow-lg rounded-lg p-4 w-[400px] h-[300px] z-20"
+      onClick={(e) => e.stopPropagation()}
+    >
       <div className="flex justify-between items-center mb-3">
         <h3 className="text-lg font-semibold">Stickers</h3>
         <button
@@ -50,6 +53,7 @@ export default function StickerPicker({ onStickerSelect, onClose }: StickerPicke
           placeholder="Search stickers..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
+          onClick={(e) => e.stopPropagation()}
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
