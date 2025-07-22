@@ -64,7 +64,7 @@ def generate_horse_racing_chat():
             "timeSinceVideoStartedInMs": time_ms,
             "persistInHistory": False,
             "action": {
-                "channel": "game.chat",
+                "channel": "race.chat",
                 "data": {
                     "user": f"bot-{bot_number}",
                     "text": comment

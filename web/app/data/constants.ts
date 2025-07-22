@@ -1,6 +1,6 @@
 export const channelData = [
   {
-    id: "game.chat",
+    id: "race.chat",
     name: "Stream Chat",
     description: "Public conversation about the stream",
     avatar:

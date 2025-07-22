@@ -92,7 +92,7 @@ async function handleControlMessage(msg) {
         messageText = "Messages Paused";
       }
       shouldSendChatMessages = !shouldSendChatMessages;
-      publishMessage("game.chat", { user: "bot-33", text: messageText }, false);
+      publishMessage("race.chat", { user: "bot-33", text: messageText }, false);
       break;
     case "ON_DEMAND_SCRIPT":
       if (!intervalId) return;
@@ -330,7 +330,7 @@ async function runLoop() {
     const eventObj = matchScript[scriptIndex];
     // Publish the event
 
-    if (!(eventObj.action.channel === "game.chat" && !shouldSendChatMessages)) {
+    if (!(eventObj.action.channel === "race.chat" && !shouldSendChatMessages)) {
       await publishMessage(
         eventObj.action.channel,
         eventObj.action.data,
