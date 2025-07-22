@@ -212,8 +212,8 @@ export default function LoginPage ({
           <div className='text-5xl font-extrabold'>Loading...</div>
         </div>
       ) : (
-        <div className='flex flex-col gap-20 items-center text-navy100 '>
-          <div className='flex flex-row gap-4 items-center'>
+        <div className='flex flex-col gap-8 md:gap-20 items-center text-navy100 px-4'>
+          <div className='flex flex-row gap-4 items-center text-center'>
             {isGuidedDemo && !isPopout && (
               <div
                 className='cursor-pointer'
@@ -225,12 +225,12 @@ export default function LoginPage ({
               </div>
             )}
             {userArray && (
-              <div className='text-5xl font-extrabold'>
+              <div className='text-2xl md:text-5xl font-extrabold'>
                 Choose a user to log in
               </div>
             )}
           </div>
-          <div className='flex flex-row gap-6'>
+          <div className='grid grid-cols-2 md:flex md:flex-row gap-4 md:gap-6'>
             {userArray?.slice(0, 4).map((user, index) => {
               return (
                 <LoginAvatar
@@ -254,22 +254,22 @@ export default function LoginPage ({
 function LoginAvatar ({ id, avatarUrl, name, personSelected }) {
   return (
     <div
-      className='flex flex-col gap-3 p-2 items-center cursor-pointer hover:bg-navy800 rounded-lg'
+      className='flex flex-col gap-2 md:gap-3 p-2 items-center cursor-pointer hover:bg-navy800 rounded-lg'
       onClick={() => {
         personSelected(id)
       }}
     >
-      <div className='px-3'>
+      <div className='px-1 md:px-3'>
         <Image
           src={avatarUrl}
           alt='Avatar'
-          className='rounded-full'
+          className='rounded-full w-20 h-20 md:w-32 md:h-32'
           width={128}
           height={128}
           priority
         />
       </div>
-      <div className='text-lg font-normal'>{name}</div>
+      <div className='text-sm md:text-lg font-normal text-center'>{name}</div>
     </div>
   )
 }
