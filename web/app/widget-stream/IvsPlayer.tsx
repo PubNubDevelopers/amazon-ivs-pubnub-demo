@@ -12,8 +12,8 @@ declare global {
 interface IvsPlayerProps {
   url: string
   controls: boolean
-  width: number
-  height: number
+  //width: number
+  //height: number
   muted: boolean
   setIsVideoPlaying: (isVideoPlaying: boolean) => void
 }
@@ -30,8 +30,8 @@ const IvsPlayer = forwardRef<IvsPlayerRef, IvsPlayerProps>((props, ref) => {
   const {
     url,
     controls,
-    width,
-    height,
+    //width,
+    //height,
     muted,
     setIsVideoPlaying
   } = props
@@ -159,8 +159,8 @@ const IvsPlayer = forwardRef<IvsPlayerRef, IvsPlayerProps>((props, ref) => {
   return (
     <div 
       style={{ 
-        width: `${width}px`, 
-        height: `${height}px`,
+        //width: `${width}px`, 
+        //height: `${height}px`,
         position: 'relative',
         backgroundColor: '#000'
       }}

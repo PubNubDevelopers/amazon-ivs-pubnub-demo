@@ -86,20 +86,20 @@ export default function SportsEventPage ({
         chat={chat}
       ></Header>
 
-      <div className='sm:hidden flex flex-col mt-10 h-screen justify-center w-full text-center gap-16 text-4xl'>
+      {/*<div className='sm:hidden flex flex-col mt-10 h-screen justify-center w-full text-center gap-16 text-4xl'>
         This app is not designed for mobile
-      </div>
+      </div>*/}
 
-      <div className='hidden sm:flex flex-row w-full mt-[92px] pb-0 bg-navy900/40 text-neutral-50'>
-        <SideMenu
+      <div className='flex flex-col sm:flex sm:flex-row w-full mt-[92px] pb-0 bg-navy50 text-neutral-50'>
+        {/*<SideMenu
           sideMenuOpen={sideMenuOpen}
           isGuidedDemo={isGuidedDemo}
           chat={chat}
           dataControlsDropDownVisible={dataControlsDropDownVisible}
           setDataControlsDropDownVisible={setDataControlsDropDownVisible}
-        ></SideMenu>
+        ></SideMenu>*/}
 
-        <div className='overflow-y-auto w-full p-6 overscroll-none flex flex-col items-center justify-center'>
+        <div className='overflow-y-auto w-full h-full overscroll-none flex sm:flex-col'>
           <div className='flex flex-col gap-0'>
             {isGuidedDemo && (
               <a

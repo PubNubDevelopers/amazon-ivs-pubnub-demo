@@ -64,8 +64,8 @@ export default function LiveCommentaryWidget ({
   }
 
   return (
-    <div className={`${className} px-6 pt-3 pb-4`}>
-      <div className='font-semibold text-base pb-3'>Live Commentary</div>
+    <div className={`${className} px-3 pt-3 pb-4`}>
+      <div className='font-semibold text-base pb-1'>Live Commentary</div>
       <GuideOverlay
         id={'liveCommentary'}
         guidesShown={guidesShown}
@@ -93,7 +93,7 @@ export default function LiveCommentaryWidget ({
         <SkipToLatestButton liveCommentaryScrollRef={liveCommentaryScrollRef} />
       )}
       <div
-        className='flex flex-col gap-3 min-h-64 max-h-64 overflow-y-auto overscroll-none'
+        className='flex flex-col gap-1 min-h-32 max-h-32 overflow-y-auto overscroll-none'
         onScroll={handleScroll}
         ref={liveCommentaryScrollRef}
       >
@@ -113,9 +113,9 @@ export default function LiveCommentaryWidget ({
 
 function CommentaryRow ({ text, timeCode }) {
   return (
-    <div className='flex flex-row gap-2 items-center justify-between font-normal text-sm'>
+    <div className='flex flex-row items-center justify-between font-normal text-sm'>
       <div className=''>{text}</div>
-      <div className='text-neutral500'>{timeCode}</div>
+      {/*<div className='text-neutral500'>{timeCode}</div>*/}
     </div>
   )
 }

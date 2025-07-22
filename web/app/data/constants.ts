@@ -1,7 +1,7 @@
 export const channelData = [
   {
     id: "race.chat",
-    name: "Stream Chat",
+    name: "Chat",
     description: "Public conversation about the stream",
     avatar:
       "https://aws-ivs-pubnub-sme.netlify.app/avatars/group/chat2.png",

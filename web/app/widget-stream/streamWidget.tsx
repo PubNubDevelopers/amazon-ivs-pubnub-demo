@@ -231,8 +231,8 @@ export default function StreamWidget ({
                   ref={playerRef}
                   url={streamUrl}
                   controls={false}
-                  width={isMobilePreview ? 418 : 698}
-                  height={isMobilePreview ? 235 : 393}
+                  //width={isMobilePreview ? 418 : 698}
+                  //height={isMobilePreview ? 235 : 393}
                   muted={isMobilePreview ? true : muted}
                   setIsVideoPlaying={setIsVideoPlaying}
                 />
@@ -333,7 +333,7 @@ export default function StreamWidget ({
 
       <ReactionsBar />
 
-      <LiveStreamPoll
+      {/*<LiveStreamPoll
         isMobilePreview={isMobilePreview}
         chat={chat}
         isGuidedDemo={isGuidedDemo}
@@ -341,7 +341,7 @@ export default function StreamWidget ({
         visibleGuide={visibleGuide}
         setVisibleGuide={setVisibleGuide}
         awardPoints={awardPoints}
-      />
+      />*/}
     </div>
   )
 

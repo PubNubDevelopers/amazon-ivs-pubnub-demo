@@ -78,7 +78,7 @@ export default function TabletContents ({
   }
 
   return (
-    <div className='w-full rounded-2xl bg-navy50 text-neutral-900 h-full'>
+    <div className='w-full text-neutral-900 h-full'>
       <div className='relative'>
         <div className='absolute w-1/2 right-0'>
           {alert && (
@@ -123,12 +123,28 @@ export default function TabletContents ({
       />
       <div className='overflow-y-auto overscroll-none'>
         <div
-          className={`flex flex-col iframe:flex-row items-center iframe:items-start px-6 gap-3 w-full h-full ${
-            heightConstrained && 'sm:min-h-[630px] sm:max-h-[630px] 3xl:min-h-[834px] 3xl:max-h-[834px] 4xl:min-h-[1030px] 4xl:max-h-[1030px]'
-          } rounded-b-2xl`}
+          className={`flex flex-col sm:flex-row items-start px-3 gap-3 w-full h-full `}
         >
-          <div className={`w-[700px] flex flex-col gap-4`}>
+          <div className={`w-full sm:w-2/3 flex flex-col gap-4`}>
             <StreamWidget
+              className={`{defaultWidgetClasses}`}
+              isMobilePreview={false}
+              chat={chat}
+              isGuidedDemo={isGuidedDemo}
+              guidesShown={guidesShown}
+              visibleGuide={visibleGuide}
+              setVisibleGuide={setVisibleGuide}
+              awardPoints={(points, message) => {
+                AwardPoints(
+                  chat,
+                  points,
+                  message,
+                  currentScoreRef.current,
+                  showNewPointsAlert
+                )
+              }}
+            />
+            <PollsWidget
               className={`${defaultWidgetClasses}`}
               isMobilePreview={false}
               chat={chat}
@@ -146,7 +162,9 @@ export default function TabletContents ({
                 )
               }}
             />
-            <MatchStatsWidget
+
+
+            {/*<MatchStatsWidget
               className={`${defaultWidgetClasses}`}
               isMobilePreview={false}
               chat={chat}
@@ -154,8 +172,8 @@ export default function TabletContents ({
               guidesShown={guidesShown}
               visibleGuide={visibleGuide}
               setVisibleGuide={setVisibleGuide}
-            />
-            <AdvertsWidget
+            />*/}
+            {/*<AdvertsWidget
               className={`${defaultWidgetClasses}`}
               isMobilePreview={false}
               chat={chat}
@@ -172,11 +190,11 @@ export default function TabletContents ({
                   showNewPointsAlert
                 )
               }}
-            />
-            <div className='min-h-3'></div>
+            />*/}
+            <div className='hidden sm:flex min-h-3'></div>
           </div>
-          <div className='w-full flex flex-col gap-4'>
-            {dynamicAd && (
+          <div className='w-full sm:w-1/3 min-w-[380px] flex flex-col gap-4'>
+            {/*{dynamicAd && (
               <AdvertsOfferWidget
                 className={`${defaultWidgetClasses}`}
                 isMobilePreview={false}
@@ -201,7 +219,7 @@ export default function TabletContents ({
                   })
                 }}
               />
-            )}
+            )}*/}
             <ChatWidget
               className={`${defaultWidgetClasses}`}
               isMobilePreview={false}
@@ -218,33 +236,6 @@ export default function TabletContents ({
                 })
               }}
             />
-            <PollsWidget
-              className={`${defaultWidgetClasses}`}
-              isMobilePreview={false}
-              chat={chat}
-              isGuidedDemo={isGuidedDemo}
-              guidesShown={guidesShown}
-              visibleGuide={visibleGuide}
-              setVisibleGuide={setVisibleGuide}
-              awardPoints={(points, message) => {
-                AwardPoints(
-                  chat,
-                  points,
-                  message,
-                  currentScoreRef.current,
-                  showNewPointsAlert
-                )
-              }}
-            />
-            <BotWidget
-              className={`${defaultWidgetClasses}`}
-              isMobilePreview={false}
-              chat={chat}
-              isGuidedDemo={isGuidedDemo}
-              guidesShown={guidesShown}
-              visibleGuide={visibleGuide}
-              setVisibleGuide={setVisibleGuide}
-            />
             <LiveCommentaryWidget
               className={`${defaultWidgetClasses}`}
               isMobilePreview={false}
@@ -253,6 +244,16 @@ export default function TabletContents ({
               visibleGuide={visibleGuide}
               setVisibleGuide={setVisibleGuide}
             />
+
+            {/*<BotWidget
+              className={`${defaultWidgetClasses}`}
+              isMobilePreview={false}
+              chat={chat}
+              isGuidedDemo={isGuidedDemo}
+              guidesShown={guidesShown}
+              visibleGuide={visibleGuide}
+              setVisibleGuide={setVisibleGuide}
+            />*/}
             <div className='min-h-3'></div>
           </div>
         </div>
@@ -262,8 +263,8 @@ export default function TabletContents ({
 
   function TabletHeader ({ currentScore }) {
     return (
-      <div className='flex flex-row items-center justify-between w-full px-6 py-[11.5px]'>
-        <div className='text-3xl font-bold'>Live Stream</div>
+      <div className='flex flex-row items-center justify-end sm:justify-between w-full px-6 py-[11.5px]'>
+        <div className='hidden sm:flex text-3xl font-bold'>Live Stream</div>
         <UserStatus chat={chat} logout={logout} currentScore={currentScore} />
       </div>
     )

@@ -320,9 +320,9 @@ export default function Header ({
 
   return (
     <>
-      <div className='hidden sm:flex flex-row w-full justify-between h-[92px] select-none fixed items-center px-6 bg-navy900'>
+      <div className='flex flex-row w-full justify-between h-[92px] select-none fixed items-center px-6 bg-navy900'>
         <div className='flex flex-row gap-6 items-center'>
-          <div className='bg-white h-[52px] rounded-lg place-content-center p-3'>
+          <div className='hidden sm:flex bg-white h-[52px] rounded-lg place-content-center p-3'>
             <Image
               src='./pubnub-logos/pubnub.svg'
               alt='Company Logo'
@@ -343,7 +343,7 @@ export default function Header ({
             <MenuOpenIcon />
           </div>*/}
           <div
-            className={`flex h-11 w-11 border-1 hover:bg-navy800 border-brandAccent3 shadow-sm items-center justify-center rounded-md text-neutral50 cursor-pointer`}
+            className={`hidden sm:flex h-11 w-11 border-1 hover:bg-navy800 border-brandAccent3 shadow-sm items-center justify-center rounded-md text-neutral50 cursor-pointer`}
             onClick={e => {
               setAdminModalOpen(true)
               e.stopPropagation()
@@ -385,7 +385,7 @@ export default function Header ({
             </div>
           </div>*/}
           <div
-            className='flex flex-row gap-2 h-11 rounded-md border-1 border-brandAccent3 px-4 py-2 hover:bg-navy800 shadow-[0px_4px_18px_0px_rgba(88,_156,_255,_0.8)] text-neutral50 items-center cursor-pointer'
+            className='hidden sm:flex flex-row gap-2 h-11 rounded-md border-1 border-brandAccent3 px-4 py-2 hover:bg-navy800 shadow-[0px_4px_18px_0px_rgba(88,_156,_255,_0.8)] text-neutral50 items-center cursor-pointer'
             onClick={e => {
               setGuidesShown(!guidesShown)
               e.stopPropagation()
