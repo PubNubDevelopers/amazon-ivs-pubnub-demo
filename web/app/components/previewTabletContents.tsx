@@ -194,7 +194,7 @@ export default function TabletContents ({
             />*/}
             <div className='hidden sm:flex min-h-3'></div>
           </div>
-          <div className='w-full sm:w-1/3 min-w-[380px] flex flex-col gap-4'>
+          <div className='w-full sm:w-1/3 min-w-[350px] flex flex-col gap-4'>
             {/*{dynamicAd && (
               <AdvertsOfferWidget
                 className={`${defaultWidgetClasses}`}
