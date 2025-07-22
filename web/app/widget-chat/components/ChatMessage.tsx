@@ -241,11 +241,11 @@ export default function ChatMessage ({
         </div>
 
         {showReactions && (
-          <div className='absolute bottom-[-20px] bg-white border shadow-lg rounded-lg p-1 flex gap-2 z-10'>
+          <div className='absolute bottom-[-20px] bg-white border shadow-lg rounded-lg px-2.5 py-1 flex gap-2 z-10'>
             {reactions.map(emoji => (
               <button
                 key={emoji}
-                className='text-xs hover:scale-125 transition-transform'
+                className='text-base hover:scale-125 transition-transform'
                 onClick={() => toggleReaction(emoji)}
               >
                 {emoji}
