@@ -233,7 +233,7 @@ export default function ChatMessage ({
           {Object.entries(reactionCounts).map(([emoji, count]) => (
             <div
               key={emoji}
-              className='text-xs text-black bg-white/20 rounded-full px-1 z-10'
+              className='text-sm text-black bg-white/20 rounded-full px-1 z-10'
             >
               {emoji}&nbsp;{count}
             </div>
