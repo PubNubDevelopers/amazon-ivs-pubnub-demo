@@ -23,6 +23,7 @@ export const clientVideoControlChannelId = "game.client-video-control";
 export const serverVideoControlChannelId = "game.server-video-control";
 export const illuminateUpgradeReaction = "illuminate-upgrade-reaction";
 export const dataControlOccupancyChannelId = "game.dataControlsOccupancy"
+export const bettingChannelId = "race.betting"
 
 // Admin settings
 export const adminPin = "8888"

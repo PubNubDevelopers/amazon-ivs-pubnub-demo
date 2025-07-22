@@ -9,6 +9,7 @@ import AdvertsOfferWidget from '../widget-adverts/advertsOfferWidget'
 import PollsWidget from '../widget-polls/pollsWidget'
 import BotWidget from '../widget-bot/botWidget'
 import LiveCommentaryWidget from '../widget-liveCommentary/liveCommentaryWidget'
+import BettingWidget from '../widget-betting/bettingWidget'
 import Notification from './notification'
 import Alert from './alert'
 import { CommonMessageHandler, AwardPoints } from '../commonLogic'
@@ -144,7 +145,7 @@ export default function TabletContents ({
                 )
               }}
             />
-            <PollsWidget
+            <BettingWidget
               className={`${defaultWidgetClasses}`}
               isMobilePreview={false}
               chat={chat}

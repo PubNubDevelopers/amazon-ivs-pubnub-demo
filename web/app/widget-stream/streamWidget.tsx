@@ -109,6 +109,7 @@ export default function StreamWidget ({
     }
   }, [chat])
 
+  /*
   useEffect(() => {
     if (!chat) return
     //  Video control
@@ -128,6 +129,7 @@ export default function StreamWidget ({
       videoControlSubscription.unsubscribe()
     }
   }, [chat])
+  */
 
   const isVideoPlayingRef = useRef(isVideoPlaying)
   const isVideoStartedRef = useRef(isVideoStarted)
