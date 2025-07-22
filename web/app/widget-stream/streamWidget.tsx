@@ -240,7 +240,7 @@ export default function StreamWidget ({
           ) : (
             <div
               className={`flex flex-row items-center justify-center ${
-                isMobilePreview ? 'w-[418px]' : 'w-[698px]'
+                isMobilePreview ? 'w-[418px]' : 'w-full'
               } ${isMobilePreview ? 'h-[235px]' : 'h-[393px]'}`}
             >
               <div
