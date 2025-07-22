@@ -20,6 +20,7 @@ interface MessageInputProps {
   channel: Channel
   activeChannelRestrictions: Restriction | null
   isGuidedDemo: boolean
+  showSpamNotification: () => void
 }
 
 export default function MessageInput ({
@@ -34,7 +35,8 @@ export default function MessageInput ({
   showStickerPicker,
   setShowStickerPicker,
   activeChannelRestrictions,
-  isGuidedDemo
+  isGuidedDemo,
+  showSpamNotification
 }: MessageInputProps) {
   const [ref, hovering] = useHover()
   const [mentionQuery, setMentionQuery] = useState('')
@@ -142,7 +144,23 @@ export default function MessageInput ({
           userSuggestionSource: 'channel'
         })
       } catch (error) {
-        console.error('Error sending message:', error)
+        // Check if this is a 422 spam detection error
+        if (
+          (error as any)?.fr_1 === 422 || 
+          ((error as any)?.cause && (error as any)?.cause?.status === 422)
+        ) {
+          showSpamNotification()
+          
+          // Clear the current message input
+          setMessageInput('')
+          
+          // Create new message draft for next message
+          messageDraftRef.current = channel.createMessageDraftV2({
+            userSuggestionSource: 'channel'
+          })
+        } else {
+          console.error('Error sending message:', error)
+        }
       }
     }
   }

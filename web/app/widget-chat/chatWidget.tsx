@@ -74,7 +74,18 @@ export default function ChatWidget ({
   const [pinnedMessage, setPinnedMessage] = useState<Message | null>(null)
   const [isPinning, setIsPinning] = useState(false)
 
+  // Spam popup state
+  const [showSpamPopup, setShowSpamPopup] = useState(false)
+
   const messagesContainerRef = useRef<HTMLDivElement>(null)
+
+  // Function to show spam popup with auto-hide
+  const showSpamNotification = () => {
+    setShowSpamPopup(true)
+    setTimeout(() => {
+      setShowSpamPopup(false)
+    }, 3000)
+  }
 
   /**
    * Initialize chat channels when chat is available
@@ -696,7 +707,16 @@ export default function ChatWidget ({
       {/* Chat Messages */}
 
       {activeChannel && (
-        <div className={'h-[400px] flex flex-col'}>
+        <div className={'h-[400px] flex flex-col relative'}>
+          {/* Spam Popup */}
+          {showSpamPopup && (
+            <div className='absolute inset-0 flex items-center justify-center z-50 animate-in fade-in duration-300'>
+              <div className='bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg font-semibold'>
+                Spam message detected and deleted
+              </div>
+            </div>
+          )}
+          
           <div
             ref={messagesContainerRef}
             className='py-[12px] px-[16px] overflow-y-auto flex-grow'
@@ -752,6 +772,7 @@ export default function ChatWidget ({
             channel={activeChannel}
             activeChannelRestrictions={activeChannelRestrictions}
             isGuidedDemo={isGuidedDemo}
+            showSpamNotification={showSpamNotification}
           />
         </div>
       )}
