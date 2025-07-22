@@ -70,6 +70,10 @@ export default function ChatWidget ({
   const [subscribersOnly, setSubscribersOnly] = useState(false)
   const [showStickerPicker, setShowStickerPicker] = useState(false)
 
+  // Pinned message state
+  const [pinnedMessage, setPinnedMessage] = useState<Message | null>(null)
+  const [isPinning, setIsPinning] = useState(false)
+
   const messagesContainerRef = useRef<HTMLDivElement>(null)
 
   /**
@@ -176,6 +180,49 @@ export default function ChatWidget ({
   }, [activeChannelId, chat])
 
   /**
+   * Set up channel.streamUpdates() listener when activeChannel changes
+   */
+  useEffect(() => {
+    if (!activeChannel) return
+
+    let removeChannelStreamListener = () => {}
+
+    try {
+      removeChannelStreamListener = activeChannel.streamUpdates(async (channelUpdate) => {
+        // Check if pinned message changed using the channelUpdate.custom approach
+        if (channelUpdate.custom) {
+          const pinnedMessageTimetoken = channelUpdate.custom.pinnedMessageTimetoken
+          if (!pinnedMessageTimetoken) {
+            // Message was unpinned
+            setPinnedMessage(null)
+          } else {
+            // Message was pinned, get the message using the timetoken
+            try {
+              const message = await channelUpdate.getMessage(String(pinnedMessageTimetoken))
+              setPinnedMessage(message)
+            } catch (error) {
+              console.error('Error getting pinned message from timetoken:', error)
+              setPinnedMessage(null)
+            }
+          }
+        } else {
+          // No custom object, set pinned message to null
+          setPinnedMessage(null)
+        }
+      })
+    } catch (error) {
+      console.error('Error setting up channel.streamUpdates():', error)
+    }
+
+    // Cleanup function
+    return () => {
+      if (typeof removeChannelStreamListener === 'function') {
+        removeChannelStreamListener()
+      }
+    }
+  }, [activeChannel])
+
+  /**
    * Scroll to bottom of messages when messages change
    */
 
@@ -246,6 +293,8 @@ export default function ChatWidget ({
   const setupActiveChannel = async () => {
     if (!chat || !activeChannelId) return
 
+    
+
     // Clear existing messages and typing users before setting up new channel
     setMessages([])
 
@@ -257,6 +306,7 @@ export default function ChatWidget ({
         console.error(`Channel ${activeChannelId} not found`)
         return
       }
+
 
       setActiveChannel(channel)
       //setWhoIsPresent(await chat.whoIsPresent(activeChannelId));
@@ -333,12 +383,22 @@ export default function ChatWidget ({
         })
       reactionsSubscription.subscribe()
 
+            // Get initial pinned message
+      try {
+        const initialPinnedMessage = await channel.getPinnedMessage()
+        setPinnedMessage(initialPinnedMessage)
+      } catch (error) {
+        console.error('Error getting initial pinned message:', error)
+        setPinnedMessage(null)
+      }
+
       // Return cleanup function
       return () => {
         if (typeof unsubscribeMessages === 'function') {
           unsubscribeMessages()
         }
         setMessages([])
+        setPinnedMessage(null)
         occupancySubscription.unsubscribe()
         reactionsSubscription.unsubscribe()
         serverVideoControlSubscription.unsubscribe()
@@ -569,6 +629,70 @@ export default function ChatWidget ({
         </div>
       )}
 
+      {/* Pinned Message Display */}
+      {activeChannel && pinnedMessage && (
+        <div className='border-b border-navy200 bg-yellow-50 px-[16px] py-[8px]'>
+          <div className='flex items-start gap-3'>
+            <div className='flex items-center gap-1 text-yellow-600 text-sm font-medium'>
+              <span className='text-base'>📌</span>
+              Pinned
+            </div>
+            <div className='flex-grow'>
+              <div className='flex items-center gap-2 mb-1'>
+                <span className='text-sm font-medium text-gray-700'>
+                  {users.find(user => user.id === pinnedMessage.userId)?.name || pinnedMessage.userId}
+                </span>
+                <span className='text-xs text-gray-500'>
+                  {new Date(parseInt(pinnedMessage.timetoken) / 10000).toLocaleTimeString([], {
+                    timeStyle: 'short'
+                  })}
+                </span>
+              </div>
+              <div className='text-sm text-gray-800'>
+                {pinnedMessage.getMessageElements().map((element, index) => {
+                  if (element.type === 'mention') {
+                    return (
+                      <span key={index} className='text-blue-600 font-medium'>
+                        {element.content.name}
+                      </span>
+                    )
+                  }
+                  if (element.type === 'text') {
+                    return element.content.text
+                  }
+                  return ''
+                }).join('')}
+              </div>
+            </div>
+            <button
+              onClick={async () => {
+                try {
+                  setIsPinning(true)
+                  await activeChannel.unpinMessage()
+                } catch (error) {
+                  console.error('Error unpinning message:', error)
+                } finally {
+                  setIsPinning(false)
+                }
+              }}
+              disabled={isPinning}
+              className='text-gray-400 hover:text-gray-600 p-1'
+              title='Unpin message'
+            >
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                width='16'
+                height='16'
+                viewBox='0 0 20 20'
+                fill='currentColor'
+              >
+                <path d='M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z'/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Chat Messages */}
 
       {activeChannel && (
@@ -607,6 +731,7 @@ export default function ChatWidget ({
                         currentUser={chat.currentUser}
                         users={users}
                         channel={activeChannel}
+                        pinnedMessage={pinnedMessage}
                       />
                     )
                   })}

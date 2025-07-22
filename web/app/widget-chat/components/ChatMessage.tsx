@@ -17,16 +17,19 @@ interface ChatMessageProps {
   currentUser: User
   users: User[]
   channel: Channel
+  pinnedMessage: Message | null
 }
 
 export default function ChatMessage ({
   message,
   currentUser,
   users,
-  channel
+  channel,
+  pinnedMessage
 }: ChatMessageProps) {
   const [ref, hovering] = useHover()
   const [showReactions, setShowReactions] = useState(false)
+  const [isPinning, setIsPinning] = useState(false)
   const [userRestrictions, setUserRestrictions] = useState<{
     ban: boolean
     mute: boolean
@@ -42,6 +45,9 @@ export default function ChatMessage ({
     }
   }, [hovering])
 
+  // Check if this specific message is the currently pinned message
+  const isCurrentlyPinned = pinnedMessage?.timetoken === message.timetoken
+
   const isOwnMessage = message.userId === currentUser?.id
 
   /**
@@ -53,6 +59,34 @@ export default function ChatMessage ({
       await message.toggleReaction(emoji)
     } catch (error) {
       console.error('Unable to toggle reaction:', error)
+    }
+  }
+
+
+
+  /**
+   * Handles pinning a message (no toggle - just pin)
+   */
+  const handlePin = async () => {
+    setShowReactions(false)
+    setIsPinning(true)
+    
+    try {
+      await channel.pinMessage(message)
+    } catch (error) {
+      console.error('Error pinning message:', error)
+      
+      // Show user-friendly error feedback
+      const errorMessage = error instanceof Error ? error.message : String(error)
+      if (errorMessage.includes('403') || errorMessage.includes('Forbidden')) {
+        console.warn('Permission denied: Unable to pin message. Check user permissions.')
+      } else if (errorMessage.includes('network') || errorMessage.includes('timeout')) {
+        console.warn('Network error: Please check your connection and try again.')
+      } else {
+        console.warn('Failed to pin message. Please try again.')
+      }
+    } finally {
+      setIsPinning(false)
     }
   }
 
@@ -114,6 +148,9 @@ export default function ChatMessage ({
       return false
     }
   }
+
+  // Check if channel has no pinned message AND this is not a sticker (pin icon should be available)
+  const canPin = pinnedMessage === null && !isSticker()
 
   const getStickerData = () => {
     try {
@@ -182,8 +219,13 @@ export default function ChatMessage ({
               })()
             : message.getMessageElements().map(renderMessagePart)}
         </div>
-        <div className={'text-[11px] font-[400] leading-[150%]'}>
+        <div className={'text-[11px] font-[400] leading-[150%] flex items-center gap-1'}>
           {pubnubTimetokenToHHMM(message.timetoken)}
+          {isCurrentlyPinned && (
+            <span className='text-yellow-600' title='Pinned message'>
+              📌
+            </span>
+          )}
         </div>
 
         {/* Display reactions */}
@@ -209,6 +251,19 @@ export default function ChatMessage ({
                 {emoji}
               </button>
             ))}
+                                {/* Separator - only show if pin button will be shown */}
+                    {canPin && <div className='w-px bg-gray-300 mx-1'></div>}
+                    {/* Pin Button - only show when no message is pinned */}
+                    {canPin && (
+                      <button
+                        className='text-xs hover:scale-125 transition-transform text-gray-600 hover:text-blue-600 disabled:opacity-50'
+                        onClick={handlePin}
+                        disabled={isPinning}
+                        title='Pin message'
+                      >
+                        📌
+                      </button>
+                    )}
           </div>
         )}
       </div>
