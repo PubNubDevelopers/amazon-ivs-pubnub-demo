@@ -333,7 +333,7 @@ export default function Header ({
               priority
             />
           </div>
-          <div
+          {/*<div
             className={`flex h-11 w-11 border-1 hover:bg-navy800 border-brandAccent3 shadow-sm items-center justify-center rounded-md text-neutral50 cursor-pointer`}
             onClick={e => {
               setSideMenuOpen(!sideMenuOpen)
@@ -341,7 +341,7 @@ export default function Header ({
             }}
           >
             <MenuOpenIcon />
-          </div>
+          </div>*/}
           <div
             className={`flex h-11 w-11 border-1 hover:bg-navy800 border-brandAccent3 shadow-sm items-center justify-center rounded-md text-neutral50 cursor-pointer`}
             onClick={e => {
@@ -353,10 +353,10 @@ export default function Header ({
           </div>
         </div>
         <div className='text-navy100 font-bold text-2xl'>
-          Live Events Solution Showcase
+          AWS IVS + PubNub Demo
         </div>
         <div className='flex flex-row gap-4'>
-          <div className='flex flex-row'>
+          {/*<div className='flex flex-row'>
             <div
               className={`flex h-11 w-[58px] border-1 hover:bg-navy700 ${
                 !tabletPreview
@@ -383,7 +383,7 @@ export default function Header ({
             >
               <TabletIcon />
             </div>
-          </div>
+          </div>*/}
           <div
             className='flex flex-row gap-2 h-11 rounded-md border-1 border-brandAccent3 px-4 py-2 hover:bg-navy800 shadow-[0px_4px_18px_0px_rgba(88,_156,_255,_0.8)] text-neutral50 items-center cursor-pointer'
             onClick={e => {

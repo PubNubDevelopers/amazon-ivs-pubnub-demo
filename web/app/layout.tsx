@@ -14,9 +14,9 @@ const figtree = Figtree({
 })
 
 export const metadata: Metadata = {
-  title: 'Live Events Solution by PubNub',
+  title: 'AWS IVS + PubNub Demo',
   description:
-    'Solution showcase to demonstrate how PubNub can enhance your live event, whether it is a sports event, a concert, or any other streamed media event.'
+    'AWS IVS + PubNub Demo'
 }
 
 export default function RootLayout ({

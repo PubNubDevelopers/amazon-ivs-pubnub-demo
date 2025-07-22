@@ -18,7 +18,7 @@ export default function SportsEventPage ({
   isGuidedDemo
 }) {
   const [tabletPreview, setTabletPreview] = useState(true)
-  const [sideMenuOpen, setSideMenuOpen] = useState(true)
+  const [sideMenuOpen, setSideMenuOpen] = useState(false)
   const [guidesShown, setGuidesShown] = useState(false)
   const [visibleGuide, setVisibleGuide] = useState('')
   const [currentScore, setCurrentScore] = useState(0)
@@ -126,7 +126,7 @@ export default function SportsEventPage ({
               currentScore={currentScore}
             ></PreviewTablet>
           </div>
-          <PreviewMobile
+          {/*<PreviewMobile
             className={`${tabletPreview && 'hidden'}`}
             chat={chat}
             isGuidedDemo={isGuidedDemo}
@@ -135,7 +135,7 @@ export default function SportsEventPage ({
             setVisibleGuide={setVisibleGuide}
             logout={logout}
             currentScore={currentScore}
-          ></PreviewMobile>
+          ></PreviewMobile>*/}
         </div>
       </div>
     </main>
