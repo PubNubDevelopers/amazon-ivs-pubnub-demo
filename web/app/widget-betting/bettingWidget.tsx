@@ -35,6 +35,16 @@ export default function BettingWidget ({
       odds: number
     }>
   } | null>(null)
+
+  // Process a single message (both real-time and historical)
+  const processMessage = useCallback((message: any) => {
+    if (message.type === 'betting_open') {
+      // Extract the betting data (everything except the type field)
+      const { type, ...bettingData } = message
+      setCurrentRace(bettingData)
+      setBettingStatus('open')
+    }
+  }, [setBettingStatus])
   const stake = 5
 
   // Function to add wager to a horse
@@ -92,6 +102,13 @@ export default function BettingWidget ({
         }
         
         console.log(`Betting channel history contains ${allMessages.length} messages (fetched across ${batchCount} batches)`)
+        
+        // Process all historical messages in chronological order (oldest to newest)
+        const sortedMessages = allMessages.sort((a, b) => parseInt(a.timetoken) - parseInt(b.timetoken))
+        sortedMessages.forEach(messageEvent => {
+          processMessage(messageEvent.message)
+        })
+        
       } catch (error) {
         console.error('Error fetching betting channel history:', error)
       }
@@ -107,19 +124,14 @@ export default function BettingWidget ({
     subscriptionSet.onMessage = messageEvent => {
       if (messageEvent.channel == bettingChannelId) {
         //  New message in the betting channel
-        if (messageEvent.message.type === 'betting_open') {
-          // Extract the betting data (everything except the type field)
-          const { type, ...bettingData } = messageEvent.message
-          setCurrentRace(bettingData)
-          setBettingStatus('open')
-        }
+        processMessage(messageEvent.message)
       }
     }
     subscriptionSet.subscribe()
     return () => {
       subscriptionSet.unsubscribe()
     }
-  }, [chat])
+  }, [chat, processMessage])
 
   return (
     <div className={`${className} px-6 pt-3 pb-4`}>
