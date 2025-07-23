@@ -25,6 +25,9 @@ export const illuminateUpgradeReaction = "illuminate-upgrade-reaction";
 export const dataControlOccupancyChannelId = "game.dataControlsOccupancy"
 export const bettingChannelId = "race.betting"
 
+// Currency settings
+export const currencySymbol = "€"
+
 // Admin settings
 export const adminPin = "8888"
 

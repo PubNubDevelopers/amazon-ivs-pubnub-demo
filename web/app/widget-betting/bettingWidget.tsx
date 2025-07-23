@@ -2,7 +2,8 @@ import { useState, useEffect, useRef, useCallback, useMemo, memo } from 'react'
 import GuideOverlay from '../components/guideOverlay'
 import { jerseySilks } from './assets'
 import {
-  bettingChannelId
+  bettingChannelId,
+  currencySymbol
 } from '../data/constants'
 
 export default function BettingWidget ({
@@ -91,11 +92,11 @@ export default function BettingWidget ({
           const horseNum = parseInt(horseNumber)
           
           if (betAmount === 5) {
-            // Only odds button pressed (£5 total bet)
+            // Only odds button pressed (5 total bet)
             newSelectedOdds.add(horseNum)
             newCurrentUserBets.set(horseNum, 5)
           } else if (betAmount === 10) {
-            // Both odds and EW buttons pressed (£5 + £5 = £10 total bet)
+            // Both odds and EW buttons pressed (5 + 5 = 10 total bet)
             newSelectedOdds.add(horseNum)
             newSelectedEW.add(horseNum)
             newCurrentUserBets.set(horseNum, 10)
@@ -444,20 +445,20 @@ const BettingDashboard = memo(function BettingDashboard ({
     let wager = 0
     if (selectedOdds.has(horseNumber)) wager += stake
     if (selectedEW.has(horseNumber)) wager += stake
-    return wager > 0 ? `£${wager}` : ''
+    return wager > 0 ? `${currencySymbol}${wager}` : ''
   }, [selectedOdds, selectedEW, stake])
 
   // Calculate potential winnings for a horse (assuming it wins)
   const calculateHorseWinnings = useCallback((horse, placeOnly = false) => {
     let winnings = 0
     
-    // Win bet: £5 * odds
+    // Win bet: stake * odds
     if (selectedOdds.has(horse.number)) {
       winnings += stake * horse.odds
     }
     
-    // Each way bet: £5 split as £2.50 win + £2.50 place
-    // If horse wins: win part (£2.50 * odds) + place part (£2.50 * odds/5)
+    // Each way bet: stake split as half win + half place
+    // If horse wins: win part (half stake * odds) + place part (half stake * odds/5)
     if (selectedEW.has(horse.number)) {
       const placePart = stake + (stake * ((horse.odds - 1) / 5))
       if (placeOnly) {
@@ -492,7 +493,7 @@ const BettingDashboard = memo(function BettingDashboard ({
       total += userBetOnHorse
     })
     
-    return total > 0 ? `£${total}` : ''
+    return total > 0 ? `${currencySymbol}${total}` : ''
   }, [allUserBets])
 
   // Memoize position styling function
@@ -632,7 +633,7 @@ const BettingDashboard = memo(function BettingDashboard ({
             </button>
           </div>
         </div>
-        <span className='text-sm text-gray-500 font-normal'>Each Stake: £{stake} - Each Way: 1/5 (3 places)</span>
+        <span className='text-sm text-gray-500 font-normal'>Each Stake: {currencySymbol}{stake} - Each Way: 1/5 (3 places)</span>
       </div>
       
       {/* Betting Status Indicator */}
@@ -740,10 +741,10 @@ const BettingDashboard = memo(function BettingDashboard ({
                     </div>
                     {(selectedOdds.has(horse.number) || selectedEW.has(horse.number)) && (
                       <div className='text-xs text-gray-500 flex flex-col'>
-                        <div>Win: £{calculateHorseWinnings(horse, false).toFixed(2)}</div>
-                        {selectedEW.has(horse.number) && <div>Place: £{calculateHorseWinnings(horse, true).toFixed(2)}</div>}
+                        <div>Win: {currencySymbol}{calculateHorseWinnings(horse, false).toFixed(2)}</div>
+                        {selectedEW.has(horse.number) && <div>Place: {currencySymbol}{calculateHorseWinnings(horse, true).toFixed(2)}</div>}
                       </div>
-                  )}
+                    )}
                   </div>
                 </td>
                 
