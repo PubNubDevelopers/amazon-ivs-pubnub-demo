@@ -99,7 +99,8 @@ export default function LoginPage ({
                       currentMood: testUser.currentMood,
                       socialHandle: testUser.socialHandle,
                       timezone: testUser.timezone,
-                      score: 0
+                      score: 0,
+                      wallet: 1000
                     }
                   })
                 } else {
@@ -115,7 +116,8 @@ export default function LoginPage ({
                       currentMood: testUser.currentMood,
                       socialHandle: testUser.socialHandle,
                       timezone: testUser.timezone,
-                      score: 0
+                      score: 0,
+                      wallet: 1000
                     }
                   })
                 }

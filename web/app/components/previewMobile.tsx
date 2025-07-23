@@ -27,7 +27,8 @@ export default function PreviewMobile ({
   visibleGuide,
   setVisibleGuide,
   logout,
-  currentScore
+  currentScore,
+  currentWallet
 }) {
   const [notification, setNotification] = useState<{
     heading: string
@@ -105,7 +106,7 @@ export default function PreviewMobile ({
             }}
           />
         )}
-        <MobileHeader currentScore={currentScore} />
+        <MobileHeader currentScore={currentScore} currentWallet={currentWallet} />
         <GuideOverlay
           id={'userPoints'}
           guidesShown={guidesShown}
@@ -254,10 +255,10 @@ export default function PreviewMobile ({
     </div>
   )
 
-  function MobileHeader ({ currentScore }) {
+  function MobileHeader ({ currentScore, currentWallet }) {
     return (
       <div className='flex flex-col w-full px-4 py-[11.5px]'>
-        <UserStatus chat={chat} logout={logout} currentScore={currentScore} />
+        <UserStatus chat={chat} logout={logout} currentScore={currentScore} currentWallet={currentWallet} />
         <div className='text-2xl font-bold'>Live Stream</div>
       </div>
     )

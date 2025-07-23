@@ -16,6 +16,7 @@ export default function Page () {
       ? process.env.NEXT_PUBLIC_GUIDED_DEMO
       : null
   const [currentScore, setCurrentScore] = useState(0)
+  const [currentWallet, setCurrentWallet] = useState(1000)
 
   function logout () {
     setLoginPageShown(true)
@@ -29,9 +30,13 @@ export default function Page () {
     if (!chat) return
     if (!chat.currentUser) return
     setCurrentScore(Number(chat.currentUser.custom?.score) || 0)
+    setCurrentWallet(Number(chat.currentUser.custom?.wallet) || 1000)
     return chat.currentUser.streamUpdates(updatedUser => {
       if (updatedUser.custom?.score) {
         setCurrentScore(Number(updatedUser.custom.score) || 0)
+      }
+      if (updatedUser.custom?.wallet !== undefined) {
+        setCurrentWallet(Number(updatedUser.custom.wallet) || 1000)
       }
     })
   }, [chat])
@@ -62,6 +67,7 @@ export default function Page () {
           setVisibleGuide={() => {}}
           logout={logout}
           currentScore={currentScore}
+          currentWallet={currentWallet}
           heightConstrained={false}
         />
       </div>

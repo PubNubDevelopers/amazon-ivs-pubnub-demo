@@ -9,6 +9,7 @@ export default function PreviewTablet ({
   setVisibleGuide,
   logout,
   currentScore,
+  currentWallet,
 }) {
   return (
     <div className={``}>
@@ -20,6 +21,7 @@ export default function PreviewTablet ({
         setVisibleGuide={setVisibleGuide}
         logout={logout}
         currentScore={currentScore}
+        currentWallet={currentWallet}
       />
     </div>
   )

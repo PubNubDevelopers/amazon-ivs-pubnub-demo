@@ -6,6 +6,7 @@ import {
   currencySymbol,
   bettingOddsDisplay
 } from '../data/constants'
+import { AwardWallet } from '../commonLogic'
 
 export default function BettingWidget ({
   className,
@@ -15,7 +16,8 @@ export default function BettingWidget ({
   guidesShown,
   visibleGuide,
   setVisibleGuide,
-  awardPoints
+  awardPoints,
+  currentWallet
 }) {
 
   const [bettingStatus, setBettingStatus] = useState('open') // 'open', 'closed', 'results'
@@ -281,6 +283,7 @@ export default function BettingWidget ({
         removeCurrentUserBet={removeCurrentUserBet}
         currentUserBets={currentUserBets}
         allUserBets={allUserBets}
+        currentWallet={currentWallet}
       />
     </div>
   )
@@ -302,7 +305,8 @@ const BettingDashboard = memo(function BettingDashboard ({
   addCurrentUserBet,
   removeCurrentUserBet,
   currentUserBets,
-  allUserBets
+  allUserBets,
+  currentWallet
 }: {
   bettingStatus: string
   setBettingStatus: (status: string) => void
@@ -331,6 +335,7 @@ const BettingDashboard = memo(function BettingDashboard ({
   removeCurrentUserBet: (horseNumber: number, amount: number) => void
   currentUserBets: Map<number, number>
   allUserBets: Map<string, Map<number, number>>
+  currentWallet: number
 }) {
 
   // Convert pounds to stone and pounds
@@ -576,7 +581,7 @@ const BettingDashboard = memo(function BettingDashboard ({
       <div className='flex justify-between items-center mb-4 px-2 sm:px-0'>
         <div className='flex items-center gap-3'>
           <h3 className='text-lg font-semibold text-gray-800'>{currentRace?.title}</h3>
-          {/*<div className='hidden sm:flex gap-2'>
+          <div className='hidden sm:flex gap-2'>
             <button
               onClick={() => {
                 if (chat) {
@@ -685,7 +690,16 @@ const BettingDashboard = memo(function BettingDashboard ({
             >
               Clear History
             </button>
-          </div> */}
+            
+            <button
+              onClick={() => {
+                AwardWallet(chat, 5, currentWallet)
+              }}
+              className='px-3 py-1 text-xs font-medium bg-purple-500 text-white rounded hover:bg-purple-600 transition-colors'
+            >
+              +€5 Wallet
+            </button>
+          </div>
         </div>
         <span className='text-sm text-gray-500 font-normal'>Each Stake: {currencySymbol}{stake} - Each Way: 1/5 (3 places)</span>
       </div>

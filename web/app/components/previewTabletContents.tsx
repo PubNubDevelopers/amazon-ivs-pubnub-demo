@@ -28,6 +28,7 @@ export default function TabletContents ({
   setVisibleGuide,
   logout,
   currentScore,
+  currentWallet,
   heightConstrained = true
 }) {
   const [notification, setNotification] = useState<{
@@ -103,7 +104,7 @@ export default function TabletContents ({
           }}
         />
       )}
-      <TabletHeader currentScore={currentScore} />
+      <TabletHeader currentScore={currentScore} currentWallet={currentWallet} />
       <GuideOverlay
         id={'userPoints'}
         guidesShown={guidesShown}
@@ -162,6 +163,7 @@ export default function TabletContents ({
                   showNewPointsAlert
                 )
               }}
+              currentWallet={currentWallet}
             />
 
 
@@ -262,11 +264,11 @@ export default function TabletContents ({
     </div>
   )
 
-  function TabletHeader ({ currentScore }) {
+  function TabletHeader ({ currentScore, currentWallet }) {
     return (
       <div className='flex flex-row items-center justify-end sm:justify-between w-full px-6 py-[11.5px]'>
         <div className='hidden sm:flex text-3xl font-bold'>Live Stream</div>
-        <UserStatus chat={chat} logout={logout} currentScore={currentScore} />
+        <UserStatus chat={chat} logout={logout} currentScore={currentScore} currentWallet={currentWallet} />
       </div>
     )
   }

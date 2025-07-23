@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react'
 import { Chat, User } from '@pubnub/chat'
 import Avatar from './avatar'
 import Cup from './icons/cup'
+import { currencySymbol } from '../data/constants'
 
-export default function UserStatus ({ chat, logout, currentScore }) {
+export default function UserStatus ({ chat, logout, currentScore, currentWallet }) {
   const [currentUser, setCurrentUser] = useState<User | null>(null)
     const [isLoginBypass, setIsLoginBypass] = useState(false)
 
@@ -32,6 +33,15 @@ export default function UserStatus ({ chat, logout, currentScore }) {
           <Cup className={''} width={20} height={20} />
           <div className='text-neutral700 text-base font-bold'>
             {currentScore}
+          </div>
+        </div>
+        <div className='border-1 border-navy200 h-full'></div>
+        <div className='flex flex-row gap-1 items-center'>
+          <div className={`text-base font-bold ${currentWallet < 0 ? 'text-red-600' : 'text-neutral700'}`}>
+            {currentWallet < 0 
+              ? `-(${currencySymbol}${Math.abs(currentWallet)})` 
+              : `${currencySymbol}${currentWallet}`
+            }
           </div>
         </div>
         <div className='border-1 border-navy200 h-full'></div>

@@ -22,6 +22,7 @@ export default function SportsEventPage ({
   const [guidesShown, setGuidesShown] = useState(false)
   const [visibleGuide, setVisibleGuide] = useState('')
   const [currentScore, setCurrentScore] = useState(0)
+  const [currentWallet, setCurrentWallet] = useState(1000)
   const [dataControlsDropDownVisible, setDataControlsDropDownVisible] =
   useState(false)
 
@@ -43,10 +44,14 @@ export default function SportsEventPage ({
     if (!chat) return
     if (!chat.currentUser) return
     setCurrentScore(chat.currentUser.custom?.score ?? 0)
+    setCurrentWallet(chat.currentUser.custom?.wallet ?? 1000)
     return chat.currentUser.streamUpdates(updatedUser => {
       if (updatedUser.custom?.score) {
         //console.log('user has updated - setting score to ' + updatedUser.custom.score)
         setCurrentScore(updatedUser.custom.score)
+      }
+      if (updatedUser.custom?.wallet !== undefined) {
+        setCurrentWallet(updatedUser.custom.wallet)
       }
     })
   }, [chat])
@@ -124,6 +129,7 @@ export default function SportsEventPage ({
               setVisibleGuide={setVisibleGuide}
               logout={logout}
               currentScore={currentScore}
+              currentWallet={currentWallet}
             ></PreviewTablet>
           </div>
           {/*<PreviewMobile

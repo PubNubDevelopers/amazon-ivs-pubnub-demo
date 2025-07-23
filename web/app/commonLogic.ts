@@ -52,7 +52,24 @@ export async function AwardPoints(
   awardPointsAnimation(pointsToAward, message);
   await chat.currentUser.update({
     custom: {
+      ...chat.currentUser.custom,
       score: newScore,
+    },
+  });
+}
+
+export async function AwardWallet(
+  chat,
+  walletChange,
+  currentWallet
+) {
+  if (!chat) return;
+  
+  const newWallet = currentWallet + walletChange;
+  await chat.currentUser.update({
+    custom: {
+      ...chat.currentUser.custom,
+      wallet: newWallet,
     },
   });
 }
