@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Chat, User } from '@pubnub/chat'
 import Avatar from './avatar'
 import Cup from './icons/cup'
+import Cash from './icons/cash'
 import { currencySymbol } from '../data/constants'
 
 export default function UserStatus ({ chat, logout, currentScore, currentWallet }) {
@@ -36,7 +37,8 @@ export default function UserStatus ({ chat, logout, currentScore, currentWallet 
           </div>
         </div>
         <div className='border-1 border-navy200 h-full'></div>
-        <div className='flex flex-row gap-1 items-center'>
+        <div className='flex flex-row gap-1 items-center whitespace-nowrap'>
+          <Cash className={''} width={24} height={24} />
           <div className={`text-base font-bold ${currentWallet < 0 ? 'text-red-600' : 'text-neutral700'}`}>
             {currentWallet < 0 
               ? `-(${currencySymbol}${Math.abs(currentWallet)})` 
@@ -44,8 +46,8 @@ export default function UserStatus ({ chat, logout, currentScore, currentWallet 
             }
           </div>
         </div>
-        <div className='border-1 border-navy200 h-full'></div>
-        <div className='text-lg font-semibold'>{currentUser?.name}</div>
+        <div className='border-1 border-navy200 h-full hidden sm:block'></div>
+        <div className='text-lg font-semibold hidden sm:block'>{currentUser?.name}</div>
       </div>
       <Avatar avatarUrl={currentUser?.profileUrl} />
       <div className='text-base font-normal text-teal700 underline cursor-pointer' onClick={(e) => {logout();}}>{isLoginBypass ? 'Switch User' : 'Log out'}</div>
