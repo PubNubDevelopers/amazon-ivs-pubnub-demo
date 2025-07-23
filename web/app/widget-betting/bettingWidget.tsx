@@ -16,8 +16,10 @@ export default function BettingWidget ({
   awardPoints
 }) {
 
-  const [bettingStatus, setBettingStatus] = useState('results') // 'open', 'closed', 'results'
+  const [bettingStatus, setBettingStatus] = useState('open') // 'open', 'closed', 'results'
   const [raceResults, setRaceResults] = useState([1, 3, 2]) // Top 3 finishers by horse number [1st, 2nd, 3rd]
+  const [selectedOdds, setSelectedOdds] = useState(new Set()) // Application-level betting state
+  const [selectedEW, setSelectedEW] = useState(new Set()) // Application-level betting state
   const stake = 5
   const testBettingData = [
     {
@@ -110,13 +112,31 @@ export default function BettingWidget ({
         flexStyle={'flex-row items-start'}
       />
 
-      <BettingDashboard />
+      <BettingDashboard 
+        bettingStatus={bettingStatus}
+        setBettingStatus={setBettingStatus}
+        raceResults={raceResults}
+        selectedOdds={selectedOdds}
+        setSelectedOdds={setSelectedOdds}
+        selectedEW={selectedEW}
+        setSelectedEW={setSelectedEW}
+        stake={stake}
+        testBettingData={testBettingData}
+      />
     </div>
   )
 
-  function BettingDashboard ({}) {
-    const [selectedOdds, setSelectedOdds] = useState(new Set())
-    const [selectedEW, setSelectedEW] = useState(new Set())
+  function BettingDashboard ({
+    bettingStatus,
+    setBettingStatus,
+    raceResults,
+    selectedOdds,
+    setSelectedOdds,
+    selectedEW,
+    setSelectedEW,
+    stake,
+    testBettingData
+  }) {
 
     // Convert pounds to stone and pounds
     const convertWeight = (pounds) => {
@@ -196,6 +216,19 @@ export default function BettingWidget ({
       return winnings
     }
 
+    // Check if a wager is won based on race results
+    const isWagerWon = (horse) => {
+      if (bettingStatus !== 'results') return false
+      
+      // Win bet: horse finished first and odds button was pressed
+      const wonOnOdds = selectedOdds.has(horse.number) && horse.number === raceResults[0]
+      
+      // Each way bet: horse finished in top 3 and EW button was pressed
+      const wonOnEW = selectedEW.has(horse.number) && raceResults.includes(horse.number)
+      
+      return wonOnOdds || wonOnEW
+    }
+
 
 
     return (
@@ -203,7 +236,29 @@ export default function BettingWidget ({
         
         {/* Table Heading */}
         <div className='flex justify-between items-center mb-4'>
-          <h3 className='text-lg font-semibold text-gray-800'>{testBettingData[0].title}</h3>
+          <div className='flex items-center gap-3'>
+            <h3 className='text-lg font-semibold text-gray-800'>{testBettingData[0].title}</h3>
+            <div className='flex gap-2'>
+              <button
+                onClick={() => setBettingStatus('open')}
+                className='px-3 py-1 text-xs font-medium bg-green-500 text-white rounded hover:bg-green-600 transition-colors'
+              >
+                Open
+              </button>
+              <button
+                onClick={() => setBettingStatus('closed')}
+                className='px-3 py-1 text-xs font-medium bg-red-500 text-white rounded hover:bg-red-600 transition-colors'
+              >
+                Close
+              </button>
+              <button
+                onClick={() => setBettingStatus('results')}
+                className='px-3 py-1 text-xs font-medium bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors'
+              >
+                Results
+              </button>
+            </div>
+          </div>
           <span className='text-sm text-gray-500 font-normal'>Each Stake: £{stake} - Each Way: 1/5 (3 places)</span>
         </div>
         
@@ -319,8 +374,13 @@ export default function BettingWidget ({
                   {/* Your Wager */}
                   <td className='px-3 py-4'>
                     <div className='flex flex-col'>
-                      <div className='text-sm font-medium text-gray-900'>
+                      <div className={`text-sm flex items-center gap-1 ${
+                        isWagerWon(horse) 
+                          ? 'text-blue-700 font-extrabold text-base' 
+                          : 'text-gray-900 font-medium'
+                      }`}>
                         {calculateWager(horse.number)}
+                        {isWagerWon(horse) && <span className='text-yellow-500'>🏆</span>}
                       </div>
                       {(selectedOdds.has(horse.number) || selectedEW.has(horse.number)) && (
                         <div className='text-xs text-gray-500 flex flex-col'>
