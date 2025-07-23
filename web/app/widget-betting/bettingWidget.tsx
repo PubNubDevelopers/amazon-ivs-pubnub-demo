@@ -16,52 +16,59 @@ export default function BettingWidget ({
   awardPoints
 }) {
 
+  const stake = 5
   const testBettingData = [
     {
-      number: 1,
-      name: 'Horse Name',
-      trainer: 'Trainer Name',
-      jockey: 'Jockey Name',
-      age: 2,
-      weight: 133, //  lbs
-      odds: 11.00
-    },
-    {
-      number: 2,
-      name: 'Another Horse Name',
-      trainer: 'Another Trainer Name',
-      jockey: 'Another Jockey Name',
-      age: 2,
-      weight: 135, //  lbs
-      odds: 2.5
-    },
-    {
-      number: 3,
-      name: 'Another Horse Name',
-      trainer: 'Another Trainer Name',
-      jockey: 'Another Jockey Name',
-      age: 2,
-      weight: 135, //  lbs
-      odds: 2.5
-    },
-    {
-      number: 4,
-      name: 'Another Horse Name',
-      trainer: 'Another Trainer Name',
-      jockey: 'Another Jockey Name',
-      age: 2,
-      weight: 135, //  lbs
-      odds: 2.5
-    },
-    {
-      number: 5,
-      name: 'Another Horse Name',
-      trainer: 'Another Trainer Name',
-      jockey: 'Another Jockey Name',
-      age: 2,
-      weight: 135, //  lbs
-      odds: 2.5
-    },
+      title: "Race 1",
+      stake: 5,
+      horses: [
+        {
+          number: 1,
+          name: 'Horse Name',
+          trainer: 'Trainer Name',
+          jockey: 'Jockey Name',
+          age: 2,
+          weight: 133, //  lbs
+          odds: 11.00
+        },
+        {
+          number: 2,
+          name: 'Another Horse Name',
+          trainer: 'Another Trainer Name',
+          jockey: 'Another Jockey Name',
+          age: 2,
+          weight: 135, //  lbs
+          odds: 2.5
+        },
+        {
+          number: 3,
+          name: 'Another Horse Name',
+          trainer: 'Another Trainer Name',
+          jockey: 'Another Jockey Name',
+          age: 2,
+          weight: 135, //  lbs
+          odds: 2.5
+        },
+        {
+          number: 4,
+          name: 'Another Horse Name',
+          trainer: 'Another Trainer Name',
+          jockey: 'Another Jockey Name',
+          age: 2,
+          weight: 135, //  lbs
+          odds: 2.5
+        },
+        {
+          number: 5,
+          name: 'Another Horse Name',
+          trainer: 'Another Trainer Name',
+          jockey: 'Another Jockey Name',
+          age: 2,
+          weight: 135, //  lbs
+          odds: 2.5
+        }
+      ]
+    }
   ]
 
   useEffect(() => {
@@ -160,8 +167,8 @@ export default function BettingWidget ({
     // Calculate wager amount based on selected options
     const calculateWager = (horseNumber) => {
       let wager = 0
-      if (selectedOdds.has(horseNumber)) wager += 5
-      if (selectedEW.has(horseNumber)) wager += 5
+      if (selectedOdds.has(horseNumber)) wager += stake
+      if (selectedEW.has(horseNumber)) wager += stake
       return wager > 0 ? `£${wager}` : ''
     }
 
@@ -171,13 +178,13 @@ export default function BettingWidget ({
       
       // Win bet: £5 * odds
       if (selectedOdds.has(horse.number)) {
-        winnings += 5 * horse.odds
+        winnings += stake * horse.odds
       }
       
       // Each way bet: £5 split as £2.50 win + £2.50 place
       // If horse wins: win part (£2.50 * odds) + place part (£2.50 * odds/5)
       if (selectedEW.has(horse.number)) {
-        const placePart = 5 + (5 * ((horse.odds - 1) / 5))
+        const placePart = stake + (stake * ((horse.odds - 1) / 5))
         if (placeOnly) {
           return placePart
         }
@@ -194,8 +201,8 @@ export default function BettingWidget ({
         
         {/* Table Heading */}
         <div className='flex justify-between items-center mb-4'>
-          <h3 className='text-lg font-semibold text-gray-800'>Table Heading</h3>
-          <span className='text-sm text-gray-500 font-normal'>Each Stake: £5 - Each Way: 1/5 (3 places)</span>
+          <h3 className='text-lg font-semibold text-gray-800'>{testBettingData[0].title}</h3>
+          <span className='text-sm text-gray-500 font-normal'>Each Stake: £{stake} - Each Way: 1/5 (3 places)</span>
         </div>
         
 
@@ -226,7 +233,7 @@ export default function BettingWidget ({
               </tr>
             </thead>
             <tbody className='divide-y divide-gray-200'>
-              {testBettingData.map((horse) => (
+              {testBettingData[0].horses.map((horse) => (
                 <tr key={horse.number} className='hover:bg-gray-50 transition-colors'>
                   {/* Desktop Layout */}
                   {/* Horse Number */}
