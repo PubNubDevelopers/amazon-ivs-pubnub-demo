@@ -35,60 +35,6 @@ export default function BettingWidget ({
       odds: number
     }>
   } | null>(null)
-/*
-  const [currentBets, setCurrentBets] = useState([
-    {
-      title: "Race 1",
-      stake: 5,
-      horses: [
-    {
-      number: 1,
-      name: 'Horse Name',
-      trainer: 'Trainer Name',
-      jockey: 'Jockey Name',
-      age: 2,
-      weight: 133, //  lbs
-          odds: 11.00
-    },
-    {
-      number: 2,
-      name: 'Another Horse Name',
-      trainer: 'Another Trainer Name',
-      jockey: 'Another Jockey Name',
-      age: 2,
-      weight: 135, //  lbs
-      odds: 2.5
-    },
-        {
-          number: 3,
-          name: 'Another Horse Name',
-          trainer: 'Another Trainer Name',
-          jockey: 'Another Jockey Name',
-          age: 2,
-          weight: 135, //  lbs
-          odds: 2.5
-        },
-        {
-          number: 4,
-          name: 'Another Horse Name',
-          trainer: 'Another Trainer Name',
-          jockey: 'Another Jockey Name',
-          age: 2,
-          weight: 135, //  lbs
-          odds: 2.5
-        },
-        {
-          number: 5,
-          name: 'Another Horse Name',
-          trainer: 'Another Trainer Name',
-          jockey: 'Another Jockey Name',
-          age: 2,
-          weight: 135, //  lbs
-          odds: 2.5
-        }
-      ]
-    }
-  ])*/
   const stake = 5
 
   // Function to add wager to a horse
@@ -119,6 +65,7 @@ export default function BettingWidget ({
           // Extract the betting data (everything except the type field)
           const { type, ...bettingData } = messageEvent.message
           setCurrentRace(bettingData)
+          setBettingStatus('open')
         }
       }
     }
