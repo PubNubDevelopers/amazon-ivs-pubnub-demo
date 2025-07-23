@@ -53,6 +53,52 @@ export default function BettingWidget ({
 
   useEffect(() => {
     if (!chat) return
+    
+    // Fetch ALL message history when component loads
+    const fetchAllMessages = async () => {
+      try {
+        let allMessages: any[] = []
+        let batchCount = 0
+        let startTimetoken: string | undefined = undefined
+        
+        while (true) {
+          batchCount++
+          
+          // Build fetch parameters
+          const fetchParams: any = {
+            channels: [bettingChannelId],
+            count: 20
+          }
+          
+          // Add start timetoken if we have one (for pagination)
+          if (startTimetoken) {
+            fetchParams.start = startTimetoken
+          }
+          
+          // Fetch messages
+          const result = await chat.sdk.fetchMessages(fetchParams)
+          const messages = result.channels[bettingChannelId] || []
+          
+          // Add messages to our collection
+          allMessages = [...allMessages, ...messages]
+          
+          // Check stopping condition: fewer than 20 messages returned
+          if (messages.length < 20) {
+            break
+          }
+          
+          // Set start timetoken to the oldest message's timetoken for next iteration
+          startTimetoken = messages[0].timetoken
+        }
+        
+        console.log(`Betting channel history contains ${allMessages.length} messages (fetched across ${batchCount} batches)`)
+      } catch (error) {
+        console.error('Error fetching betting channel history:', error)
+      }
+    }
+    
+    fetchAllMessages()
+    
     const subscriptionSet = chat.sdk.subscriptionSet({
       channels: [
         bettingChannelId,
@@ -366,6 +412,18 @@ const BettingDashboard = memo(function BettingDashboard ({
               className='px-3 py-1 text-xs font-medium bg-purple-500 text-white rounded hover:bg-purple-600 transition-colors'
             >
               Add £10 to Horse 3
+            </button>
+            <button
+              onClick={() => {
+                if (chat) {
+                  chat.sdk.deleteMessages({
+                    channel: bettingChannelId
+                  })
+                }
+              }}
+              className='px-3 py-1 text-xs font-medium bg-orange-500 text-white rounded hover:bg-orange-600 transition-colors'
+            >
+              Clear History
             </button>
           </div>
         </div>
