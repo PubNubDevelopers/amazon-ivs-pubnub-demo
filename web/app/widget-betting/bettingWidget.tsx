@@ -483,6 +483,18 @@ const BettingDashboard = memo(function BettingDashboard ({
     return wonOnOdds || wonOnEW
   }, [bettingStatus, selectedOdds, selectedEW, raceResults])
 
+  // Check if odds bet specifically won
+  const isOddsWon = useCallback((horse) => {
+    if (bettingStatus !== 'results') return false
+    return selectedOdds.has(horse.number) && horse.number === raceResults[0]
+  }, [bettingStatus, selectedOdds, raceResults])
+
+  // Check if each way bet specifically won
+  const isEWWon = useCallback((horse) => {
+    if (bettingStatus !== 'results') return false
+    return selectedEW.has(horse.number) && raceResults.includes(horse.number)
+  }, [bettingStatus, selectedEW, raceResults])
+
   // Get total wager amount for a horse
   const getTotalWager = useCallback((horseNumber) => {
     let total = 0
@@ -731,18 +743,14 @@ const BettingDashboard = memo(function BettingDashboard ({
                 {/* Your Wager */}
                 <td className='px-3 py-4 whitespace-nowrap'>
                   <div className='flex flex-col'>
-                    <div className={`text-sm flex items-center gap-1 ${
-                      isWagerWon(horse) 
-                        ? 'text-blue-700 font-extrabold text-base' 
-                        : 'text-gray-900 font-medium'
-                    }`}>
+                    <div className={`text-sm flex items-center gap-1`}>
                       {calculateWager(horse.number)}
                       {isWagerWon(horse) && <span className='text-yellow-500'>🏆</span>}
                     </div>
                     {(selectedOdds.has(horse.number) || selectedEW.has(horse.number)) && (
                       <div className='text-xs text-gray-500 flex flex-col'>
-                        <div>Win: {currencySymbol}{calculateHorseWinnings(horse, false).toFixed(2)}</div>
-                        {selectedEW.has(horse.number) && <div>Place: {currencySymbol}{calculateHorseWinnings(horse, true).toFixed(2)}</div>}
+                        <div className={isOddsWon(horse) ? 'text-blue-700 font-extrabold' : ''}>Win: {currencySymbol}{calculateHorseWinnings(horse, false).toFixed(2)}</div>
+                        {selectedEW.has(horse.number) && <div className={isEWWon(horse) ? 'text-blue-700 font-extrabold' : ''}>Place: {currencySymbol}{calculateHorseWinnings(horse, true).toFixed(2)}</div>}
                       </div>
                     )}
                   </div>
