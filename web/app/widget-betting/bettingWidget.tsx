@@ -22,7 +22,7 @@ export default function BettingWidget ({
   const [selectedEW, setSelectedEW] = useState(new Set<number>()) // Application-level betting state
   const [totalWagers, setTotalWagers] = useState(new Map<number, number>()) // Total wagers for each horse (horse number -> amount)
   const [pulsatingHorse, setPulsatingHorse] = useState<number | null>(null) // Track which horse should show pulse animation
-  const [currentBets, setCurrentBets] = useState<Array<{
+  const [currentRace, setCurrentRace] = useState<{
     title: string
     stake: number
     horses: Array<{
@@ -34,7 +34,7 @@ export default function BettingWidget ({
       weight: number
       odds: number
     }>
-  }>>([])
+  } | null>(null)
 /*
   const [currentBets, setCurrentBets] = useState([
     {
@@ -118,7 +118,7 @@ export default function BettingWidget ({
         if (messageEvent.message.type === 'betting_open') {
           // Extract the betting data (everything except the type field)
           const { type, ...bettingData } = messageEvent.message
-          setCurrentBets([bettingData])
+          setCurrentRace(bettingData)
         }
       }
     }
@@ -158,7 +158,7 @@ export default function BettingWidget ({
         addWagerToHorse={addWagerToHorse}
         pulsatingHorse={pulsatingHorse}
         stake={stake}
-        currentBets={currentBets}
+        currentRace={currentRace}
         chat={chat}
       />
     </div>
@@ -178,7 +178,7 @@ const BettingDashboard = memo(function BettingDashboard ({
   addWagerToHorse,
   pulsatingHorse,
   stake,
-  currentBets,
+  currentRace,
   chat
 }: {
   bettingStatus: string
@@ -192,7 +192,7 @@ const BettingDashboard = memo(function BettingDashboard ({
   addWagerToHorse: (horseNumber: number, amount: number) => void
   pulsatingHorse: number | null
   stake: number
-  currentBets: Array<{
+  currentRace: {
     title: string
     stake: number
     horses: Array<{
@@ -204,7 +204,7 @@ const BettingDashboard = memo(function BettingDashboard ({
       weight: number
       odds: number
     }>
-  }>
+  } | null
   chat: any
 }) {
 
@@ -330,7 +330,7 @@ const BettingDashboard = memo(function BettingDashboard ({
       {/* Table Heading */}
       <div className='flex justify-between items-center mb-4'>
         <div className='flex items-center gap-3'>
-          <h3 className='text-lg font-semibold text-gray-800'>{currentBets[0]?.title}</h3>
+          <h3 className='text-lg font-semibold text-gray-800'>{currentRace?.title}</h3>
           <div className='flex gap-2'>
             <button
               onClick={() => {
@@ -467,7 +467,7 @@ const BettingDashboard = memo(function BettingDashboard ({
             </tr>
           </thead>
           <tbody className='divide-y divide-gray-200'>
-            {currentBets[0]?.horses.map((horse) => (
+            {currentRace?.horses.map((horse) => (
               <tr key={horse.number} className={`transition-colors ${getPositionStyling(horse.number)}`}>
                 {/* Desktop Layout */}
                 {/* Horse Number */}
