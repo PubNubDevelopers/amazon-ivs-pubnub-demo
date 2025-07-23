@@ -41,7 +41,7 @@ export default function BettingWidget ({
   const [allUserBets, setAllUserBets] = useState<Map<string, Map<number, number>>>(new Map())
 
   // Process a single message (both real-time and historical)
-  const processMessage = useCallback((message: any) => {
+  const processMessage = useCallback((message: any, isFromHistoricalFetch: boolean = false) => {
     if (message.type === 'betting_open') {
       // Extract the betting data (everything except the type field)
       const { type, ...bettingData } = message
@@ -49,6 +49,12 @@ export default function BettingWidget ({
       setBettingStatus('open')
       // Clear all previous bets when new betting opens
       setAllUserBets(new Map())
+      // If this is from historical fetch, also clear current user's UI state
+      if (isFromHistoricalFetch) {
+        setSelectedOdds(new Set())
+        setSelectedEW(new Set())
+        setCurrentUserBets(new Map())
+      }
     } else if (message.type === 'user_bets') {
       console.log('Received user_bets message:', JSON.stringify(message, null, 2))
       
@@ -74,8 +80,38 @@ export default function BettingWidget ({
         
         return newAllUserBets
       })
+      
+      // Handle historical bets for current user (from fetchAllMessages)
+      if (isFromHistoricalFetch && chat?.currentUser && message.userId === chat.currentUser.id) {
+        // Update UI state based on historical bets without sending PubNub messages
+        const newSelectedOdds = new Set<number>()
+        const newSelectedEW = new Set<number>()
+        const newCurrentUserBets = new Map<number, number>()
+        
+        // Process each bet from the historical message
+        Object.entries(message.bets || {}).forEach(([horseNumber, amount]) => {
+          const betAmount = Number(amount)
+          const horseNum = parseInt(horseNumber)
+          
+          if (betAmount === 5) {
+            // Only odds button pressed (£5 total bet)
+            newSelectedOdds.add(horseNum)
+            newCurrentUserBets.set(horseNum, 5)
+          } else if (betAmount === 10) {
+            // Both odds and EW buttons pressed (£5 + £5 = £10 total bet)
+            newSelectedOdds.add(horseNum)
+            newSelectedEW.add(horseNum)
+            newCurrentUserBets.set(horseNum, 10)
+          }
+        })
+        
+        // Update state without triggering new PubNub messages
+        setSelectedOdds(newSelectedOdds)
+        setSelectedEW(newSelectedEW)
+        setCurrentUserBets(newCurrentUserBets)
+      }
     }
-  }, [setBettingStatus])
+  }, [setBettingStatus, chat])
 
   // Send bet update to PubNub
   const sendBetUpdate = useCallback((updatedBets?: Map<number, number>) => {
@@ -177,7 +213,7 @@ export default function BettingWidget ({
         // Process all historical messages in chronological order (oldest to newest)
         const sortedMessages = allMessages.sort((a, b) => parseInt(a.timetoken) - parseInt(b.timetoken))
         sortedMessages.forEach(messageEvent => {
-          processMessage(messageEvent.message)
+          processMessage(messageEvent.message, true) // true indicates this is from historical fetch
         })
         
       } catch (error) {
