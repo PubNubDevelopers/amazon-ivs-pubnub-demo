@@ -26,6 +26,7 @@ export default function BettingWidget ({
   const [selectedEW, setSelectedEW] = useState(new Set<number>()) // Application-level betting state
   const [showResultsPopup, setShowResultsPopup] = useState(false)
   const [winningsData, setWinningsData] = useState<any>(null)
+  const [processedRaceResults, setProcessedRaceResults] = useState<string>('')
   const [currentRace, setCurrentRace] = useState<{
     title: string
     stake: number
@@ -59,6 +60,7 @@ export default function BettingWidget ({
       setSelectedEW(new Set())
       setCurrentUserBets(new Map())
       setShowResultsPopup(false)
+      setProcessedRaceResults('')
     } else if (message.type === 'user_bets') {
       //console.log('Received user_bets message:', JSON.stringify(message, null, 2))
       
@@ -186,6 +188,13 @@ export default function BettingWidget ({
   const calculateCurrentUserWinnings = useCallback(() => {
     if (bettingStatus !== 'results' || !currentRace?.horses) return
     
+    // Prevent duplicate processing of the same race results
+    const raceResultsKey = `${currentRace.title}-${raceResults.join('-')}`
+    if (processedRaceResults === raceResultsKey) {
+      console.log('Race results already processed, skipping calculation')
+      return
+    }
+    
     let totalBetAmount = 0
     let totalWinnings = 0
     const horseBets: any[] = []
@@ -285,8 +294,18 @@ export default function BettingWidget ({
     setWinningsData(results)
     setShowResultsPopup(true)
     
+    // Update user's wallet with winnings/losses
+    if (overallProfit !== 0) {
+      console.log(`Updating wallet: ${overallProfit >= 0 ? 'Adding' : 'Removing'} ${currencySymbol}${Math.abs(overallProfit).toFixed(2)}`)
+      console.log(`Current wallet value being used: ${currencySymbol}${currentWallet}`)
+      AwardWallet(chat, overallProfit, currentWallet)
+    }
+    
+    // Mark this race as processed
+    setProcessedRaceResults(raceResultsKey)
+    
     return results
-  }, [bettingStatus, currentRace, raceResults, currentUserBets, selectedOdds, selectedEW, stake])
+  }, [bettingStatus, currentRace, raceResults, currentUserBets, selectedOdds, selectedEW, stake, chat, processedRaceResults])
 
   // Trigger winnings calculation when betting results come in
   useEffect(() => {
