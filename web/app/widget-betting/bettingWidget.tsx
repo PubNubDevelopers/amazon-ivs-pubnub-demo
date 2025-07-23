@@ -247,7 +247,7 @@ export default function BettingWidget ({
   }, [chat, processMessage])
 
   return (
-    <div className={`${className} px-6 pt-3 pb-4`}>
+    <div className={`${className} px-2 sm:px-6 pt-3 pb-4`}>
       <GuideOverlay
         id={'bettingGuide'}
         guidesShown={guidesShown}
@@ -519,10 +519,10 @@ const BettingDashboard = memo(function BettingDashboard ({
       <div className='text-base font-normal py-3'>
       
       {/* Table Heading */}
-      <div className='flex justify-between items-center mb-4'>
+      <div className='flex justify-between items-center mb-4 px-2 sm:px-0'>
         <div className='flex items-center gap-3'>
           <h3 className='text-lg font-semibold text-gray-800'>{currentRace?.title}</h3>
-          <div className='flex gap-2'>
+          <div className='hidden sm:flex gap-2'>
             <button
               onClick={() => {
                 if (chat) {
@@ -638,14 +638,14 @@ const BettingDashboard = memo(function BettingDashboard ({
       
       {/* Betting Status Indicator */}
       {bettingStatus === 'closed' && (
-        <div className='mb-4 p-3 bg-red-100 border border-red-300 rounded-lg'>
+        <div className='mb-4 mx-4 sm:mx-0 p-3 bg-red-100 border border-red-300 rounded-lg'>
           <div className='text-center text-red-800 font-semibold'>BETTING CLOSED</div>
         </div>
       )}
       
       {/* Race Results Indicator */}
       {bettingStatus === 'results' && (
-        <div className='mb-4 p-3 bg-blue-100 border border-blue-300 rounded-lg'>
+        <div className='mb-4 mx-4 sm:mx-0 p-3 bg-blue-100 border border-blue-300 rounded-lg'>
           <div className='text-center text-blue-800 font-semibold'>RACE RESULTS</div>
         </div>
       )}
@@ -716,7 +716,7 @@ const BettingDashboard = memo(function BettingDashboard ({
                 
                 {/* Mobile Combined Horse + Silk */}
                 <td className='px-3 py-4 sm:hidden'>
-                  <div className='flex items-center gap-3'>
+                  <div className='flex flex-col items-start gap-3'>
                     <div className='w-10 h-10 rounded-md overflow-hidden border border-gray-200 flex-shrink-0'>
                       <img
                         src={getSilkImage(horse.number).src}
@@ -762,7 +762,7 @@ const BettingDashboard = memo(function BettingDashboard ({
                     <button
                       onClick={() => toggleOdds(horse.number)}
                       disabled={bettingStatus === 'closed' || bettingStatus === 'results'}
-                      className={`px-3 py-1.5 text-xs font-medium rounded-md border transition-colors ${
+                      className={`px-3 py-1.5 text-xs font-medium rounded-md border transition-colors min-w-[56px] min-h-[32px] ${
                         bettingStatus === 'closed' || bettingStatus === 'results'
                           ? 'bg-gray-200 text-gray-400 border-gray-300 cursor-not-allowed'
                           : selectedOdds.has(horse.number)
@@ -781,7 +781,7 @@ const BettingDashboard = memo(function BettingDashboard ({
                     <button
                       onClick={() => toggleEW(horse.number)}
                       disabled={bettingStatus === 'closed' || bettingStatus === 'results'}
-                      className={`px-3 py-1.5 text-xs font-medium rounded-md border transition-colors ${
+                      className={`px-3 py-1.5 text-xs font-medium rounded-md border transition-colors min-w-[56px] min-h-[32px] ${
                         bettingStatus === 'closed' || bettingStatus === 'results'
                           ? 'bg-gray-200 text-gray-400 border-gray-300 cursor-not-allowed'
                           : selectedEW.has(horse.number)
@@ -800,7 +800,7 @@ const BettingDashboard = memo(function BettingDashboard ({
                     <button
                       onClick={() => toggleOdds(horse.number)}
                       disabled={bettingStatus === 'closed' || bettingStatus === 'results'}
-                      className={`px-2 py-1 text-xs font-medium rounded border transition-colors ${
+                      className={`px-2 py-1 text-xs font-medium rounded border transition-colors min-w-[56px] min-h-[32px] ${
                         bettingStatus === 'closed' || bettingStatus === 'results'
                           ? 'bg-gray-200 text-gray-400 border-gray-300 cursor-not-allowed'
                           : selectedOdds.has(horse.number)
@@ -813,7 +813,7 @@ const BettingDashboard = memo(function BettingDashboard ({
                     <button
                       onClick={() => toggleEW(horse.number)}
                       disabled={bettingStatus === 'closed' || bettingStatus === 'results'}
-                      className={`px-2 py-1 text-xs font-medium rounded border transition-colors ${
+                      className={`px-2 py-1 text-xs font-medium rounded border transition-colors min-w-[56px] min-h-[32px] ${
                         bettingStatus === 'closed' || bettingStatus === 'results'
                           ? 'bg-gray-200 text-gray-400 border-gray-300 cursor-not-allowed'
                           : selectedEW.has(horse.number)
