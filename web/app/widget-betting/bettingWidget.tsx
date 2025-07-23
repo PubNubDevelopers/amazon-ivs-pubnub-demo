@@ -806,7 +806,7 @@ const BettingDashboard = memo(function BettingDashboard ({
                     {(selectedOdds.has(horse.number) || selectedEW.has(horse.number)) && (
                       <div className='text-xs text-gray-500 flex flex-col'>
                         <div className={isOddsWon(horse) ? 'text-blue-700 font-extrabold' : ''}>Win: {currencySymbol}{calculateHorseWinnings(horse, false).toFixed(2)}</div>
-                        {selectedEW.has(horse.number) && <div className={isEWWon(horse) ? 'text-blue-700 font-extrabold' : ''}>Place: {currencySymbol}{calculateHorseWinnings(horse, true).toFixed(2)}</div>}
+                        {selectedEW.has(horse.number) && <div className={(isEWWon(horse) && !isOddsWon(horse)) ? 'text-blue-700 font-extrabold' : ''}>Place: {currencySymbol}{calculateHorseWinnings(horse, true).toFixed(2)}</div>}
                       </div>
                     )}
                   </div>
