@@ -16,6 +16,8 @@ export default function BettingWidget ({
   awardPoints
 }) {
 
+  const [bettingStatus, setBettingStatus] = useState('results') // 'open', 'closed', 'results'
+  const [raceResults, setRaceResults] = useState([1, 3, 2]) // Top 3 finishers by horse number [1st, 2nd, 3rd]
   const stake = 5
   const testBettingData = [
     {
@@ -205,6 +207,20 @@ export default function BettingWidget ({
           <span className='text-sm text-gray-500 font-normal'>Each Stake: £{stake} - Each Way: 1/5 (3 places)</span>
         </div>
         
+        {/* Betting Status Indicator */}
+        {bettingStatus === 'closed' && (
+          <div className='mb-4 p-3 bg-red-100 border border-red-300 rounded-lg'>
+            <div className='text-center text-red-800 font-semibold'>BETTING CLOSED</div>
+          </div>
+        )}
+        
+        {/* Race Results Indicator */}
+        {bettingStatus === 'results' && (
+          <div className='mb-4 p-3 bg-blue-100 border border-blue-300 rounded-lg'>
+            <div className='text-center text-blue-800 font-semibold'>RACE RESULTS</div>
+          </div>
+        )}
+        
 
         {/* Betting Table */}
         <div className='overflow-x-auto'>
@@ -233,8 +249,25 @@ export default function BettingWidget ({
               </tr>
             </thead>
             <tbody className='divide-y divide-gray-200'>
-              {testBettingData[0].horses.map((horse) => (
-                <tr key={horse.number} className='hover:bg-gray-50 transition-colors'>
+              {testBettingData[0].horses.map((horse) => {
+                const getPositionStyling = () => {
+                  if (bettingStatus !== 'results') return 'hover:bg-gray-50'
+                  
+                  if (horse.number === raceResults[0]) {
+                    // 1st place - Gold
+                    return 'bg-gradient-to-r from-yellow-100 to-yellow-200 rounded-lg border border-yellow-300'
+                  } else if (horse.number === raceResults[1]) {
+                    // 2nd place - Silver
+                    return 'bg-gradient-to-r from-gray-100 to-gray-200 rounded-lg border border-gray-300'
+                  } else if (horse.number === raceResults[2]) {
+                    // 3rd place - Bronze
+                    return 'bg-gradient-to-r from-orange-100 to-orange-200 rounded-lg border border-orange-300'
+                  }
+                  return 'hover:bg-gray-50'
+                }
+                
+                return (
+                <tr key={horse.number} className={`transition-colors ${getPositionStyling()}`}>
                   {/* Desktop Layout */}
                   {/* Horse Number */}
                   <td className='px-3 py-4 text-sm font-medium text-gray-900 hidden sm:table-cell'>
@@ -308,8 +341,11 @@ export default function BettingWidget ({
                   <td className='px-3 py-4 hidden sm:table-cell'>
                     <button
                       onClick={() => toggleOdds(horse.number)}
+                      disabled={bettingStatus === 'closed' || bettingStatus === 'results'}
                       className={`px-3 py-1.5 text-xs font-medium rounded-md border transition-colors ${
-                        selectedOdds.has(horse.number)
+                        bettingStatus === 'closed' || bettingStatus === 'results'
+                          ? 'bg-gray-200 text-gray-400 border-gray-300 cursor-not-allowed'
+                          : selectedOdds.has(horse.number)
                           ? 'bg-navy900 text-white border-navy900 hover:bg-navy800'
                           : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
                       }`}
@@ -322,8 +358,11 @@ export default function BettingWidget ({
                   <td className='px-3 py-4 hidden sm:table-cell'>
                     <button
                       onClick={() => toggleEW(horse.number)}
+                      disabled={bettingStatus === 'closed' || bettingStatus === 'results'}
                       className={`px-3 py-1.5 text-xs font-medium rounded-md border transition-colors ${
-                        selectedEW.has(horse.number)
+                        bettingStatus === 'closed' || bettingStatus === 'results'
+                          ? 'bg-gray-200 text-gray-400 border-gray-300 cursor-not-allowed'
+                          : selectedEW.has(horse.number)
                           ? 'bg-navy900 text-white border-navy900 hover:bg-navy800'
                           : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
                       }`}
@@ -337,8 +376,11 @@ export default function BettingWidget ({
                     <div className='flex flex-col gap-2'>
                       <button
                         onClick={() => toggleOdds(horse.number)}
+                        disabled={bettingStatus === 'closed' || bettingStatus === 'results'}
                         className={`px-2 py-1 text-xs font-medium rounded border transition-colors ${
-                          selectedOdds.has(horse.number)
+                          bettingStatus === 'closed' || bettingStatus === 'results'
+                            ? 'bg-gray-200 text-gray-400 border-gray-300 cursor-not-allowed'
+                            : selectedOdds.has(horse.number)
                             ? 'bg-navy900 text-white border-navy900 hover:bg-navy800'
                             : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
                         }`}
@@ -347,8 +389,11 @@ export default function BettingWidget ({
                       </button>
                       <button
                         onClick={() => toggleEW(horse.number)}
+                        disabled={bettingStatus === 'closed' || bettingStatus === 'results'}
                         className={`px-2 py-1 text-xs font-medium rounded border transition-colors ${
-                          selectedEW.has(horse.number)
+                          bettingStatus === 'closed' || bettingStatus === 'results'
+                            ? 'bg-gray-200 text-gray-400 border-gray-300 cursor-not-allowed'
+                            : selectedEW.has(horse.number)
                             ? 'bg-navy900 text-white border-navy900 hover:bg-navy800'
                             : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
                         }`}
@@ -358,7 +403,8 @@ export default function BettingWidget ({
                     </div>
                   </td>
                 </tr>
-              ))}
+                )
+              })}
             </tbody>
           </table>
         </div>
