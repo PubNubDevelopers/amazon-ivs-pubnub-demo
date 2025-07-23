@@ -27,6 +27,7 @@ export const bettingChannelId = "race.betting"
 
 // Currency settings
 export const currencySymbol = "€"
+export const bettingOddsDisplay = "fractional" //  "decimal" or "fractional"
 
 // Admin settings
 export const adminPin = "8888"

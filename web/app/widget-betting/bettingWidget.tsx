@@ -3,7 +3,8 @@ import GuideOverlay from '../components/guideOverlay'
 import { jerseySilks } from './assets'
 import {
   bettingChannelId,
-  currencySymbol
+  currencySymbol,
+  bettingOddsDisplay
 } from '../data/constants'
 
 export default function BettingWidget ({
@@ -343,6 +344,47 @@ const BettingDashboard = memo(function BettingDashboard ({
   const getSilkImage = useCallback((number) => {
     const silkIndex = number - 1 // Convert to 0-based index
     return jerseySilks[silkIndex] || jerseySilks[0] // Fallback to first silk if not found
+  }, [])
+
+  // Format odds based on display preference
+  const formatOdds = useCallback((decimalOdds) => {
+    if ((bettingOddsDisplay as string) === 'fractional') {
+      // Convert decimal to fractional
+      const profit = decimalOdds - 1
+      
+      // Handle special cases
+      if (profit === 1) return '1/1' // Evens
+      if (profit < 1) {
+        // Odds-on (e.g., 1.50 -> 1/2)
+        const denominator = Math.round(1 / profit)
+        return `1/${denominator}`
+      }
+      
+      // Odds-against (e.g., 3.50 -> 5/2)
+      // Find best fraction representation
+      let bestNum = Math.round(profit)
+      let bestDen = 1
+      let bestError = Math.abs(profit - bestNum)
+      
+      // Try different denominators up to 10 for common fractions
+      for (let den = 2; den <= 10; den++) {
+        const num = Math.round(profit * den)
+        const error = Math.abs(profit - num / den)
+        if (error < bestError) {
+          bestNum = num
+          bestDen = den
+          bestError = error
+        }
+      }
+      
+      // Simplify the fraction
+      const gcd = (a, b) => b === 0 ? a : gcd(b, a % b)
+      const divisor = gcd(bestNum, bestDen)
+      return `${bestNum / divisor}/${bestDen / divisor}`
+    }
+    
+    // Default to decimal format
+    return decimalOdds.toFixed(2)
   }, [])
 
   const toggleOdds = useCallback((number) => {
@@ -778,7 +820,7 @@ const BettingDashboard = memo(function BettingDashboard ({
                           : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
                       }`}
                     >
-                      {horse.odds.toFixed(2)}
+                      {formatOdds(horse.odds)}
                     </button>
                   </div>
                 </td>
@@ -816,7 +858,7 @@ const BettingDashboard = memo(function BettingDashboard ({
                           : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
                       }`}
                     >
-                      {horse.odds.toFixed(2)}
+                      {formatOdds(horse.odds)}
                     </button>
                     <button
                       onClick={() => toggleEW(horse.number)}
