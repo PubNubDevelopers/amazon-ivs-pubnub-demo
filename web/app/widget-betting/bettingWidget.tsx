@@ -36,6 +36,9 @@ export default function BettingWidget ({
     }>
   } | null>(null)
 
+  // Track current user's bets separately from total wagers
+  const [currentUserBets, setCurrentUserBets] = useState<Map<number, number>>(new Map())
+
   // Process a single message (both real-time and historical)
   const processMessage = useCallback((message: any) => {
     if (message.type === 'betting_open') {
@@ -43,8 +46,37 @@ export default function BettingWidget ({
       const { type, ...bettingData } = message
       setCurrentRace(bettingData)
       setBettingStatus('open')
+    } else if (message.type === 'user_bets') {
+      console.log('Received user_bets message:', JSON.stringify(message, null, 2))
     }
   }, [setBettingStatus])
+
+  // Send bet update to PubNub
+  const sendBetUpdate = useCallback((updatedBets?: Map<number, number>) => {
+    if (chat && chat.currentUser) {
+      // Use provided bets or current state
+      const betsToSend = updatedBets || currentUserBets
+      
+      // Convert Map to object with horse numbers and amounts
+      const horseBets: { [key: number]: number } = {}
+      betsToSend.forEach((amount, horseNumber) => {
+        if (amount > 0) {
+          horseBets[horseNumber] = amount
+        }
+      })
+
+      // Always send message, even if no bets (to notify removal of all bets)
+      chat.sdk.publish({
+        message: {
+          type: 'user_bets',
+          userId: chat.currentUser.id,
+          bets: horseBets
+        },
+        channel: bettingChannelId
+      })
+    }
+  }, [chat, currentUserBets, bettingChannelId])
+
   const stake = 5
 
   // Function to add wager to a horse
@@ -59,6 +91,47 @@ export default function BettingWidget ({
     // Trigger pulse animation
     setPulsatingHorse(horseNumber)
     setTimeout(() => setPulsatingHorse(null), 600) // Clear after animation duration
+  }, [])
+
+  // Add wager to current user's bets and to total wagers
+  const addCurrentUserBet = useCallback((horseNumber: number, amount: number) => {
+    setCurrentUserBets(prev => {
+      const newBets = new Map(prev)
+      const currentAmount = newBets.get(horseNumber) || 0
+      newBets.set(horseNumber, currentAmount + amount)
+      return newBets
+    })
+    
+    // Also add to total wagers (for display purposes)
+    addWagerToHorse(horseNumber, amount)
+  }, [addWagerToHorse])
+
+  // Remove wager from current user's bets and from total wagers
+  const removeCurrentUserBet = useCallback((horseNumber: number, amount: number) => {
+    setCurrentUserBets(prev => {
+      const newBets = new Map(prev)
+      const currentAmount = newBets.get(horseNumber) || 0
+      const newAmount = Math.max(0, currentAmount - amount)
+      if (newAmount === 0) {
+        newBets.delete(horseNumber)
+      } else {
+        newBets.set(horseNumber, newAmount)
+      }
+      return newBets
+    })
+    
+    // Also remove from total wagers (for display purposes)
+    setTotalWagers(prev => {
+      const newWagers = new Map(prev)
+      const currentAmount = newWagers.get(horseNumber) || 0
+      const newAmount = Math.max(0, currentAmount - amount)
+      if (newAmount === 0) {
+        newWagers.delete(horseNumber)
+      } else {
+        newWagers.set(horseNumber, newAmount)
+      }
+      return newWagers
+    })
   }, [])
 
   useEffect(() => {
@@ -165,6 +238,10 @@ export default function BettingWidget ({
         stake={stake}
         currentRace={currentRace}
         chat={chat}
+        sendBetUpdate={sendBetUpdate}
+        addCurrentUserBet={addCurrentUserBet}
+        removeCurrentUserBet={removeCurrentUserBet}
+        currentUserBets={currentUserBets}
       />
     </div>
   )
@@ -184,7 +261,11 @@ const BettingDashboard = memo(function BettingDashboard ({
   pulsatingHorse,
   stake,
   currentRace,
-  chat
+  chat,
+  sendBetUpdate,
+  addCurrentUserBet,
+  removeCurrentUserBet,
+  currentUserBets
 }: {
   bettingStatus: string
   setBettingStatus: (status: string) => void
@@ -211,6 +292,10 @@ const BettingDashboard = memo(function BettingDashboard ({
     }>
   } | null
   chat: any
+  sendBetUpdate: (updatedBets?: Map<number, number>) => void
+  addCurrentUserBet: (horseNumber: number, amount: number) => void
+  removeCurrentUserBet: (horseNumber: number, amount: number) => void
+  currentUserBets: Map<number, number>
 }) {
 
   // Convert pounds to stone and pounds
@@ -229,37 +314,97 @@ const BettingDashboard = memo(function BettingDashboard ({
   const toggleOdds = useCallback((number) => {
     const newSelectedOdds = new Set(selectedOdds)
     const newSelectedEW = new Set(selectedEW)
+    let updatedBets = new Map(currentUserBets)
     
     if (newSelectedOdds.has(number)) {
       // If deselecting odds, also deselect EW
       newSelectedOdds.delete(number)
+      const wasEWSelected = newSelectedEW.has(number)
       newSelectedEW.delete(number)
+      
+      // Calculate total amount to remove (odds + EW if it was selected)
+      let amountToRemove = stake // for odds
+      if (wasEWSelected) {
+        amountToRemove += stake // for EW
+      }
+      
+      // Remove the bets
+      removeCurrentUserBet(number, amountToRemove)
+      
+      // Calculate updated bets for PubNub
+      const currentAmount: number = updatedBets.get(number) || 0
+      const newAmount = Math.max(0, currentAmount - amountToRemove)
+      if (newAmount === 0) {
+        updatedBets.delete(number)
+      } else {
+        updatedBets.set(number, newAmount)
+      }
+      
+      // Send updated bets
+      sendBetUpdate(updatedBets)
     } else {
       newSelectedOdds.add(number)
+      // Place the actual bet
+      addCurrentUserBet(number, stake)
+      
+      // Calculate new bets for immediate PubNub send
+      const currentAmount: number = updatedBets.get(number) || 0
+      updatedBets.set(number, currentAmount + stake)
+      
+      // Send bet update immediately with calculated bets
+      sendBetUpdate(updatedBets)
     }
     
     setSelectedOdds(newSelectedOdds)
     setSelectedEW(newSelectedEW)
-  }, [selectedOdds, selectedEW, setSelectedOdds, setSelectedEW])
+  }, [selectedOdds, selectedEW, setSelectedOdds, setSelectedEW, addCurrentUserBet, removeCurrentUserBet, stake, sendBetUpdate, currentUserBets])
 
   const toggleEW = useCallback((number) => {
     const newSelectedOdds = new Set(selectedOdds)
     const newSelectedEW = new Set(selectedEW)
+    let updatedBets = new Map(currentUserBets)
+    let betsChanged = false
     
     // If odds is not selected, automatically select it when EW is clicked
     if (!newSelectedOdds.has(number)) {
       newSelectedOdds.add(number)
       setSelectedOdds(newSelectedOdds)
+      // Place the odds bet
+      addCurrentUserBet(number, stake)
+      const currentAmount1: number = updatedBets.get(number) || 0
+      updatedBets.set(number, currentAmount1 + stake)
+      betsChanged = true
     }
     
     // Toggle EW selection
     if (newSelectedEW.has(number)) {
+      // Deselecting EW - remove EW bet
       newSelectedEW.delete(number)
+      removeCurrentUserBet(number, stake)
+      
+      const currentAmount: number = updatedBets.get(number) || 0
+      const newAmount = Math.max(0, currentAmount - stake)
+      if (newAmount === 0) {
+        updatedBets.delete(number)
+      } else {
+        updatedBets.set(number, newAmount)
+      }
+      betsChanged = true
     } else {
+      // Selecting EW - add EW bet
       newSelectedEW.add(number)
+      addCurrentUserBet(number, stake)
+      const currentAmount2: number = updatedBets.get(number) || 0
+      updatedBets.set(number, currentAmount2 + stake)
+      betsChanged = true
     }
     setSelectedEW(newSelectedEW)
-  }, [selectedOdds, selectedEW, setSelectedOdds, setSelectedEW])
+    
+    // Send bet update immediately with calculated bets
+    if (betsChanged) {
+      sendBetUpdate(updatedBets)
+    }
+  }, [selectedOdds, selectedEW, setSelectedOdds, setSelectedEW, addCurrentUserBet, removeCurrentUserBet, stake, sendBetUpdate, currentUserBets])
 
   // Calculate wager amount based on selected options
   const calculateWager = useCallback((horseNumber) => {
