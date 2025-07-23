@@ -3,46 +3,83 @@ exports.betting = [
     timeSinceVideoStartedInMs: 1000,
     persistInHistory: true,
     action: {
-      channel: "game.betting",
+      channel: 'race.betting',
       data: {
-        id: 1,  //  Race ID
-        title: "Race #1",
-        type: "betting_open",
-        odds: [
-          { id: 1, Name: "Joël Piroe (Leeds)", profit: 1.375 },
-          { id: 2, text: "Daniel James (Leeds)", payout: 1.000 },
-          { id: 3, text: "Sékou Mara (Soton)", payout: 0.500 },
-        ],
-      },
-    },
+        type: 'betting_open',
+        raceId: 1,
+        title: 'Stormhoof Sprint',
+        stake: 5,
+        horses: [
+          {
+            number: 1,
+            name: 'Blazing Comet',
+            trainer: 'Matha Caldwell',
+            jockey: 'Miguel Santiago',
+            age: 2,
+            weight: 133,
+            odds: 2.50
+          },
+          {
+            number: 2,
+            name: 'Thunderstride',
+            trainer: 'Harlan McCoy',
+            jockey: 'Casey O\'Connor',
+            age: 1,
+            weight: 135,
+            odds: 3.75
+          },
+          {
+            number: 3,
+            name: 'Velvet Fury',
+            trainer: 'Yusef Ghani',
+            jockey: 'Lena Hoshino',
+            age: 2,
+            weight: 136,
+            odds: 5.00
+          },
+          {
+            number: 4,
+            name: 'Midnight Charge',
+            trainer: 'Veronica DuBois',
+            jockey: 'Tyrell Banks',
+            age: 1,
+            weight: 131,
+            odds: 7.50
+          },
+          {
+            number: 5,
+            name: 'Iron Mirage',
+            trainer: 'Tomás Rivera',
+            jockey: 'Ricardo Del Mar',
+            age: 2,
+            weight: 130,
+            odds: 11.00
+          }
+        ]
+      }
+    }
   },
   {
-    timeSinceVideoStartedInMs: 48000,
+    timeSinceVideoStartedInMs: 10000,
     persistInHistory: true,
     action: {
-      channel: "game.betting",
+      channel: 'race.betting',
       data: {
-        id: 1,  //  Race ID
-        type: "betting_closed",
-      },
-    },
+        raceId: 1,
+        type: 'betting_closed'
+      }
+    }
   },
   {
-    timeSinceVideoStartedInMs: 58000,
+    timeSinceVideoStartedInMs: 12000,
     persistInHistory: true,
     action: {
-      channel: "game.betting",
+      channel: 'race.betting',
       data: {
-        id: 1,  //  Race ID
-        type: "results",
-        results: [
-          { pos: 1, id: 2, text: "Daniel James (Leeds)", payout: 1.000 },
-          { pos: 2, id: 3, text: "Sékou Mara (Soton)", payout: 0.500 },
-          { pos: 3, id: 1, Name: "Joël Piroe (Leeds)", profit: 1.375 },
-        ],
-      },
-    },
-  },
-];
-
-
+        type: 'betting_results',
+        raceId: 1,
+        raceResults: [4, 2, 1]
+      }
+    }
+  }
+]

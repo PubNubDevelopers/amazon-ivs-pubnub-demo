@@ -243,6 +243,18 @@ const lastEventTime =
     ? matchScript[matchScript.length - 1].timeSinceVideoStartedInMs
     : 0;
 
+// Clear message history for a specific channel
+async function clearHistory(channelId) {
+  try {
+    await pubnub.deleteMessages({
+      channel: channelId
+    });
+    console.log(`History cleared for channel: ${channelId}`);
+  } catch (err) {
+    console.error(`Error clearing history for channel ${channelId}:`, err);
+  }
+}
+
 // Publish a message to PubNub
 async function publishMessage(channel, message, persistInHistory = false) {
   try {
@@ -331,6 +343,11 @@ async function runLoop() {
     // Publish the event
 
     if (!(eventObj.action.channel === "race.chat" && !shouldSendChatMessages)) {
+      // Check for betting open events
+      if (eventObj.action?.channel === "race.betting" && eventObj.action?.data?.type === "betting_open") {
+        await clearHistory("race.betting");
+      }
+      
       await publishMessage(
         eventObj.action.channel,
         eventObj.action.data,
