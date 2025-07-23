@@ -22,23 +22,7 @@ export default function BettingWidget ({
   const [selectedEW, setSelectedEW] = useState(new Set<number>()) // Application-level betting state
   const [totalWagers, setTotalWagers] = useState(new Map<number, number>()) // Total wagers for each horse (horse number -> amount)
   const [pulsatingHorse, setPulsatingHorse] = useState<number | null>(null) // Track which horse should show pulse animation
-  const stake = 5
-
-  // Function to add wager to a horse
-  const addWagerToHorse = useCallback((horseNumber, amount) => {
-    setTotalWagers(prev => {
-      const newWagers = new Map(prev)
-      const currentAmount = newWagers.get(horseNumber) || 0
-      newWagers.set(horseNumber, currentAmount + amount)
-      return newWagers
-    })
-    
-    // Trigger pulse animation
-    setPulsatingHorse(horseNumber)
-    setTimeout(() => setPulsatingHorse(null), 600) // Clear after animation duration
-  }, [])
-  
-  const testBettingData = useMemo(() => [
+  const [currentBets, setCurrentBets] = useState([
     {
       title: "Race 1",
       stake: 5,
@@ -90,7 +74,22 @@ export default function BettingWidget ({
         }
       ]
     }
-  ], [])
+  ])
+  const stake = 5
+
+  // Function to add wager to a horse
+  const addWagerToHorse = useCallback((horseNumber, amount) => {
+    setTotalWagers(prev => {
+      const newWagers = new Map(prev)
+      const currentAmount = newWagers.get(horseNumber) || 0
+      newWagers.set(horseNumber, currentAmount + amount)
+      return newWagers
+    })
+    
+    // Trigger pulse animation
+    setPulsatingHorse(horseNumber)
+    setTimeout(() => setPulsatingHorse(null), 600) // Clear after animation duration
+  }, [])
 
   useEffect(() => {
     if (!chat) return
@@ -141,7 +140,7 @@ export default function BettingWidget ({
         addWagerToHorse={addWagerToHorse}
         pulsatingHorse={pulsatingHorse}
         stake={stake}
-        testBettingData={testBettingData}
+        currentBets={currentBets}
       />
     </div>
   )
@@ -160,7 +159,7 @@ const BettingDashboard = memo(function BettingDashboard ({
   addWagerToHorse,
   pulsatingHorse,
   stake,
-  testBettingData
+  currentBets
 }: {
   bettingStatus: string
   setBettingStatus: (status: string) => void
@@ -173,7 +172,7 @@ const BettingDashboard = memo(function BettingDashboard ({
   addWagerToHorse: (horseNumber: number, amount: number) => void
   pulsatingHorse: number | null
   stake: number
-  testBettingData: Array<{
+  currentBets: Array<{
     title: string
     stake: number
     horses: Array<{
@@ -310,7 +309,7 @@ const BettingDashboard = memo(function BettingDashboard ({
       {/* Table Heading */}
       <div className='flex justify-between items-center mb-4'>
         <div className='flex items-center gap-3'>
-          <h3 className='text-lg font-semibold text-gray-800'>{testBettingData[0].title}</h3>
+          <h3 className='text-lg font-semibold text-gray-800'>{currentBets[0].title}</h3>
           <div className='flex gap-2'>
             <button
               onClick={() => setBettingStatus('open')}
@@ -389,7 +388,7 @@ const BettingDashboard = memo(function BettingDashboard ({
             </tr>
           </thead>
           <tbody className='divide-y divide-gray-200'>
-            {testBettingData[0].horses.map((horse) => (
+            {currentBets[0].horses.map((horse) => (
               <tr key={horse.number} className={`transition-colors ${getPositionStyling(horse.number)}`}>
                 {/* Desktop Layout */}
                 {/* Horse Number */}
