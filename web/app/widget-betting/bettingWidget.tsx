@@ -27,6 +27,7 @@ export default function BettingWidget ({
   const [showResultsPopup, setShowResultsPopup] = useState(false)
   const [winningsData, setWinningsData] = useState<any>(null)
   const [processedRaceResults, setProcessedRaceResults] = useState<string>('')
+  const [isHistoricalResults, setIsHistoricalResults] = useState(false)
   const [currentRace, setCurrentRace] = useState<{
     title: string
     stake: number
@@ -61,6 +62,7 @@ export default function BettingWidget ({
       setCurrentUserBets(new Map())
       setShowResultsPopup(false)
       setProcessedRaceResults('')
+      setIsHistoricalResults(false)
     } else if (message.type === 'user_bets') {
       //console.log('Received user_bets message:', JSON.stringify(message, null, 2))
       
@@ -124,7 +126,7 @@ export default function BettingWidget ({
       if (message.raceResults) {
         setRaceResults(message.raceResults)
       }
-      console.log('TODO: CALCULATE WINNINGS AND INITIATE PAYOUTS')
+      setIsHistoricalResults(isFromHistoricalFetch)
       // Winnings calculation will be triggered by useEffect when betting status changes
     }
   }, [setBettingStatus, chat])
@@ -191,7 +193,6 @@ export default function BettingWidget ({
     // Prevent duplicate processing of the same race results
     const raceResultsKey = `${currentRace.title}-${raceResults.join('-')}`
     if (processedRaceResults === raceResultsKey) {
-      console.log('Race results already processed, skipping calculation')
       return
     }
     
@@ -199,12 +200,7 @@ export default function BettingWidget ({
     let totalWinnings = 0
     const horseBets: any[] = []
     
-    console.log('=== BETTING RESULTS CALCULATION ===')
-    console.log('Race Results:', raceResults)
-    console.log('Current User Bets:', currentUserBets)
-    console.log('Selected Odds:', Array.from(selectedOdds))
-    console.log('Selected Each Way:', Array.from(selectedEW))
-    
+   
     // Iterate through all current user's bets
     currentUserBets.forEach((betAmount, horseNumber) => {
       if (betAmount > 0) {
@@ -276,11 +272,6 @@ export default function BettingWidget ({
     })
     
     const overallProfit = totalWinnings - totalBetAmount
-    console.log(`\n=== OVERALL RESULTS ===`)
-    console.log(`Total Bet: ${currencySymbol}${totalBetAmount}`)
-    console.log(`Total Winnings: ${currencySymbol}${totalWinnings.toFixed(2)}`)
-    console.log(`Overall Profit/Loss: ${overallProfit >= 0 ? '+' : ''}${currencySymbol}${overallProfit.toFixed(2)}`)
-    console.log('=============================\n')
     
     const results = { 
       totalBetAmount, 
@@ -294,10 +285,8 @@ export default function BettingWidget ({
     setWinningsData(results)
     setShowResultsPopup(true)
     
-    // Update user's wallet with winnings/losses
-    if (overallProfit !== 0) {
-      console.log(`Updating wallet: ${overallProfit >= 0 ? 'Adding' : 'Removing'} ${currencySymbol}${Math.abs(overallProfit).toFixed(2)}`)
-      console.log(`Current wallet value being used: ${currencySymbol}${currentWallet}`)
+    // Update user's wallet with winnings/losses (only for real-time results, not historical)
+    if (overallProfit !== 0 && !isHistoricalResults) {
       AwardWallet(chat, overallProfit, currentWallet)
     }
     
@@ -305,7 +294,7 @@ export default function BettingWidget ({
     setProcessedRaceResults(raceResultsKey)
     
     return results
-  }, [bettingStatus, currentRace, raceResults, currentUserBets, selectedOdds, selectedEW, stake, chat, processedRaceResults])
+  }, [bettingStatus, currentRace, raceResults, currentUserBets, selectedOdds, selectedEW, stake, chat, processedRaceResults, isHistoricalResults])
 
   // Trigger winnings calculation when betting results come in
   useEffect(() => {
