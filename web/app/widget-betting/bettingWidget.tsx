@@ -49,12 +49,9 @@ export default function BettingWidget ({
       setBettingStatus('open')
       // Clear all previous bets when new betting opens
       setAllUserBets(new Map())
-      // If this is from historical fetch, also clear current user's UI state
-      if (isFromHistoricalFetch) {
-        setSelectedOdds(new Set())
-        setSelectedEW(new Set())
-        setCurrentUserBets(new Map())
-      }
+      setSelectedOdds(new Set())
+      setSelectedEW(new Set())
+      setCurrentUserBets(new Map())
     } else if (message.type === 'user_bets') {
       console.log('Received user_bets message:', JSON.stringify(message, null, 2))
       
@@ -110,6 +107,8 @@ export default function BettingWidget ({
         setSelectedEW(newSelectedEW)
         setCurrentUserBets(newCurrentUserBets)
       }
+    } else if (message.type === 'betting_closed') {
+      setBettingStatus('closed')
     }
   }, [setBettingStatus, chat])
 
@@ -582,7 +581,16 @@ const BettingDashboard = memo(function BettingDashboard ({
               Open
             </button>
             <button
-              onClick={() => setBettingStatus('closed')}
+              onClick={() => {
+                if (chat) {
+                  chat.sdk.publish({
+                    message: {
+                      type: 'betting_closed'
+                    },
+                    channel: bettingChannelId
+                  })
+                }
+              }}
               className='px-3 py-1 text-xs font-medium bg-red-500 text-white rounded hover:bg-red-600 transition-colors'
             >
               Close
