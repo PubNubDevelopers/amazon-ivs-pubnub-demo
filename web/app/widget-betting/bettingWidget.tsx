@@ -24,6 +24,8 @@ export default function BettingWidget ({
   const [raceResults, setRaceResults] = useState([1, 3, 2]) // Top 3 finishers by horse number [1st, 2nd, 3rd]
   const [selectedOdds, setSelectedOdds] = useState(new Set<number>()) // Application-level betting state
   const [selectedEW, setSelectedEW] = useState(new Set<number>()) // Application-level betting state
+  const [showResultsPopup, setShowResultsPopup] = useState(false)
+  const [winningsData, setWinningsData] = useState<any>(null)
   const [currentRace, setCurrentRace] = useState<{
     title: string
     stake: number
@@ -56,6 +58,7 @@ export default function BettingWidget ({
       setSelectedOdds(new Set())
       setSelectedEW(new Set())
       setCurrentUserBets(new Map())
+      setShowResultsPopup(false)
     } else if (message.type === 'user_bets') {
       //console.log('Received user_bets message:', JSON.stringify(message, null, 2))
       
@@ -113,6 +116,7 @@ export default function BettingWidget ({
       }
     } else if (message.type === 'betting_closed') {
       setBettingStatus('closed')
+      setShowResultsPopup(false)
     } else if (message.type === 'betting_results') {
       setBettingStatus('results')
       if (message.raceResults) {
@@ -177,6 +181,119 @@ export default function BettingWidget ({
       return newBets
     })
   }, [])
+
+  // Calculate current user's winnings/losses - moved to main component
+  const calculateCurrentUserWinnings = useCallback(() => {
+    if (bettingStatus !== 'results' || !currentRace?.horses) return
+    
+    let totalBetAmount = 0
+    let totalWinnings = 0
+    const horseBets: any[] = []
+    
+    console.log('=== BETTING RESULTS CALCULATION ===')
+    console.log('Race Results:', raceResults)
+    console.log('Current User Bets:', currentUserBets)
+    console.log('Selected Odds:', Array.from(selectedOdds))
+    console.log('Selected Each Way:', Array.from(selectedEW))
+    
+    // Iterate through all current user's bets
+    currentUserBets.forEach((betAmount, horseNumber) => {
+      if (betAmount > 0) {
+        const horse = currentRace?.horses?.find(h => h.number === horseNumber)
+        if (!horse) return
+        
+        console.log(`\n--- Horse ${horseNumber} (${horse.name}) ---`)
+        
+        // Calculate bet amounts
+        let horseBetAmount = 0
+        let horseWinningsAmount = 0
+        const betTypes: any[] = []
+        
+        // Check if user placed odds bet (win only)
+        const hasOddsBet = selectedOdds.has(horseNumber)
+        const hasEWBet = selectedEW.has(horseNumber)
+        
+        if (hasOddsBet) {
+          horseBetAmount += stake
+          console.log(`Win bet: ${currencySymbol}${stake}`)
+          
+          // Check if odds bet won (horse finished 1st)
+          const wonOdds = selectedOdds.has(horseNumber) && horseNumber === raceResults[0]
+          if (wonOdds) {
+            const winAmount = stake * horse.odds
+            horseWinningsAmount += winAmount
+            betTypes.push({ type: 'Win', amount: stake, won: true, payout: winAmount })
+            console.log(`Win bet WON: ${currencySymbol}${winAmount.toFixed(2)} (${stake} × ${horse.odds})`)
+          } else {
+            betTypes.push({ type: 'Win', amount: stake, won: false, payout: 0 })
+            console.log(`Win bet LOST`)
+          }
+        }
+        
+        if (hasEWBet) {
+          horseBetAmount += stake
+          console.log(`Each Way bet: ${currencySymbol}${stake}`)
+          
+          // Check if each way bet won (horse finished in top 3)
+          const wonEW = selectedEW.has(horseNumber) && raceResults.includes(horseNumber)
+          if (wonEW) {
+            // Calculate place winnings manually since we don't have access to calculateHorseWinnings here
+            const placePart = stake + (stake * ((horse.odds - 1) / 5))
+            horseWinningsAmount += placePart
+            const position = raceResults.indexOf(horseNumber) + 1
+            betTypes.push({ type: 'Each Way', amount: stake, won: true, payout: placePart, position })
+            console.log(`Each Way bet WON (${position}${position === 1 ? 'st' : position === 2 ? 'nd' : 'rd'}): ${currencySymbol}${placePart.toFixed(2)}`)
+          } else {
+            betTypes.push({ type: 'Each Way', amount: stake, won: false, payout: 0 })
+            console.log(`Each Way bet LOST`)
+          }
+        }
+        
+        totalBetAmount += horseBetAmount
+        totalWinnings += horseWinningsAmount
+        
+        const horseProfit = horseWinningsAmount - horseBetAmount
+        console.log(`Horse Total: Bet ${currencySymbol}${horseBetAmount}, Won ${currencySymbol}${horseWinningsAmount.toFixed(2)}, Profit/Loss: ${horseProfit >= 0 ? '+' : ''}${currencySymbol}${horseProfit.toFixed(2)}`)
+        
+        horseBets.push({
+          horseNumber,
+          horseName: horse.name,
+          totalBet: horseBetAmount,
+          totalWon: horseWinningsAmount,
+          profit: horseProfit,
+          betTypes
+        })
+      }
+    })
+    
+    const overallProfit = totalWinnings - totalBetAmount
+    console.log(`\n=== OVERALL RESULTS ===`)
+    console.log(`Total Bet: ${currencySymbol}${totalBetAmount}`)
+    console.log(`Total Winnings: ${currencySymbol}${totalWinnings.toFixed(2)}`)
+    console.log(`Overall Profit/Loss: ${overallProfit >= 0 ? '+' : ''}${currencySymbol}${overallProfit.toFixed(2)}`)
+    console.log('=============================\n')
+    
+    const results = { 
+      totalBetAmount, 
+      totalWinnings, 
+      overallProfit,
+      horseBets,
+      raceResults
+    }
+    
+    // Store data and show popup
+    setWinningsData(results)
+    setShowResultsPopup(true)
+    
+    return results
+  }, [bettingStatus, currentRace, raceResults, currentUserBets, selectedOdds, selectedEW, stake])
+
+  // Trigger winnings calculation when betting results come in
+  useEffect(() => {
+    if (bettingStatus === 'results' && raceResults.length > 0) {
+      calculateCurrentUserWinnings()
+    }
+  }, [bettingStatus, raceResults, calculateCurrentUserWinnings])
 
   useEffect(() => {
     if (!chat) return
@@ -286,6 +403,100 @@ export default function BettingWidget ({
         allUserBets={allUserBets}
         currentWallet={currentWallet}
       />
+      
+      {/* Results Popup */}
+      {showResultsPopup && winningsData && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={() => setShowResultsPopup(false)}>
+          <div className="bg-white rounded-lg p-6 max-w-lg w-full mx-4 max-h-[80vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-bold text-gray-800">Betting Results</h2>
+              <button 
+                onClick={() => setShowResultsPopup(false)}
+                className="text-gray-500 hover:text-gray-700 text-2xl leading-none"
+                aria-label="Close"
+              >
+                ×
+              </button>
+            </div>
+            
+            {/* Race Results */}
+            <div className="mb-4 p-3 bg-gray-50 rounded">
+              <h3 className="font-semibold text-gray-700 mb-2">Race Finish:</h3>
+              <div className="text-sm">
+                                 1st: {currentRace?.horses?.find(h => h.number === winningsData.raceResults[0])?.name || `Horse #${winningsData.raceResults[0]}`} • 2nd: {currentRace?.horses?.find(h => h.number === winningsData.raceResults[1])?.name || `Horse #${winningsData.raceResults[1]}`} • 3rd: {currentRace?.horses?.find(h => h.number === winningsData.raceResults[2])?.name || `Horse #${winningsData.raceResults[2]}`}
+              </div>
+            </div>
+            
+            {/* Overall Summary */}
+            <div className="mb-4 p-3 bg-blue-50 rounded">
+              <div className="grid grid-cols-3 gap-4 text-center">
+                <div>
+                  <div className="text-xs text-gray-600">Total Bet</div>
+                  <div className="font-semibold">{currencySymbol}{winningsData.totalBetAmount}</div>
+                </div>
+                <div>
+                  <div className="text-xs text-gray-600">Total Won</div>
+                  <div className="font-semibold">{currencySymbol}{winningsData.totalWinnings.toFixed(2)}</div>
+                </div>
+                <div>
+                  <div className="text-xs text-gray-600">Profit/Loss</div>
+                  <div className={`font-semibold ${winningsData.overallProfit >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                    {winningsData.overallProfit >= 0 ? '+' : ''}{currencySymbol}{winningsData.overallProfit.toFixed(2)}
+                  </div>
+                </div>
+                             </div>
+             </div>
+             
+             {/* Wallet Notification */}
+             <div className="mb-4 text-center text-sm">
+               <span className={winningsData.overallProfit >= 0 ? 'text-green-600' : 'text-red-600'}>
+                 {winningsData.overallProfit >= 0 
+                   ? `${currencySymbol}${winningsData.overallProfit.toFixed(2)} has been added to your wallet`
+                   : `${currencySymbol}${Math.abs(winningsData.overallProfit).toFixed(2)} has been removed from your wallet`
+                 }
+               </span>
+             </div>
+             
+             {/* Horse-by-Horse Breakdown */}
+            {winningsData.horseBets.length > 0 && (
+              <div>
+                <h3 className="font-semibold text-gray-700 mb-3">Bet Details:</h3>
+                <div className="space-y-3">
+                  {winningsData.horseBets.map((horseBet: any, index: number) => (
+                    <div key={index} className="border rounded p-3">
+                                             <div className="flex justify-between items-center mb-2">
+                         <span className="font-medium">{horseBet.horseName}</span>
+                        <span className={`font-semibold ${horseBet.profit >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                          {horseBet.profit >= 0 ? '+' : ''}{currencySymbol}{horseBet.profit.toFixed(2)}
+                        </span>
+                      </div>
+                      <div className="space-y-1 text-sm">
+                        {horseBet.betTypes.map((bet: any, betIndex: number) => (
+                          <div key={betIndex} className="flex justify-between">
+                            <span className={bet.won ? 'text-green-700' : 'text-red-700'}>
+                              {bet.type} Bet ({currencySymbol}{bet.amount}) 
+                              {bet.position && ` - ${bet.position}${bet.position === 1 ? 'st' : bet.position === 2 ? 'nd' : 'rd'} place`}
+                            </span>
+                            <span className={bet.won ? 'text-green-700 font-medium' : 'text-red-700'}>
+                              {bet.won ? `+${currencySymbol}${bet.payout.toFixed(2)}` : 'LOST'}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            
+            {winningsData.horseBets.length === 0 && (
+              <div className="text-center text-gray-500 py-4">
+                No bets placed for this race.
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   )
 }
@@ -542,89 +753,6 @@ const BettingDashboard = memo(function BettingDashboard ({
     if (bettingStatus !== 'results') return false
     return selectedEW.has(horse.number) && raceResults.includes(horse.number)
   }, [bettingStatus, selectedEW, raceResults])
-
-  // Calculate current user's winnings/losses
-  const calculateCurrentUserWinnings = useCallback(() => {
-    if (bettingStatus !== 'results' || !currentRace?.horses) return
-    
-    let totalBetAmount = 0
-    let totalWinnings = 0
-    
-    console.log('=== BETTING RESULTS CALCULATION ===')
-    console.log('Race Results:', raceResults)
-    console.log('Current User Bets:', currentUserBets)
-    console.log('Selected Odds:', Array.from(selectedOdds))
-    console.log('Selected Each Way:', Array.from(selectedEW))
-    
-    // Iterate through all current user's bets
-    currentUserBets.forEach((betAmount, horseNumber) => {
-      if (betAmount > 0) {
-        const horse = currentRace?.horses?.find(h => h.number === horseNumber)
-        if (!horse) return
-        
-        console.log(`\n--- Horse ${horseNumber} (${horse.name}) ---`)
-        
-        // Calculate bet amounts
-        let horseBetAmount = 0
-        let horseWinningsAmount = 0
-        
-        // Check if user placed odds bet (win only)
-        const hasOddsBet = selectedOdds.has(horseNumber)
-        const hasEWBet = selectedEW.has(horseNumber)
-        
-        if (hasOddsBet) {
-          horseBetAmount += stake
-          console.log(`Win bet: ${currencySymbol}${stake}`)
-          
-          // Check if odds bet won (horse finished 1st)
-          if (isOddsWon(horse)) {
-            const winAmount = stake * horse.odds
-            horseWinningsAmount += winAmount
-            console.log(`Win bet WON: ${currencySymbol}${winAmount.toFixed(2)} (${stake} × ${horse.odds})`)
-          } else {
-            console.log(`Win bet LOST`)
-          }
-        }
-        
-        if (hasEWBet) {
-          horseBetAmount += stake
-          console.log(`Each Way bet: ${currencySymbol}${stake}`)
-          
-          // Check if each way bet won (horse finished in top 3)
-          if (isEWWon(horse)) {
-            const placeAmount = calculateHorseWinnings(horse, true)
-            horseWinningsAmount += placeAmount
-            const position = raceResults.indexOf(horseNumber) + 1
-            console.log(`Each Way bet WON (${position}${position === 1 ? 'st' : position === 2 ? 'nd' : 'rd'}): ${currencySymbol}${placeAmount.toFixed(2)}`)
-          } else {
-            console.log(`Each Way bet LOST`)
-          }
-        }
-        
-        totalBetAmount += horseBetAmount
-        totalWinnings += horseWinningsAmount
-        
-        const horseProfit = horseWinningsAmount - horseBetAmount
-        console.log(`Horse Total: Bet ${currencySymbol}${horseBetAmount}, Won ${currencySymbol}${horseWinningsAmount.toFixed(2)}, Profit/Loss: ${horseProfit >= 0 ? '+' : ''}${currencySymbol}${horseProfit.toFixed(2)}`)
-      }
-    })
-    
-    const overallProfit = totalWinnings - totalBetAmount
-    console.log(`\n=== OVERALL RESULTS ===`)
-    console.log(`Total Bet: ${currencySymbol}${totalBetAmount}`)
-    console.log(`Total Winnings: ${currencySymbol}${totalWinnings.toFixed(2)}`)
-    console.log(`Overall Profit/Loss: ${overallProfit >= 0 ? '+' : ''}${currencySymbol}${overallProfit.toFixed(2)}`)
-    console.log('=============================\n')
-    
-    return { totalBetAmount, totalWinnings, overallProfit }
-  }, [bettingStatus, currentRace, raceResults, currentUserBets, selectedOdds, selectedEW, stake, isOddsWon, isEWWon, calculateHorseWinnings])
-
-  // Trigger winnings calculation when betting results come in
-  useEffect(() => {
-    if (bettingStatus === 'results' && raceResults.length > 0) {
-      calculateCurrentUserWinnings()
-    }
-  }, [bettingStatus, raceResults, calculateCurrentUserWinnings])
 
   // Get total wager amount for a horse
   const getTotalWager = useCallback((horseNumber) => {
