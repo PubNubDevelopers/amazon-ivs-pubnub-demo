@@ -20,7 +20,6 @@ export default function BettingWidget ({
   const [raceResults, setRaceResults] = useState([1, 3, 2]) // Top 3 finishers by horse number [1st, 2nd, 3rd]
   const [selectedOdds, setSelectedOdds] = useState(new Set<number>()) // Application-level betting state
   const [selectedEW, setSelectedEW] = useState(new Set<number>()) // Application-level betting state
-  const [totalWagers, setTotalWagers] = useState(new Map<number, number>()) // Total wagers for each horse (horse number -> amount)
   const [pulsatingHorse, setPulsatingHorse] = useState<number | null>(null) // Track which horse should show pulse animation
   const [currentRace, setCurrentRace] = useState<{
     title: string
@@ -79,21 +78,9 @@ export default function BettingWidget ({
 
   const stake = 5
 
-  // Function to add wager to a horse
-  const addWagerToHorse = useCallback((horseNumber, amount) => {
-    setTotalWagers(prev => {
-      const newWagers = new Map(prev)
-      const currentAmount = newWagers.get(horseNumber) || 0
-      newWagers.set(horseNumber, currentAmount + amount)
-      return newWagers
-    })
-    
-    // Trigger pulse animation
-    setPulsatingHorse(horseNumber)
-    setTimeout(() => setPulsatingHorse(null), 600) // Clear after animation duration
-  }, [])
 
-  // Add wager to current user's bets and to total wagers
+
+  // Add wager to current user's bets
   const addCurrentUserBet = useCallback((horseNumber: number, amount: number) => {
     setCurrentUserBets(prev => {
       const newBets = new Map(prev)
@@ -101,12 +88,9 @@ export default function BettingWidget ({
       newBets.set(horseNumber, currentAmount + amount)
       return newBets
     })
-    
-    // Also add to total wagers (for display purposes)
-    addWagerToHorse(horseNumber, amount)
-  }, [addWagerToHorse])
+  }, [])
 
-  // Remove wager from current user's bets and from total wagers
+  // Remove wager from current user's bets
   const removeCurrentUserBet = useCallback((horseNumber: number, amount: number) => {
     setCurrentUserBets(prev => {
       const newBets = new Map(prev)
@@ -118,19 +102,6 @@ export default function BettingWidget ({
         newBets.set(horseNumber, newAmount)
       }
       return newBets
-    })
-    
-    // Also remove from total wagers (for display purposes)
-    setTotalWagers(prev => {
-      const newWagers = new Map(prev)
-      const currentAmount = newWagers.get(horseNumber) || 0
-      const newAmount = Math.max(0, currentAmount - amount)
-      if (newAmount === 0) {
-        newWagers.delete(horseNumber)
-      } else {
-        newWagers.set(horseNumber, newAmount)
-      }
-      return newWagers
     })
   }, [])
 
@@ -232,8 +203,6 @@ export default function BettingWidget ({
         setSelectedOdds={setSelectedOdds}
         selectedEW={selectedEW}
         setSelectedEW={setSelectedEW}
-        totalWagers={totalWagers}
-        addWagerToHorse={addWagerToHorse}
         pulsatingHorse={pulsatingHorse}
         stake={stake}
         currentRace={currentRace}
@@ -256,8 +225,6 @@ const BettingDashboard = memo(function BettingDashboard ({
   setSelectedOdds,
   selectedEW,
   setSelectedEW,
-  totalWagers,
-  addWagerToHorse,
   pulsatingHorse,
   stake,
   currentRace,
@@ -274,8 +241,6 @@ const BettingDashboard = memo(function BettingDashboard ({
   setSelectedOdds: (odds: Set<number>) => void
   selectedEW: Set<number>
   setSelectedEW: (ew: Set<number>) => void
-  totalWagers: Map<number, number>
-  addWagerToHorse: (horseNumber: number, amount: number) => void
   pulsatingHorse: number | null
   stake: number
   currentRace: {
@@ -449,11 +414,10 @@ const BettingDashboard = memo(function BettingDashboard ({
     return wonOnOdds || wonOnEW
   }, [bettingStatus, selectedOdds, selectedEW, raceResults])
 
-  // Get total wager amount for a horse
+  // Get total wager amount for a horse (now always blank)
   const getTotalWager = useCallback((horseNumber) => {
-    const amount = totalWagers.get(horseNumber) || 0
-    return amount > 0 ? `£${amount}` : ''
-  }, [totalWagers])
+    return ''
+  }, [])
 
   // Memoize position styling function
   const getPositionStyling = useCallback((horseNumber) => {
@@ -558,18 +522,7 @@ const BettingDashboard = memo(function BettingDashboard ({
             >
               Results
             </button>
-            <button
-              onClick={() => addWagerToHorse(1, 10)}
-              className='px-3 py-1 text-xs font-medium bg-purple-500 text-white rounded hover:bg-purple-600 transition-colors'
-            >
-              Add £10 to Horse 1
-            </button>
-            <button
-              onClick={() => addWagerToHorse(3, 10)}
-              className='px-3 py-1 text-xs font-medium bg-purple-500 text-white rounded hover:bg-purple-600 transition-colors'
-            >
-              Add £10 to Horse 3
-            </button>
+
             <button
               onClick={() => {
                 if (chat) {
