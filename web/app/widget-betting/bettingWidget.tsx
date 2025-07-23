@@ -22,6 +22,20 @@ export default function BettingWidget ({
   const [selectedEW, setSelectedEW] = useState(new Set<number>()) // Application-level betting state
   const [totalWagers, setTotalWagers] = useState(new Map<number, number>()) // Total wagers for each horse (horse number -> amount)
   const [pulsatingHorse, setPulsatingHorse] = useState<number | null>(null) // Track which horse should show pulse animation
+  const [currentBets, setCurrentBets] = useState<Array<{
+    title: string
+    stake: number
+    horses: Array<{
+      number: number
+      name: string
+      trainer: string
+      jockey: string
+      age: number
+      weight: number
+      odds: number
+    }>
+  }>>([])
+/*
   const [currentBets, setCurrentBets] = useState([
     {
       title: "Race 1",
@@ -74,7 +88,7 @@ export default function BettingWidget ({
         }
       ]
     }
-  ])
+  ])*/
   const stake = 5
 
   // Function to add wager to a horse
@@ -101,7 +115,11 @@ export default function BettingWidget ({
     subscriptionSet.onMessage = messageEvent => {
       if (messageEvent.channel == bettingChannelId) {
         //  New message in the betting channel
-        //  todo - process new betting message
+        if (messageEvent.message.type === 'betting_open') {
+          // Extract the betting data (everything except the type field)
+          const { type, ...bettingData } = messageEvent.message
+          setCurrentBets([bettingData])
+        }
       }
     }
     subscriptionSet.subscribe()
@@ -141,6 +159,7 @@ export default function BettingWidget ({
         pulsatingHorse={pulsatingHorse}
         stake={stake}
         currentBets={currentBets}
+        chat={chat}
       />
     </div>
   )
@@ -159,7 +178,8 @@ const BettingDashboard = memo(function BettingDashboard ({
   addWagerToHorse,
   pulsatingHorse,
   stake,
-  currentBets
+  currentBets,
+  chat
 }: {
   bettingStatus: string
   setBettingStatus: (status: string) => void
@@ -185,6 +205,7 @@ const BettingDashboard = memo(function BettingDashboard ({
       odds: number
     }>
   }>
+  chat: any
 }) {
 
   // Convert pounds to stone and pounds
@@ -309,10 +330,68 @@ const BettingDashboard = memo(function BettingDashboard ({
       {/* Table Heading */}
       <div className='flex justify-between items-center mb-4'>
         <div className='flex items-center gap-3'>
-          <h3 className='text-lg font-semibold text-gray-800'>{currentBets[0].title}</h3>
+          <h3 className='text-lg font-semibold text-gray-800'>{currentBets[0]?.title}</h3>
           <div className='flex gap-2'>
             <button
-              onClick={() => setBettingStatus('open')}
+              onClick={() => {
+                if (chat) {
+                  chat.sdk.publish({
+                    message: {
+                      type: 'betting_open',
+                      title: "Race 1",
+                      stake: 5,
+                      horses: [
+                        {
+                          number: 1,
+                          name: 'Horse Name',
+                          trainer: 'Trainer Name',
+                          jockey: 'Jockey Name',
+                          age: 2,
+                          weight: 133,
+                          odds: 11.00
+                        },
+                        {
+                          number: 2,
+                          name: 'Another Horse Name',
+                          trainer: 'Another Trainer Name',
+                          jockey: 'Another Jockey Name',
+                          age: 2,
+                          weight: 135,
+                          odds: 2.5
+                        },
+                        {
+                          number: 3,
+                          name: 'Another Horse Name',
+                          trainer: 'Another Trainer Name',
+                          jockey: 'Another Jockey Name',
+                          age: 2,
+                          weight: 135,
+                          odds: 2.5
+                        },
+                        {
+                          number: 4,
+                          name: 'Another Horse Name',
+                          trainer: 'Another Trainer Name',
+                          jockey: 'Another Jockey Name',
+                          age: 2,
+                          weight: 135,
+                          odds: 2.5
+                        },
+                        {
+                          number: 5,
+                          name: 'Another Horse Name',
+                          trainer: 'Another Trainer Name',
+                          jockey: 'Another Jockey Name',
+                          age: 2,
+                          weight: 135,
+                          odds: 2.5
+                        }
+                      ]
+                    },
+                    channel: bettingChannelId
+                  })
+                }
+              }}
               className='px-3 py-1 text-xs font-medium bg-green-500 text-white rounded hover:bg-green-600 transition-colors'
             >
               Open
@@ -388,7 +467,7 @@ const BettingDashboard = memo(function BettingDashboard ({
             </tr>
           </thead>
           <tbody className='divide-y divide-gray-200'>
-            {currentBets[0].horses.map((horse) => (
+            {currentBets[0]?.horses.map((horse) => (
               <tr key={horse.number} className={`transition-colors ${getPositionStyling(horse.number)}`}>
                 {/* Desktop Layout */}
                 {/* Horse Number */}
