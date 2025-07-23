@@ -20,7 +20,6 @@ export default function BettingWidget ({
   const [raceResults, setRaceResults] = useState([1, 3, 2]) // Top 3 finishers by horse number [1st, 2nd, 3rd]
   const [selectedOdds, setSelectedOdds] = useState(new Set<number>()) // Application-level betting state
   const [selectedEW, setSelectedEW] = useState(new Set<number>()) // Application-level betting state
-  const [pulsatingHorse, setPulsatingHorse] = useState<number | null>(null) // Track which horse should show pulse animation
   const [currentRace, setCurrentRace] = useState<{
     title: string
     stake: number
@@ -41,68 +40,6 @@ export default function BettingWidget ({
   // Track all user bets across all users (Map<userId, Map<horseNumber, amount>>)
   const [allUserBets, setAllUserBets] = useState<Map<string, Map<number, number>>>(new Map())
 
-  // Track previous totals to detect changes and trigger pulse animation
-  const previousTotalsRef = useRef<Map<number, number>>(new Map())
-  const pulseTimeoutRef = useRef<NodeJS.Timeout | null>(null)
-
-  // Calculate current totals for all horses
-  const getCurrentTotals = useCallback(() => {
-    const totals = new Map<number, number>()
-    
-    // Get all unique horse numbers from current race
-    if (currentRace?.horses) {
-      currentRace.horses.forEach(horse => {
-        let total = 0
-        allUserBets.forEach((userBets) => {
-          const userBetOnHorse = userBets.get(horse.number) || 0
-          total += userBetOnHorse
-        })
-        totals.set(horse.number, total)
-      })
-    }
-    
-    return totals
-  }, [allUserBets, currentRace])
-
-  // Effect to detect total wager changes and trigger pulse animation
-  useEffect(() => {
-    const currentTotals = getCurrentTotals()
-    const previousTotals = previousTotalsRef.current
-    
-    // Find horses whose totals have changed
-    currentTotals.forEach((currentTotal, horseNumber) => {
-      const previousTotal = previousTotals.get(horseNumber) || 0
-      
-      // If total changed (and we have previous data to compare against)
-      if (currentTotal !== previousTotal && previousTotals.size > 0) {
-        // Clear any existing pulse timeout
-        if (pulseTimeoutRef.current) {
-          clearTimeout(pulseTimeoutRef.current)
-        }
-        
-        // Start pulsing this horse
-        setPulsatingHorse(horseNumber)
-        
-        // Clear the pulsating state after 2 seconds
-        pulseTimeoutRef.current = setTimeout(() => {
-          setPulsatingHorse(null)
-          pulseTimeoutRef.current = null
-        }, 2000)
-      }
-    })
-    
-    // Update previous totals for next comparison
-    previousTotalsRef.current = new Map(currentTotals)
-    
-    // Cleanup function to clear timeout if component unmounts
-    return () => {
-      if (pulseTimeoutRef.current) {
-        clearTimeout(pulseTimeoutRef.current)
-        pulseTimeoutRef.current = null
-      }
-    }
-  }, [allUserBets, getCurrentTotals])
-
   // Process a single message (both real-time and historical)
   const processMessage = useCallback((message: any) => {
     if (message.type === 'betting_open') {
@@ -112,14 +49,6 @@ export default function BettingWidget ({
       setBettingStatus('open')
       // Clear all previous bets when new betting opens
       setAllUserBets(new Map())
-      // Clear previous totals to avoid false pulse triggers
-      previousTotalsRef.current = new Map()
-      // Clear any existing pulse animation
-      setPulsatingHorse(null)
-      if (pulseTimeoutRef.current) {
-        clearTimeout(pulseTimeoutRef.current)
-        pulseTimeoutRef.current = null
-      }
     } else if (message.type === 'user_bets') {
       console.log('Received user_bets message:', JSON.stringify(message, null, 2))
       
@@ -301,7 +230,6 @@ export default function BettingWidget ({
         setSelectedOdds={setSelectedOdds}
         selectedEW={selectedEW}
         setSelectedEW={setSelectedEW}
-        pulsatingHorse={pulsatingHorse}
         stake={stake}
         currentRace={currentRace}
         chat={chat}
@@ -324,7 +252,6 @@ const BettingDashboard = memo(function BettingDashboard ({
   setSelectedOdds,
   selectedEW,
   setSelectedEW,
-  pulsatingHorse,
   stake,
   currentRace,
   chat,
@@ -341,7 +268,6 @@ const BettingDashboard = memo(function BettingDashboard ({
   setSelectedOdds: (odds: Set<number>) => void
   selectedEW: Set<number>
   setSelectedEW: (ew: Set<number>) => void
-  pulsatingHorse: number | null
   stake: number
   currentRace: {
     title: string
@@ -763,11 +689,7 @@ const BettingDashboard = memo(function BettingDashboard ({
                 
                 {/* Total Wager */}
                 <td className='px-3 py-4 text-center'>
-                  <div className={`text-sm font-medium text-gray-900 ${
-                    pulsatingHorse === horse.number 
-                      ? 'animate-wager-pulse text-blue-600 font-bold' 
-                      : ''
-                  }`}>
+                  <div className='text-sm font-medium text-gray-900'>
                     {getTotalWager(horse.number)}
                   </div>
                 </td>
