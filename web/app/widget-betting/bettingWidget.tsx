@@ -53,7 +53,7 @@ export default function BettingWidget ({
       setSelectedEW(new Set())
       setCurrentUserBets(new Map())
     } else if (message.type === 'user_bets') {
-      console.log('Received user_bets message:', JSON.stringify(message, null, 2))
+      //console.log('Received user_bets message:', JSON.stringify(message, null, 2))
       
       // Update all user bets with the latest bet for this user
       setAllUserBets(prev => {
@@ -109,6 +109,12 @@ export default function BettingWidget ({
       }
     } else if (message.type === 'betting_closed') {
       setBettingStatus('closed')
+    } else if (message.type === 'betting_results') {
+      setBettingStatus('results')
+      if (message.raceResults) {
+        setRaceResults(message.raceResults)
+      }
+      console.log('TODO: CALCULATE WINNINGS AND INITIATE PAYOUTS')
     }
   }, [setBettingStatus, chat])
 
@@ -596,7 +602,17 @@ const BettingDashboard = memo(function BettingDashboard ({
               Close
             </button>
             <button
-              onClick={() => setBettingStatus('results')}
+              onClick={() => {
+                if (chat) {
+                  chat.sdk.publish({
+                    message: {
+                      type: 'betting_results',
+                      raceResults: [1, 3, 2]
+                    },
+                    channel: bettingChannelId
+                  })
+                }
+              }}
               className='px-3 py-1 text-xs font-medium bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors'
             >
               Results
