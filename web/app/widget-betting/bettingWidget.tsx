@@ -729,7 +729,7 @@ const BettingDashboard = memo(function BettingDashboard ({
                 </td>
                 
                 {/* Your Wager */}
-                <td className='px-3 py-4'>
+                <td className='px-3 py-4 whitespace-nowrap'>
                   <div className='flex flex-col'>
                     <div className={`text-sm flex items-center gap-1 ${
                       isWagerWon(horse) 
@@ -749,7 +749,7 @@ const BettingDashboard = memo(function BettingDashboard ({
                 </td>
                 
                 {/* Total Wager */}
-                <td className='px-3 py-4 text-center'>
+                <td className='px-1 sm:px-3 py-4 text-center'>
                   <div className='text-sm font-medium text-gray-900'>
                     {getTotalWager(horse.number)}
                   </div>
