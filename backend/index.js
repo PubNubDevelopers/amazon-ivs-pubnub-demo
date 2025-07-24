@@ -4,6 +4,7 @@
 
 require("dotenv").config();
 const PubNub = require("pubnub");
+const { spawn } = require("child_process");
 
 // Import the data modules:
 const { chat } = require("./game-data/chat.js");
@@ -23,6 +24,16 @@ const pubnub = new PubNub({
 
 // Track vote counts for each poll
 let voteCounts = {};
+
+// Track FFmpeg process
+let ffmpegProcess = null;
+
+// FFmpeg configuration constants
+const FFMPEG_CONFIG = {
+  INPUT_FILENAME: 'racenight_combined_timecoded_1.mp4.mov',
+  INGEST_SERVER: 'rtmps://5167a9755a8b.global-contribute.live-video.net:443/app',
+  STREAM_KEY: 'sk_us-west-2_RbDvsRS2vZ2v_NKRpbbDHzw9FZJaK0p8e2xRprvv2EQ'
+};
 
 // Subscribe to control events from the UI
 const CONTROL_CHANNEL = "game.server-video-control";
@@ -106,6 +117,12 @@ async function handleControlMessage(msg) {
       //runOnDemandScript(onDemandScript, delay);
 
       break;
+    case "START_FFMPEG_STREAM":
+      await handleStartFFmpegStream();
+      break;
+    case "STOP_FFMPEG_STREAM":
+      await handleStopFFmpegStream();
+      break;
     default:
       console.log("[Control] Unknown control type:", msg.type);
   }
@@ -143,6 +160,93 @@ async function handleVoteMessage(msg) {
     voteCounts[pollId][choiceId] = 0;
   }
   voteCounts[pollId][choiceId]++;
+}
+
+async function handleStartFFmpegStream() {
+  console.log("[FFmpeg] Starting FFmpeg stream process...");
+  
+  // Check if FFmpeg process is already running
+  if (ffmpegProcess && !ffmpegProcess.killed) {
+    console.log("[FFmpeg] FFmpeg process is already running");
+    return;
+  }
+
+  // FFmpeg command arguments
+  const ffmpegArgs = [
+    '-re',
+    '-i', FFMPEG_CONFIG.INPUT_FILENAME,
+    '-c:v', 'libx264',
+    '-preset', 'veryfast',
+    '-maxrate', '3000k',
+    '-bufsize', '6000k',
+    '-g', '60',
+    '-c:a', 'aac',
+    '-b:a', '160k',
+    '-ar', '44100',
+    '-f', 'flv',
+    `${FFMPEG_CONFIG.INGEST_SERVER}/${FFMPEG_CONFIG.STREAM_KEY}`
+  ];
+
+  try {
+    // Spawn FFmpeg process
+    ffmpegProcess = spawn('ffmpeg', ffmpegArgs, {
+      stdio: ['pipe', 'pipe', 'pipe']
+    });
+
+    console.log(`[FFmpeg] FFmpeg process started with PID: ${ffmpegProcess.pid}`);
+
+    // Handle stdout
+    ffmpegProcess.stdout.on('data', (data) => {
+      console.log(`[FFmpeg stdout] ${data}`);
+    });
+
+    // Handle stderr (FFmpeg sends most output to stderr)
+    ffmpegProcess.stderr.on('data', (data) => {
+      console.log(`[FFmpeg stderr] ${data}`);
+    });
+
+    // Handle process exit
+    ffmpegProcess.on('close', (code) => {
+      console.log(`[FFmpeg] Process exited with code ${code}`);
+      ffmpegProcess = null;
+    });
+
+    // Handle process error
+    ffmpegProcess.on('error', (error) => {
+      console.error(`[FFmpeg] Process error: ${error.message}`);
+      ffmpegProcess = null;
+    });
+
+  } catch (error) {
+    console.error(`[FFmpeg] Failed to start FFmpeg process: ${error.message}`);
+    ffmpegProcess = null;
+  }
+}
+
+async function handleStopFFmpegStream() {
+  console.log("[FFmpeg] Stopping FFmpeg stream process...");
+  
+  if (!ffmpegProcess || ffmpegProcess.killed) {
+    console.log("[FFmpeg] No FFmpeg process is currently running");
+    return;
+  }
+
+  try {
+    // Send SIGTERM to gracefully stop FFmpeg
+    ffmpegProcess.kill('SIGTERM');
+    console.log(`[FFmpeg] Sent SIGTERM to FFmpeg process PID: ${ffmpegProcess.pid}`);
+    
+    // Set a timeout to force kill if it doesn't stop gracefully
+    setTimeout(() => {
+      if (ffmpegProcess && !ffmpegProcess.killed) {
+        console.log("[FFmpeg] Force killing FFmpeg process...");
+        ffmpegProcess.kill('SIGKILL');
+      }
+    }, 5000); // 5 second timeout
+
+  } catch (error) {
+    console.error(`[FFmpeg] Error stopping FFmpeg process: ${error.message}`);
+  }
 }
 
 async function handlePollResultsMessage(msg) {
@@ -415,12 +519,26 @@ const stopLoop = () => {
 process.on("SIGTERM", () => {
   console.log("SIGTERM received. Shutting down gracefully...");
   stopLoop();
+  
+  // Stop FFmpeg process if running
+  if (ffmpegProcess && !ffmpegProcess.killed) {
+    console.log("Stopping FFmpeg process...");
+    ffmpegProcess.kill('SIGTERM');
+  }
+  
   process.exit(0);
 });
 
 process.on("SIGINT", () => {
   console.log("SIGINT received. Shutting down gracefully...");
   stopLoop();
+  
+  // Stop FFmpeg process if running
+  if (ffmpegProcess && !ffmpegProcess.killed) {
+    console.log("Stopping FFmpeg process...");
+    ffmpegProcess.kill('SIGTERM');
+  }
+  
   process.exit(0);
 });
 
