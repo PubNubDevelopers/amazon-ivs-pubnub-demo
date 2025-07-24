@@ -30,7 +30,7 @@ let ffmpegProcess = null;
 
 // FFmpeg configuration constants
 const FFMPEG_CONFIG = {
-  INPUT_FILENAME: 'racenight_combined_timecoded_1.mp4.mov',
+  INPUT_FILENAME: 'racenight_shorter_timer_1.mp4',
   INGEST_SERVER: 'rtmps://5167a9755a8b.global-contribute.live-video.net:443/app',
   STREAM_KEY: 'sk_us-west-2_RbDvsRS2vZ2v_NKRpbbDHzw9FZJaK0p8e2xRprvv2EQ'
 };
