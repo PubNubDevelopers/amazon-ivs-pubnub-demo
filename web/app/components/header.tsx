@@ -83,7 +83,7 @@ export default function Header ({
       // Draw the current video frame to canvas
       ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
 
-      // Extract timecode region (x: 1540-1680, y: 1040 to bottom)
+      // Extract timecode region (x: 1373 - 1506, y: 1040 to bottom)
       const timecodeRegion = await extractTimecodeRegion(canvas, ctx);
       
       if (timecodeRegion) {
@@ -108,9 +108,9 @@ export default function Header ({
   const extractTimecodeRegion = async (canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) => {
     try {
       // Define the timecode region coordinates
-      const x = 1540;
+      const x = 1373;
       const y = 1040;
-      const width = 1680 - 1540; // 140 pixels wide
+      const width = 1506 - 1373; 
       const height = canvas.height - y; // From y position to bottom
 
       // Ensure coordinates are within canvas bounds

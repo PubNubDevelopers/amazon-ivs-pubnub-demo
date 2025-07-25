@@ -79,6 +79,7 @@ async function handleControlMessage(msg) {
     case "SEEK": {
       if (!intervalId) return;
       const seekTime = msg.params.playbackTime;
+      console.log("SEEKING TO: ", seekTime);
       currentTime = seekTime;
       scriptIndex = matchScript.findIndex(
         (ev) => ev.timeSinceVideoStartedInMs >= currentTime
