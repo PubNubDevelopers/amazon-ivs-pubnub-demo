@@ -30,7 +30,6 @@ let ffmpegProcess = null;
 
 // FFmpeg configuration constants
 const FFMPEG_CONFIG = {
-  INPUT_FILENAME: 'racenight_shorter_timer_1.mp4',
   INGEST_SERVER: 'rtmps://5167a9755a8b.global-contribute.live-video.net:443/app',
   STREAM_KEY: 'sk_us-west-2_RbDvsRS2vZ2v_NKRpbbDHzw9FZJaK0p8e2xRprvv2EQ'
 };
@@ -118,7 +117,7 @@ async function handleControlMessage(msg) {
 
       break;
     case "START_FFMPEG_STREAM":
-      await handleStartFFmpegStream();
+      await handleStartFFmpegStream(msg.params.filename);
       break;
     case "STOP_FFMPEG_STREAM":
       await handleStopFFmpegStream();
@@ -162,7 +161,7 @@ async function handleVoteMessage(msg) {
   voteCounts[pollId][choiceId]++;
 }
 
-async function handleStartFFmpegStream() {
+async function handleStartFFmpegStream(filename) {
   console.log("[FFmpeg] Starting FFmpeg stream process...");
   
   // Check if FFmpeg process is already running
@@ -174,7 +173,7 @@ async function handleStartFFmpegStream() {
   // FFmpeg command arguments
   const ffmpegArgs = [
     '-re',
-    '-i', FFMPEG_CONFIG.INPUT_FILENAME,
+    '-i', filename,
     '-c:v', 'libx264',
     '-preset', 'veryfast',
     '-maxrate', '3000k',
@@ -438,7 +437,7 @@ async function runOnDemandScript(script, delay = 0) {
 // We'll run the timeline in a loop
 async function runLoop() {
   // 1. Check if we have reached or passed the next event in matchScript
-  console.log("currentTime", currentTime);
+  //console.log("currentTime", currentTime);
   while (
     scriptIndex < matchScript.length &&
     matchScript[scriptIndex].timeSinceVideoStartedInMs <= currentTime

@@ -2,7 +2,7 @@ import { Input } from '@heroui/react'
 import React from 'react'
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
-import { adminPin, serverVideoControlChannelId } from '../data/constants'
+import { adminPin, serverVideoControlChannelId, ffmpegStreamFilename } from '../data/constants'
 import { createWorker } from 'tesseract.js'
 
 export default function Header ({
@@ -232,17 +232,20 @@ export default function Header ({
       if (chat) {
         await chat.sdk.publish({
           message: {
-            type: 'START_FFMPEG_STREAM'
+            type: 'START_FFMPEG_STREAM',
+            params: {
+              filename: ffmpegStreamFilename
+            }
           },
           channel: serverVideoControlChannelId
         });
         
         setFfmpegStatus('success')
-        setFfmpegMessage(`Sent command to backend.  BROWSER WILL REFRESH!`)
+        setFfmpegMessage(`Sent command to backend.  BROWSER WILL REFRESH! WAIT.`)
         
         setTimeout(() => {
           window.location.reload()
-        }, 5000)
+        }, 8000)
       } 
     } catch (error) {
       console.error('Error starting FFmpeg stream:', error);
