@@ -2,7 +2,7 @@ import { Input } from '@heroui/react'
 import React from 'react'
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
-import { adminPin, serverVideoControlChannelId } from '../data/constants'
+import { adminPin, serverVideoControlChannelId, ffmpegStreamFilename } from '../data/constants'
 import { createWorker } from 'tesseract.js'
 
 export default function Header ({
@@ -20,6 +20,8 @@ export default function Header ({
   const [pinError, setPinError] = useState('')
   const [syncStatus, setSyncStatus] = useState<'idle' | 'syncing' | 'success' | 'error'>('idle')
   const [syncMessage, setSyncMessage] = useState('')
+  const [ffmpegStatus, setFfmpegStatus] = useState<'idle' | 'starting' | 'stopping' | 'success' | 'error'>('idle')
+  const [ffmpegMessage, setFfmpegMessage] = useState('')
 
   const handlePinSubmit = (e) => {
     e.preventDefault()
@@ -46,6 +48,8 @@ export default function Header ({
     setPinError('')
     setSyncStatus('idle')
     setSyncMessage('')
+    setFfmpegStatus('idle')
+    setFfmpegMessage('')
   }
 
   const captureVideoScreenshot = async () => {
@@ -79,7 +83,7 @@ export default function Header ({
       // Draw the current video frame to canvas
       ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
 
-      // Extract timecode region (x: 1540-1680, y: 1040 to bottom)
+      // Extract timecode region (x: 1373 - 1506, y: 1040 to bottom)
       const timecodeRegion = await extractTimecodeRegion(canvas, ctx);
       
       if (timecodeRegion) {
@@ -104,9 +108,9 @@ export default function Header ({
   const extractTimecodeRegion = async (canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) => {
     try {
       // Define the timecode region coordinates
-      const x = 1540;
+      const x = 1373;
       const y = 1040;
-      const width = 1680 - 1540; // 140 pixels wide
+      const width = 1506 - 1373; 
       const height = canvas.height - y; // From y position to bottom
 
       // Ensure coordinates are within canvas bounds
@@ -217,6 +221,60 @@ export default function Header ({
     } catch (error) {
       console.error('Error parsing timecode:', error);
       return null;
+    }
+  };
+
+  const startFFmpegStream = async () => {
+    setFfmpegStatus('starting')
+    setFfmpegMessage('Starting FFmpeg stream...')
+    
+    try {
+      if (chat) {
+        await chat.sdk.publish({
+          message: {
+            type: 'START_FFMPEG_STREAM',
+            params: {
+              filename: ffmpegStreamFilename
+            }
+          },
+          channel: serverVideoControlChannelId
+        });
+        
+        setFfmpegStatus('success')
+        setFfmpegMessage(`Sent command to backend.  BROWSER WILL REFRESH! WAIT.`)
+        
+        setTimeout(() => {
+          window.location.reload()
+        }, 8000)
+      } 
+    } catch (error) {
+      console.error('Error starting FFmpeg stream:', error);
+    }
+  };
+
+  const stopFFmpegStream = async () => {
+    setFfmpegStatus('stopping')
+    setFfmpegMessage('Stopping FFmpeg stream...')
+    
+    try {
+      if (chat) {
+        await chat.sdk.publish({
+          message: {
+            type: 'STOP_FFMPEG_STREAM'
+          },
+          channel: serverVideoControlChannelId
+        });
+        
+        setFfmpegStatus('success')
+        setFfmpegMessage('Sent command to stop FFmpeg stream')
+        
+        // Auto-close modal after 2 seconds
+        setTimeout(() => {
+          closeModal()
+        }, 2000)
+      }
+    } catch (error) {
+      console.error('Error stopping FFmpeg stream:', error);
     }
   };
 
@@ -446,49 +504,107 @@ export default function Header ({
                 </form>
               </div>
             ) : (
-              <div>
-                {syncStatus === 'idle' && (
-                  <button
-                    onClick={captureVideoScreenshot}
-                    className='w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors'
-                  >
-                    Sync Stream
-                  </button>
-                )}
-                
-                {syncStatus === 'syncing' && (
-                  <div className='space-y-3'>
-                    <button
-                      disabled
-                      className='w-full bg-gray-400 text-white py-2 px-4 rounded-md cursor-not-allowed'
-                    >
-                      Syncing...
-                    </button>
-                    <p className='text-blue-600 text-center'>{syncMessage}</p>
-                  </div>
-                )}
-                
-                {syncStatus === 'success' && (
-                  <div className='space-y-3'>
-                    <div className='w-full bg-green-600 text-white py-2 px-4 rounded-md text-center'>
-                      ✓ Success
-                    </div>
-                    <p className='text-green-600 text-center'>{syncMessage}</p>
-                    <p className='text-gray-500 text-sm text-center'>Modal will close automatically...</p>
-                  </div>
-                )}
-                
-                {syncStatus === 'error' && (
-                  <div className='space-y-3'>
+              <div className='space-y-4'>
+                {/* Sync Stream Section */}
+                <div>
+                  <h3 className='text-lg font-semibold text-gray-900 mb-3'>Stream Synchronization</h3>
+                  {syncStatus === 'idle' && (
                     <button
                       onClick={captureVideoScreenshot}
                       className='w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors'
                     >
-                      Retry Sync
+                      Sync Stream
                     </button>
-                    <p className='text-red-600 text-center'>{syncMessage}</p>
-                  </div>
-                )}
+                  )}
+                  
+                  {syncStatus === 'syncing' && (
+                    <div className='space-y-3'>
+                      <button
+                        disabled
+                        className='w-full bg-gray-400 text-white py-2 px-4 rounded-md cursor-not-allowed'
+                      >
+                        Syncing...
+                      </button>
+                      <p className='text-blue-600 text-center'>{syncMessage}</p>
+                    </div>
+                  )}
+                  
+                  {syncStatus === 'success' && (
+                    <div className='space-y-3'>
+                      <div className='w-full bg-green-600 text-white py-2 px-4 rounded-md text-center'>
+                        ✓ Success
+                      </div>
+                      <p className='text-green-600 text-center'>{syncMessage}</p>
+                      <p className='text-gray-500 text-sm text-center'>Modal will close automatically...</p>
+                    </div>
+                  )}
+                  
+                  {syncStatus === 'error' && (
+                    <div className='space-y-3'>
+                      <button
+                        onClick={captureVideoScreenshot}
+                        className='w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors'
+                      >
+                        Retry Sync
+                      </button>
+                      <p className='text-red-600 text-center'>{syncMessage}</p>
+                    </div>
+                  )}
+                </div>
+
+                {/* FFmpeg Stream Control Section */}
+                <div>
+                  <h3 className='text-lg font-semibold text-gray-900 mb-3'>FFmpeg Stream Control</h3>
+                  {ffmpegStatus === 'idle' && (
+                    <div className='space-y-2'>
+                      <button
+                        onClick={startFFmpegStream}
+                        className='w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 transition-colors'
+                      >
+                        Start FFmpeg Stream
+                      </button>
+                      <button
+                        onClick={stopFFmpegStream}
+                        className='w-full bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 transition-colors'
+                      >
+                        Stop FFmpeg Stream
+                      </button>
+                    </div>
+                  )}
+                  
+                  {ffmpegStatus === 'starting' && (
+                    <div className='space-y-3'>
+                      <button
+                        disabled
+                        className='w-full bg-gray-400 text-white py-2 px-4 rounded-md cursor-not-allowed'
+                      >
+                        Starting...
+                      </button>
+                      <p className='text-blue-600 text-center'>{ffmpegMessage}</p>
+                    </div>
+                  )}
+                  
+                  {ffmpegStatus === 'stopping' && (
+                    <div className='space-y-3'>
+                      <button
+                        disabled
+                        className='w-full bg-gray-400 text-white py-2 px-4 rounded-md cursor-not-allowed'
+                      >
+                        Stopping...
+                      </button>
+                      <p className='text-blue-600 text-center'>{ffmpegMessage}</p>
+                    </div>
+                  )}
+                  
+                  {ffmpegStatus === 'success' && (
+                    <div className='space-y-3'>
+                      <div className='w-full bg-green-600 text-white py-2 px-4 rounded-md text-center'>
+                        ✓ Success
+                      </div>
+                      <p className='text-green-600 text-center'>{ffmpegMessage}</p>
+                    </div>
+                  )}
+                </div>
               </div>
             )}
           </div>
