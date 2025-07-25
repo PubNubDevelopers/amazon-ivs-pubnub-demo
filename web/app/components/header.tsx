@@ -95,9 +95,9 @@ export default function Header ({
         setSyncMessage('Stream synchronized successfully!')
         
         // Auto-close modal after 2 seconds
-        setTimeout(() => {
-          closeModal()
-        }, 2000)
+        //setTimeout(() => {
+        //  closeModal()
+        //}, 2000)
       } else {
         setSyncStatus('error')
         setSyncMessage('Failed to extract timecode from video.')
@@ -273,9 +273,9 @@ export default function Header ({
         setFfmpegMessage('Sent command to stop FFmpeg stream')
         
         // Auto-close modal after 2 seconds
-        setTimeout(() => {
-          closeModal()
-        }, 2000)
+        //setTimeout(() => {
+        //  closeModal()
+        //}, 2000)
       }
     } catch (error) {
       console.error('Error stopping FFmpeg stream:', error);
@@ -299,9 +299,9 @@ export default function Header ({
         setBackendDataMessage('Backend data generator started successfully!')
         
         // Auto-close modal after 2 seconds
-        setTimeout(() => {
-          closeModal()
-        }, 2000)
+        //setTimeout(() => {
+        //  closeModal()
+        //}, 2000)
       }
     } catch (error) {
       console.error('Error starting backend data generator:', error);
@@ -327,9 +327,9 @@ export default function Header ({
         setBackendDataMessage('Backend data generator stopped successfully!')
         
         // Auto-close modal after 2 seconds
-        setTimeout(() => {
-          closeModal()
-        }, 2000)
+        //setTimeout(() => {
+        //  closeModal()
+        //}, 2000)
       }
     } catch (error) {
       console.error('Error stopping backend data generator:', error);
@@ -595,7 +595,7 @@ export default function Header ({
                         ✓ Success
                       </div>
                       <p className='text-green-600 text-center'>{syncMessage}</p>
-                      <p className='text-gray-500 text-sm text-center'>Modal will close automatically...</p>
+                      {/*<p className='text-gray-500 text-sm text-center'>Modal will close automatically...</p>*/}
                     </div>
                   )}
                   
