@@ -3,9 +3,9 @@ exports.commentary = [
     "timeSinceVideoStartedInMs": 1500,
     "persistInHistory": false,
     "action": {
-      "channel": "game.commentary",
+      "channel": "race.commentary",
       "data": {
-        "text": "They flash past the winning post together.",
+        "text": "They're really strung out across the track.",
         "timeCode": "00:00"
       }
     }
@@ -14,9 +14,9 @@ exports.commentary = [
     "timeSinceVideoStartedInMs": 4500,
     "persistInHistory": false,
     "action": {
-      "channel": "game.commentary",
+      "channel": "race.commentary",
       "data": {
-        "text": "Magnificent horsemanship on display here.",
+        "text": "A masterclass in riding from the jockey.",
         "timeCode": "00:03"
       }
     }
@@ -25,9 +25,9 @@ exports.commentary = [
     "timeSinceVideoStartedInMs": 7500,
     "persistInHistory": false,
     "action": {
-      "channel": "game.commentary",
+      "channel": "race.commentary",
       "data": {
-        "text": "They're entering the home straight now.",
+        "text": "A thrilling duel to the finish.",
         "timeCode": "00:06"
       }
     }
@@ -36,9 +36,9 @@ exports.commentary = [
     "timeSinceVideoStartedInMs": 10500,
     "persistInHistory": false,
     "action": {
-      "channel": "game.commentary",
+      "channel": "race.commentary",
       "data": {
-        "text": "The crowd erupts as they cross the line.",
+        "text": "What a thrilling finish we have in store.",
         "timeCode": "00:09"
       }
     }
@@ -47,9 +47,9 @@ exports.commentary = [
     "timeSinceVideoStartedInMs": 13500,
     "persistInHistory": false,
     "action": {
-      "channel": "game.commentary",
+      "channel": "race.commentary",
       "data": {
-        "text": "The pace is beginning to quicken now.",
+        "text": "An incredible burst of speed in the final yards.",
         "timeCode": "00:12"
       }
     }
@@ -58,9 +58,9 @@ exports.commentary = [
     "timeSinceVideoStartedInMs": 16500,
     "persistInHistory": false,
     "action": {
-      "channel": "game.commentary",
+      "channel": "race.commentary",
       "data": {
-        "text": "What a thrilling finish we have in store.",
+        "text": "An incredible burst of speed in the final yards.",
         "timeCode": "00:15"
       }
     }
@@ -69,9 +69,9 @@ exports.commentary = [
     "timeSinceVideoStartedInMs": 19500,
     "persistInHistory": false,
     "action": {
-      "channel": "game.commentary",
+      "channel": "race.commentary",
       "data": {
-        "text": "They're neck and neck as they battle it out.",
+        "text": "They're entering the home straight now.",
         "timeCode": "00:18"
       }
     }
@@ -80,9 +80,9 @@ exports.commentary = [
     "timeSinceVideoStartedInMs": 22500,
     "persistInHistory": false,
     "action": {
-      "channel": "game.commentary",
+      "channel": "race.commentary",
       "data": {
-        "text": "The crowd erupts as they cross the line.",
+        "text": "They're really strung out across the track.",
         "timeCode": "00:21"
       }
     }
@@ -91,9 +91,9 @@ exports.commentary = [
     "timeSinceVideoStartedInMs": 25500,
     "persistInHistory": false,
     "action": {
-      "channel": "game.commentary",
+      "channel": "race.commentary",
       "data": {
-        "text": "The crowd is on their feet as they approach the line.",
+        "text": "The pace is beginning to quicken now.",
         "timeCode": "00:24"
       }
     }
@@ -102,9 +102,9 @@ exports.commentary = [
     "timeSinceVideoStartedInMs": 28500,
     "persistInHistory": false,
     "action": {
-      "channel": "game.commentary",
+      "channel": "race.commentary",
       "data": {
-        "text": "They flash past the winning post together.",
+        "text": "The favorite is making a charge.",
         "timeCode": "00:27"
       }
     }
@@ -113,9 +113,9 @@ exports.commentary = [
     "timeSinceVideoStartedInMs": 31500,
     "persistInHistory": false,
     "action": {
-      "channel": "game.commentary",
+      "channel": "race.commentary",
       "data": {
-        "text": "The runners are well within themselves at this point.",
+        "text": "The atmosphere is electric as they cross the line.",
         "timeCode": "00:30"
       }
     }
@@ -124,9 +124,9 @@ exports.commentary = [
     "timeSinceVideoStartedInMs": 34500,
     "persistInHistory": false,
     "action": {
-      "channel": "game.commentary",
+      "channel": "race.commentary",
       "data": {
-        "text": "The pace is beginning to quicken now.",
+        "text": "The field is starting to stretch out now.",
         "timeCode": "00:33"
       }
     }
@@ -135,9 +135,9 @@ exports.commentary = [
     "timeSinceVideoStartedInMs": 37500,
     "persistInHistory": false,
     "action": {
-      "channel": "game.commentary",
+      "channel": "race.commentary",
       "data": {
-        "text": "That was poetry in motion.",
+        "text": "They're setting a steady pace in the early stages.",
         "timeCode": "00:36"
       }
     }
@@ -146,9 +146,9 @@ exports.commentary = [
     "timeSinceVideoStartedInMs": 40500,
     "persistInHistory": false,
     "action": {
-      "channel": "game.commentary",
+      "channel": "race.commentary",
       "data": {
-        "text": "The runners are well within themselves at this point.",
+        "text": "The gap is closing rapidly.",
         "timeCode": "00:39"
       }
     }
@@ -157,9 +157,9 @@ exports.commentary = [
     "timeSinceVideoStartedInMs": 43500,
     "persistInHistory": false,
     "action": {
-      "channel": "game.commentary",
+      "channel": "race.commentary",
       "data": {
-        "text": "The field is bunched together as they approach the first fence.",
+        "text": "What drama in the closing stages.",
         "timeCode": "00:42"
       }
     }
@@ -168,9 +168,9 @@ exports.commentary = [
     "timeSinceVideoStartedInMs": 46500,
     "persistInHistory": false,
     "action": {
-      "channel": "game.commentary",
+      "channel": "race.commentary",
       "data": {
-        "text": "And they're off to a perfect start.",
+        "text": "A sensational run from the outsider.",
         "timeCode": "00:45"
       }
     }
@@ -179,9 +179,9 @@ exports.commentary = [
     "timeSinceVideoStartedInMs": 49500,
     "persistInHistory": false,
     "action": {
-      "channel": "game.commentary",
+      "channel": "race.commentary",
       "data": {
-        "text": "They're setting a steady pace in the early stages.",
+        "text": "A heart-stopping moment as they nearly collide.",
         "timeCode": "00:48"
       }
     }
@@ -190,9 +190,9 @@ exports.commentary = [
     "timeSinceVideoStartedInMs": 52500,
     "persistInHistory": false,
     "action": {
-      "channel": "game.commentary",
+      "channel": "race.commentary",
       "data": {
-        "text": "They're neck and neck as they battle it out.",
+        "text": "Coming to the business end of the race.",
         "timeCode": "00:51"
       }
     }
@@ -201,9 +201,9 @@ exports.commentary = [
     "timeSinceVideoStartedInMs": 55500,
     "persistInHistory": false,
     "action": {
-      "channel": "game.commentary",
+      "channel": "race.commentary",
       "data": {
-        "text": "That was poetry in motion.",
+        "text": "The favorite is making a charge.",
         "timeCode": "00:54"
       }
     }
@@ -212,131 +212,10 @@ exports.commentary = [
     "timeSinceVideoStartedInMs": 58500,
     "persistInHistory": false,
     "action": {
-      "channel": "game.commentary",
+      "channel": "race.commentary",
       "data": {
-        "text": "A slight mistake there but recovers well.",
+        "text": "Coming to the business end of the race.",
         "timeCode": "00:57"
-      }
-    }
-  },
-  {
-    "timeSinceVideoStartedInMs": 61500,
-    "persistInHistory": false,
-    "action": {
-      "channel": "game.commentary",
-      "data": {
-        "text": "Down to the final furlong now.",
-        "timeCode": "01:00"
-      }
-    }
-  },
-  {
-    "timeSinceVideoStartedInMs": 64500,
-    "persistInHistory": false,
-    "action": {
-      "channel": "game.commentary",
-      "data": {
-        "text": "Welcome to Aintree.",
-        "timeCode": "01:03"
-      }
-    }
-  },
-  {
-    "timeSinceVideoStartedInMs": 67500,
-    "persistInHistory": false,
-    "action": {
-      "channel": "game.commentary",
-      "data": {
-        "text": "A photo finish looks certain from here.",
-        "timeCode": "01:06"
-      }
-    }
-  },
-  {
-    "timeSinceVideoStartedInMs": 70500,
-    "persistInHistory": false,
-    "action": {
-      "channel": "game.commentary",
-      "data": {
-        "text": "They're approaching the water jump in good order.",
-        "timeCode": "01:09"
-      }
-    }
-  },
-  {
-    "timeSinceVideoStartedInMs": 73500,
-    "persistInHistory": false,
-    "action": {
-      "channel": "game.commentary",
-      "data": {
-        "text": "They flash past the winning post together.",
-        "timeCode": "01:12"
-      }
-    }
-  },
-  {
-    "timeSinceVideoStartedInMs": 76500,
-    "persistInHistory": false,
-    "action": {
-      "channel": "game.commentary",
-      "data": {
-        "text": "The pace is beginning to quicken now.",
-        "timeCode": "01:15"
-      }
-    }
-  },
-  {
-    "timeSinceVideoStartedInMs": 79500,
-    "persistInHistory": false,
-    "action": {
-      "channel": "game.commentary",
-      "data": {
-        "text": "And they're off to a perfect start.",
-        "timeCode": "01:18"
-      }
-    }
-  },
-  {
-    "timeSinceVideoStartedInMs": 82500,
-    "persistInHistory": false,
-    "action": {
-      "channel": "game.commentary",
-      "data": {
-        "text": "A slight mistake there but recovers well.",
-        "timeCode": "01:21"
-      }
-    }
-  },
-  {
-    "timeSinceVideoStartedInMs": 85500,
-    "persistInHistory": false,
-    "action": {
-      "channel": "game.commentary",
-      "data": {
-        "text": "They're entering the home straight now.",
-        "timeCode": "01:24"
-      }
-    }
-  },
-  {
-    "timeSinceVideoStartedInMs": 88500,
-    "persistInHistory": false,
-    "action": {
-      "channel": "game.commentary",
-      "data": {
-        "text": "An extraordinary turn of foot there.",
-        "timeCode": "01:27"
-      }
-    }
-  },
-  {
-    "timeSinceVideoStartedInMs": 1800000,
-    "persistInHistory": false,
-    "action": {
-      "channel": "game.commentary",
-      "data": {
-        "text": "This is 30 minutes.",
-        "timeCode": "30:27"
       }
     }
   }

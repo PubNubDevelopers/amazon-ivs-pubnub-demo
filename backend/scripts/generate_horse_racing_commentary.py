@@ -36,7 +36,39 @@ def generate_horse_racing_commentary():
         "A magnificent performance from the winner.",
         "That was poetry in motion.",
         "The crowd erupts as they cross the line.",
-        "What a spectacular finish to a wonderful race."
+        "What a spectacular finish to a wonderful race.",
+        "The tension is palpable as they round the bend.",
+        "A bold move on the outside.",
+        "The favorite is making a charge.",
+        "A stumble there, but quickly recovered.",
+        "The pace is relentless.",
+        "They're really strung out across the track.",
+        "A masterclass in riding from the jockey.",
+        "The underdog is surprising everyone.",
+        "A surge from the back of the field.",
+        "They're jostling for position.",
+        "A flawless jump over the last fence.",
+        "The crowd is roaring with excitement.",
+        "A heart-stopping moment as they nearly collide.",
+        "The leader is under pressure now.",
+        "A late challenge emerging on the rail.",
+        "They're giving it everything in the final stretch.",
+        "A sensational run from the outsider.",
+        "The gap is closing rapidly.",
+        "A breathtaking display of stamina.",
+        "The finish line is in sight.",
+        "A dramatic turn of events in the last seconds.",
+        "The jockey glances over his shoulder.",
+        "A new course record could be on the cards.",
+        "The horses are neck and neck.",
+        "A thrilling duel to the finish.",
+        "The winner punches the air in delight.",
+        "A race that will be remembered for years.",
+        "The tension is unbearable.",
+        "A fairy-tale ending for the connections.",
+        "The field is giving their all.",
+        "A truly unforgettable race.",
+        "The atmosphere is electric as they cross the line."
     ]
     
     commentary_entries = []
@@ -45,7 +77,7 @@ def generate_horse_racing_commentary():
     time_seconds = 0
     
     # Generate 30 commentary entries
-    for i in range(30):
+    for i in range(20):
         # Format timeCode as MM:SS
         time_code = f"{time_minutes:02d}:{time_seconds:02d}"
         
@@ -56,7 +88,7 @@ def generate_horse_racing_commentary():
             "timeSinceVideoStartedInMs": time_ms,
             "persistInHistory": False,
             "action": {
-                "channel": "game.commentary",
+                "channel": "race.commentary",
                 "data": {
                     "text": comment,
                     "timeCode": time_code

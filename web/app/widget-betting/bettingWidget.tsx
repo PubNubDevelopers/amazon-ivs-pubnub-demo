@@ -127,6 +127,9 @@ export default function BettingWidget ({
         setRaceResults(message.raceResults)
       }
       setIsHistoricalResults(isFromHistoricalFetch)
+      setTimeout(() => {
+        setShowResultsPopup(false)
+      }, 8000)
       // Winnings calculation will be triggered by useEffect when betting status changes
     }
   }, [setBettingStatus, chat])

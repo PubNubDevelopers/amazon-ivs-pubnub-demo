@@ -368,6 +368,7 @@ async function publishMessage(channel, message, persistInHistory = false) {
       // Set User ID
       let userId = message.user || "other";
       pubnub.setUUID(userId);
+      console.log("Publishing message to channel:", channel, "with message:", message);
       await pubnub.publish({
         channel: channel,
         message: message,
@@ -381,6 +382,7 @@ async function publishMessage(channel, message, persistInHistory = false) {
 
 // Send the current video time so clients can sync
 async function publishVideoStatus() {
+  return;//  not used for AWS IVS demo
   const isStart = currentTime === 0;
   // If we consider "end" as the final event time
   const isEnd = currentTime >= lastEventTime;
@@ -452,15 +454,18 @@ async function runLoop() {
         await clearHistory("race.betting");
       }
       
-      await publishMessage(
+      //console.log("publishing message");
+      publishMessage(
         eventObj.action.channel,
         eventObj.action.data,
         !!eventObj.persistInHistory
       );
+      //console.log("published message");
     }
 
     scriptIndex++;
   }
+  //console.log("finished publishing events")
 
   // 2. Send a periodic video status message
   if (!intervalId) return;
@@ -468,6 +473,7 @@ async function runLoop() {
   await publishVideoStatus();
 
   // 3. Increment the current time
+  //console.log("incrementing currentTime by", MS_INTERVAL, "ms");
   currentTime += MS_INTERVAL;
 
   // 4. If we've hit the end, reset everything

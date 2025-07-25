@@ -1,13 +1,13 @@
 
 exports.chat = [
   {
-    "timeSinceVideoStartedInMs": 1000,
+    "timeSinceVideoStartedInMs": 1500,
     "persistInHistory": false,
     "action": {
       "channel": "race.chat",
       "data": {
-        "user": "bot-01",
-        "text": "The track conditions are perfect!"
+        "user": "bot-18",
+        "text": "The horses look so calm before the storm."
       }
     }
   },
@@ -17,8 +17,8 @@ exports.chat = [
     "action": {
       "channel": "race.chat",
       "data": {
-        "user": "bot-02",
-        "text": "What a beautiful race!"
+        "user": "bot-16",
+        "text": "Here we go—any second now!"
       }
     }
   },
@@ -28,8 +28,8 @@ exports.chat = [
     "action": {
       "channel": "race.chat",
       "data": {
-        "user": "bot-03",
-        "text": "The energy is electric!"
+        "user": "bot-39",
+        "text": "Who’s ready for some action?"
       }
     }
   },
@@ -40,18 +40,7 @@ exports.chat = [
       "channel": "race.chat",
       "data": {
         "user": "bot-04",
-        "text": "Absolutely breathtaking!"
-      }
-    }
-  },
-  {
-    "timeSinceVideoStartedInMs": 5000,
-    "persistInHistory": false,
-    "action": {
-      "channel": "race.chat",
-      "data": {
-        "user": "bot-05",
-        "text": "What determination!"
+        "text": "The atmosphere is electric before the start."
       }
     }
   },
@@ -61,8 +50,8 @@ exports.chat = [
     "action": {
       "channel": "race.chat",
       "data": {
-        "user": "bot-06",
-        "text": "What a beautiful race!"
+        "user": "bot-14",
+        "text": "This is going to be an exciting race!"
       }
     }
   },
@@ -72,8 +61,8 @@ exports.chat = [
     "action": {
       "channel": "race.chat",
       "data": {
-        "user": "bot-07",
-        "text": "The crowd is on their feet!"
+        "user": "bot-01",
+        "text": "All eyes on Thunder Strike—can he pull it off?"
       }
     }
   },
@@ -83,8 +72,8 @@ exports.chat = [
     "action": {
       "channel": "race.chat",
       "data": {
-        "user": "bot-08",
-        "text": "The tension is palpable!"
+        "user": "bot-22",
+        "text": "I’ve got a good feeling about number 7."
       }
     }
   },
@@ -94,8 +83,8 @@ exports.chat = [
     "action": {
       "channel": "race.chat",
       "data": {
-        "user": "bot-09",
-        "text": "This is why we love horse racing!"
+        "user": "bot-13",
+        "text": "Look at those beautiful horses warming up."
       }
     }
   },
@@ -105,8 +94,8 @@ exports.chat = [
     "action": {
       "channel": "race.chat",
       "data": {
-        "user": "bot-10",
-        "text": "Look at those powerful legs!"
+        "user": "bot-34",
+        "text": "Let’s go, Thunder Strike!"
       }
     }
   },
@@ -116,8 +105,8 @@ exports.chat = [
     "action": {
       "channel": "race.chat",
       "data": {
-        "user": "bot-11",
-        "text": "Let's make history!"
+        "user": "bot-29",
+        "text": "Let’s go, Thunder Strike!"
       }
     }
   },
@@ -127,8 +116,8 @@ exports.chat = [
     "action": {
       "channel": "race.chat",
       "data": {
-        "user": "bot-12",
-        "text": "What a champion!"
+        "user": "bot-40",
+        "text": "It’s almost time—good luck to all the riders!"
       }
     }
   },
@@ -138,8 +127,8 @@ exports.chat = [
     "action": {
       "channel": "race.chat",
       "data": {
-        "user": "bot-13",
-        "text": "The speed is unbelievable!"
+        "user": "bot-39",
+        "text": "Let’s go, Thunder Strike!"
       }
     }
   },
@@ -149,8 +138,8 @@ exports.chat = [
     "action": {
       "channel": "race.chat",
       "data": {
-        "user": "bot-14",
-        "text": "What a thrilling race!"
+        "user": "bot-37",
+        "text": "I can't wait for the race to start!"
       }
     }
   },
@@ -160,8 +149,8 @@ exports.chat = [
     "action": {
       "channel": "race.chat",
       "data": {
-        "user": "bot-15",
-        "text": "The crowd is on their feet!"
+        "user": "bot-37",
+        "text": "The track looks perfect for racing today."
       }
     }
   },
@@ -171,8 +160,8 @@ exports.chat = [
     "action": {
       "channel": "race.chat",
       "data": {
-        "user": "bot-16",
-        "text": "What a magnificent gallop!"
+        "user": "bot-31",
+        "text": "The horses look so calm before the storm."
       }
     }
   },
@@ -182,8 +171,8 @@ exports.chat = [
     "action": {
       "channel": "race.chat",
       "data": {
-        "user": "bot-17",
-        "text": "This is absolutely incredible!"
+        "user": "bot-16",
+        "text": "The excitement is unreal right now!"
       }
     }
   },
@@ -193,8 +182,8 @@ exports.chat = [
     "action": {
       "channel": "race.chat",
       "data": {
-        "user": "bot-18",
-        "text": "Amazing jockey work there!"
+        "user": "bot-15",
+        "text": "The parade to the post is always my favorite part."
       }
     }
   },
@@ -204,8 +193,8 @@ exports.chat = [
     "action": {
       "channel": "race.chat",
       "data": {
-        "user": "bot-19",
-        "text": "The energy is electric!"
+        "user": "bot-01",
+        "text": "I love the energy before the race begins."
       }
     }
   },
@@ -215,8 +204,8 @@ exports.chat = [
     "action": {
       "channel": "race.chat",
       "data": {
-        "user": "bot-20",
-        "text": "Come on Thunder Strike!"
+        "user": "bot-13",
+        "text": "The excitement is unreal right now!"
       }
     }
   },
@@ -226,8 +215,8 @@ exports.chat = [
     "action": {
       "channel": "race.chat",
       "data": {
-        "user": "bot-21",
-        "text": "This is what legends are made of!"
+        "user": "bot-06",
+        "text": "The starting bell is about to ring."
       }
     }
   },
@@ -237,8 +226,8 @@ exports.chat = [
     "action": {
       "channel": "race.chat",
       "data": {
-        "user": "bot-22",
-        "text": "The precision is remarkable!"
+        "user": "bot-20",
+        "text": "The parade to the post is always my favorite part."
       }
     }
   },
@@ -248,8 +237,8 @@ exports.chat = [
     "action": {
       "channel": "race.chat",
       "data": {
-        "user": "bot-23",
-        "text": "That's some serious speed!"
+        "user": "bot-28",
+        "text": "Come on, number 7!"
       }
     }
   },
@@ -259,8 +248,8 @@ exports.chat = [
     "action": {
       "channel": "race.chat",
       "data": {
-        "user": "bot-24",
-        "text": "Perfect timing on that move!"
+        "user": "bot-19",
+        "text": "Come on, number 7!"
       }
     }
   },
@@ -270,8 +259,8 @@ exports.chat = [
     "action": {
       "channel": "race.chat",
       "data": {
-        "user": "bot-25",
-        "text": "Pure poetry in motion!"
+        "user": "bot-19",
+        "text": "He's making a late charge!"
       }
     }
   },
@@ -281,8 +270,8 @@ exports.chat = [
     "action": {
       "channel": "race.chat",
       "data": {
-        "user": "bot-26",
-        "text": "Incredible athleticism!"
+        "user": "bot-21",
+        "text": "What a thrilling race!"
       }
     }
   },
@@ -292,8 +281,8 @@ exports.chat = [
     "action": {
       "channel": "race.chat",
       "data": {
-        "user": "bot-27",
-        "text": "The crowd is on their feet!"
+        "user": "bot-11",
+        "text": "Unbelievable acceleration!"
       }
     }
   },
@@ -304,7 +293,7 @@ exports.chat = [
       "channel": "race.chat",
       "data": {
         "user": "bot-28",
-        "text": "Perfect form coming around the turn!"
+        "text": "Can he hold on to first place?"
       }
     }
   },
@@ -314,8 +303,8 @@ exports.chat = [
     "action": {
       "channel": "race.chat",
       "data": {
-        "user": "bot-29",
-        "text": "The pace is incredible today!"
+        "user": "bot-39",
+        "text": "It's too close to call!"
       }
     }
   },
@@ -325,8 +314,8 @@ exports.chat = [
     "action": {
       "channel": "race.chat",
       "data": {
-        "user": "bot-30",
-        "text": "What a champion!"
+        "user": "bot-34",
+        "text": "Look at that finish!"
       }
     }
   },
@@ -336,8 +325,8 @@ exports.chat = [
     "action": {
       "channel": "race.chat",
       "data": {
-        "user": "bot-31",
-        "text": "The crowd is on their feet!"
+        "user": "bot-19",
+        "text": "What a move on the inside!"
       }
     }
   },
@@ -347,8 +336,8 @@ exports.chat = [
     "action": {
       "channel": "race.chat",
       "data": {
-        "user": "bot-32",
-        "text": "This is why we love horse racing!"
+        "user": "bot-36",
+        "text": "Unbelievable acceleration!"
       }
     }
   },
@@ -358,8 +347,8 @@ exports.chat = [
     "action": {
       "channel": "race.chat",
       "data": {
-        "user": "bot-33",
-        "text": "Let's make history!"
+        "user": "bot-13",
+        "text": "Who's going to break away?"
       }
     }
   },
@@ -369,8 +358,8 @@ exports.chat = [
     "action": {
       "channel": "race.chat",
       "data": {
-        "user": "bot-34",
-        "text": "The thundering hooves!"
+        "user": "bot-25",
+        "text": "Look at that finish!"
       }
     }
   },
@@ -380,8 +369,8 @@ exports.chat = [
     "action": {
       "channel": "race.chat",
       "data": {
-        "user": "bot-35",
-        "text": "This is absolutely incredible!"
+        "user": "bot-01",
+        "text": "They're coming around the final turn!"
       }
     }
   },
@@ -391,8 +380,8 @@ exports.chat = [
     "action": {
       "channel": "race.chat",
       "data": {
-        "user": "bot-36",
-        "text": "Amazing jockey work there!"
+        "user": "bot-15",
+        "text": "He's gaining ground—can he catch up?"
       }
     }
   },
@@ -402,8 +391,8 @@ exports.chat = [
     "action": {
       "channel": "race.chat",
       "data": {
-        "user": "bot-37",
-        "text": "The tension is palpable!"
+        "user": "bot-13",
+        "text": "It's a battle to the finish!"
       }
     }
   },
@@ -413,8 +402,8 @@ exports.chat = [
     "action": {
       "channel": "race.chat",
       "data": {
-        "user": "bot-38",
-        "text": "The tension is palpable!"
+        "user": "bot-15",
+        "text": "Unbelievable acceleration!"
       }
     }
   },
@@ -424,8 +413,8 @@ exports.chat = [
     "action": {
       "channel": "race.chat",
       "data": {
-        "user": "bot-39",
-        "text": "This is going to be close!"
+        "user": "bot-20",
+        "text": "My bet finally paid off!"
       }
     }
   },
@@ -435,8 +424,316 @@ exports.chat = [
     "action": {
       "channel": "race.chat",
       "data": {
-        "user": "bot-40",
-        "text": "That's some serious speed!"
+        "user": "bot-01",
+        "text": "That was a nail-biter right to the end."
+      }
+    }
+  },
+  {
+    "timeSinceVideoStartedInMs": 41000,
+    "persistInHistory": false,
+    "action": {
+      "channel": "race.chat",
+      "data": {
+        "user": "bot-04",
+        "text": "Thunder Strike really earned that victory."
+      }
+    }
+  },
+  {
+    "timeSinceVideoStartedInMs": 42000,
+    "persistInHistory": false,
+    "action": {
+      "channel": "race.chat",
+      "data": {
+        "user": "bot-12",
+        "text": "Well deserved win for number 7."
+      }
+    }
+  },
+  {
+    "timeSinceVideoStartedInMs": 43000,
+    "persistInHistory": false,
+    "action": {
+      "channel": "race.chat",
+      "data": {
+        "user": "bot-39",
+        "text": "The jockey did an amazing job out there."
+      }
+    }
+  },
+  {
+    "timeSinceVideoStartedInMs": 44000,
+    "persistInHistory": false,
+    "action": {
+      "channel": "race.chat",
+      "data": {
+        "user": "bot-11",
+        "text": "Congratulations to the winner!"
+      }
+    }
+  },
+  {
+    "timeSinceVideoStartedInMs": 45000,
+    "persistInHistory": false,
+    "action": {
+      "channel": "race.chat",
+      "data": {
+        "user": "bot-39",
+        "text": "That was a nail-biter right to the end."
+      }
+    }
+  },
+  {
+    "timeSinceVideoStartedInMs": 46000,
+    "persistInHistory": false,
+    "action": {
+      "channel": "race.chat",
+      "data": {
+        "user": "bot-30",
+        "text": "That was a perfect ending to a great race."
+      }
+    }
+  },
+  {
+    "timeSinceVideoStartedInMs": 47000,
+    "persistInHistory": false,
+    "action": {
+      "channel": "race.chat",
+      "data": {
+        "user": "bot-05",
+        "text": "That was a perfect ending to a great race."
+      }
+    }
+  },
+  {
+    "timeSinceVideoStartedInMs": 48000,
+    "persistInHistory": false,
+    "action": {
+      "channel": "race.chat",
+      "data": {
+        "user": "bot-38",
+        "text": "I hope all the horses and jockeys are okay after that."
+      }
+    }
+  },
+  {
+    "timeSinceVideoStartedInMs": 49000,
+    "persistInHistory": false,
+    "action": {
+      "channel": "race.chat",
+      "data": {
+        "user": "bot-39",
+        "text": "Photo finish! My heart is still racing."
+      }
+    }
+  },
+  {
+    "timeSinceVideoStartedInMs": 50000,
+    "persistInHistory": false,
+    "action": {
+      "channel": "race.chat",
+      "data": {
+        "user": "bot-34",
+        "text": "That was a true display of heart and determination."
+      }
+    }
+  },
+  {
+    "timeSinceVideoStartedInMs": 51000,
+    "persistInHistory": false,
+    "action": {
+      "channel": "race.chat",
+      "data": {
+        "user": "bot-02",
+        "text": "Already looking forward to the next race!"
+      }
+    }
+  },
+  {
+    "timeSinceVideoStartedInMs": 52000,
+    "persistInHistory": false,
+    "action": {
+      "channel": "race.chat",
+      "data": {
+        "user": "bot-39",
+        "text": "That was a perfect ending to a great race."
+      }
+    }
+  },
+  {
+    "timeSinceVideoStartedInMs": 53000,
+    "persistInHistory": false,
+    "action": {
+      "channel": "race.chat",
+      "data": {
+        "user": "bot-19",
+        "text": "Already looking forward to the next race!"
+      }
+    }
+  },
+  {
+    "timeSinceVideoStartedInMs": 54000,
+    "persistInHistory": false,
+    "action": {
+      "channel": "race.chat",
+      "data": {
+        "user": "bot-27",
+        "text": "Cheers to the new champion!"
+      }
+    }
+  },
+  {
+    "timeSinceVideoStartedInMs": 55000,
+    "persistInHistory": false,
+    "action": {
+      "channel": "race.chat",
+      "data": {
+        "user": "bot-34",
+        "text": "That was absolutely unforgettable."
+      }
+    }
+  },
+  {
+    "timeSinceVideoStartedInMs": 56000,
+    "persistInHistory": false,
+    "action": {
+      "channel": "race.chat",
+      "data": {
+        "user": "bot-10",
+        "text": "That was the most exciting race I've seen in years."
+      }
+    }
+  },
+  {
+    "timeSinceVideoStartedInMs": 57000,
+    "persistInHistory": false,
+    "action": {
+      "channel": "race.chat",
+      "data": {
+        "user": "bot-29",
+        "text": "Cheers to the new champion!"
+      }
+    }
+  },
+  {
+    "timeSinceVideoStartedInMs": 58000,
+    "persistInHistory": false,
+    "action": {
+      "channel": "race.chat",
+      "data": {
+        "user": "bot-36",
+        "text": "That finish will be talked about for years."
+      }
+    }
+  },
+  {
+    "timeSinceVideoStartedInMs": 59000,
+    "persistInHistory": false,
+    "action": {
+      "channel": "race.chat",
+      "data": {
+        "user": "bot-21",
+        "text": "That was a perfect ending to a great race."
+      }
+    }
+  },
+  {
+    "timeSinceVideoStartedInMs": 60000,
+    "persistInHistory": false,
+    "action": {
+      "channel": "race.chat",
+      "data": {
+        "user": "bot-29",
+        "text": "I can't believe how close that was at the end."
+      }
+    }
+  },
+  {
+    "timeSinceVideoStartedInMs": 61000,
+    "persistInHistory": false,
+    "action": {
+      "channel": "race.chat",
+      "data": {
+        "user": "bot-06",
+        "text": "The energy in the stands is unbelievable."
+      }
+    }
+  },
+  {
+    "timeSinceVideoStartedInMs": 62000,
+    "persistInHistory": false,
+    "action": {
+      "channel": "race.chat",
+      "data": {
+        "user": "bot-13",
+        "text": "That was pure adrenaline from start to finish."
+      }
+    }
+  },
+  {
+    "timeSinceVideoStartedInMs": 63000,
+    "persistInHistory": false,
+    "action": {
+      "channel": "race.chat",
+      "data": {
+        "user": "bot-35",
+        "text": "I can't believe how close that was at the end."
+      }
+    }
+  },
+  {
+    "timeSinceVideoStartedInMs": 64000,
+    "persistInHistory": false,
+    "action": {
+      "channel": "race.chat",
+      "data": {
+        "user": "bot-33",
+        "text": "That was absolutely unforgettable."
+      }
+    }
+  },
+  {
+    "timeSinceVideoStartedInMs": 65000,
+    "persistInHistory": false,
+    "action": {
+      "channel": "race.chat",
+      "data": {
+        "user": "bot-35",
+        "text": "That was worth every penny."
+      }
+    }
+  },
+  {
+    "timeSinceVideoStartedInMs": 66000,
+    "persistInHistory": false,
+    "action": {
+      "channel": "race.chat",
+      "data": {
+        "user": "bot-05",
+        "text": "What a storybook ending."
+      }
+    }
+  },
+  {
+    "timeSinceVideoStartedInMs": 67000,
+    "persistInHistory": false,
+    "action": {
+      "channel": "race.chat",
+      "data": {
+        "user": "bot-22",
+        "text": "I didn't expect that underdog to place!"
+      }
+    }
+  },
+  {
+    "timeSinceVideoStartedInMs": 68000,
+    "persistInHistory": false,
+    "action": {
+      "channel": "race.chat",
+      "data": {
+        "user": "bot-33",
+        "text": "My bet finally paid off!"
       }
     }
   }
