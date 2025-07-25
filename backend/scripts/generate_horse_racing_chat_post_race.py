@@ -50,9 +50,10 @@ def generate_horse_racing_chat():
     
     chat_entries = []
     time_ms = 39000
-    
-    # Generate 30 chat entries, each with a random bot number between 1 and 40
-    for i in range(30):
+    time_end_ms = 69000  # You can change this value to set the end time in ms
+
+    # Generate chat entries from time_ms up to and including time_end_ms, incrementing by 1000ms
+    while time_ms <= time_end_ms:
         # Generate random bot number from 01 to 40
         bot_number = f"{random.randint(1, 40):02d}"
         

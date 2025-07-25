@@ -2,7 +2,7 @@
 import json
 import random
 
-def generate_horse_racing_chat():
+def generate_horse_racing_commentary():
     """Generate an array of JSON objects for horse racing chat simulation"""
     
     # Horse racing crowd commentary DURING the race
@@ -45,6 +45,9 @@ def generate_horse_racing_chat():
 
     # Generate chat entries from time_ms up to and including time_end_ms, incrementing by 1000ms
     while time_ms <= time_end_ms:
+        if (time_ms / 1000) % 2 == 0:
+            time_ms += 1000
+            continue
         # Generate random bot number from 01 to 40
         bot_number = f"{random.randint(1, 40):02d}"
         
@@ -55,10 +58,10 @@ def generate_horse_racing_chat():
             "timeSinceVideoStartedInMs": time_ms,
             "persistInHistory": False,
             "action": {
-                "channel": "race.chat",
+                "channel": "race.commentary",
                 "data": {
-                    "user": f"bot-{bot_number}",
-                    "text": comment
+                    "text": comment,
+                    "timeCode": "00:00"
                 }
             }
         }
@@ -73,10 +76,10 @@ def main():
     print("Generating horse racing chat data...")
     
     # Generate the chat entries
-    chat_data = generate_horse_racing_chat()
+    chat_data = generate_horse_racing_commentary()
     
     # Write to text file as JSON array
-    output_filename = "horse_racing_chat_data_during_race.txt"
+    output_filename = "horse_racing_commentary_data_during_race.txt"
     
     with open(output_filename, 'w', encoding='utf-8') as f:
         json.dump(chat_data, f, indent=2, ensure_ascii=False)
