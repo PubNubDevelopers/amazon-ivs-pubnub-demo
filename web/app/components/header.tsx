@@ -22,6 +22,8 @@ export default function Header ({
   const [syncMessage, setSyncMessage] = useState('')
   const [ffmpegStatus, setFfmpegStatus] = useState<'idle' | 'starting' | 'stopping' | 'success' | 'error'>('idle')
   const [ffmpegMessage, setFfmpegMessage] = useState('')
+  const [backendDataStatus, setBackendDataStatus] = useState<'idle' | 'starting' | 'stopping' | 'success' | 'error'>('idle')
+  const [backendDataMessage, setBackendDataMessage] = useState('')
 
   const handlePinSubmit = (e) => {
     e.preventDefault()
@@ -50,6 +52,8 @@ export default function Header ({
     setSyncMessage('')
     setFfmpegStatus('idle')
     setFfmpegMessage('')
+    setBackendDataStatus('idle')
+    setBackendDataMessage('')
   }
 
   const captureVideoScreenshot = async () => {
@@ -275,6 +279,62 @@ export default function Header ({
       }
     } catch (error) {
       console.error('Error stopping FFmpeg stream:', error);
+    }
+  };
+
+  const startBackendData = async () => {
+    setBackendDataStatus('starting')
+    setBackendDataMessage('Starting backend data generator...')
+    
+    try {
+      if (chat) {
+        await chat.sdk.publish({
+          message: {
+            type: 'START_STREAM'
+          },
+          channel: serverVideoControlChannelId
+        });
+        
+        setBackendDataStatus('success')
+        setBackendDataMessage('Backend data generator started successfully!')
+        
+        // Auto-close modal after 2 seconds
+        setTimeout(() => {
+          closeModal()
+        }, 2000)
+      }
+    } catch (error) {
+      console.error('Error starting backend data generator:', error);
+      setBackendDataStatus('error')
+      setBackendDataMessage('Failed to start backend data generator.')
+    }
+  };
+
+  const stopBackendData = async () => {
+    setBackendDataStatus('stopping')
+    setBackendDataMessage('Stopping backend data generator...')
+    
+    try {
+      if (chat) {
+        await chat.sdk.publish({
+          message: {
+            type: 'END_STREAM'
+          },
+          channel: serverVideoControlChannelId
+        });
+        
+        setBackendDataStatus('success')
+        setBackendDataMessage('Backend data generator stopped successfully!')
+        
+        // Auto-close modal after 2 seconds
+        setTimeout(() => {
+          closeModal()
+        }, 2000)
+      }
+    } catch (error) {
+      console.error('Error stopping backend data generator:', error);
+      setBackendDataStatus('error')
+      setBackendDataMessage('Failed to stop backend data generator.')
     }
   };
 
@@ -602,6 +662,81 @@ export default function Header ({
                         ✓ Success
                       </div>
                       <p className='text-green-600 text-center'>{ffmpegMessage}</p>
+                    </div>
+                  )}
+                </div>
+
+                {/* Backend Data Generator Section */}
+                <div>
+                  <h3 className='text-lg font-semibold text-gray-900 mb-3'>Backend Data Generator</h3>
+                  {backendDataStatus === 'idle' && (
+                    <div className='space-y-2'>
+                      <button
+                        onClick={startBackendData}
+                        className='w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors'
+                      >
+                        Start Backend Data
+                      </button>
+                      <button
+                        onClick={stopBackendData}
+                        className='w-full bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 transition-colors'
+                      >
+                        Stop Backend Data
+                      </button>
+                    </div>
+                  )}
+                  
+                  {backendDataStatus === 'starting' && (
+                    <div className='space-y-3'>
+                      <button
+                        disabled
+                        className='w-full bg-gray-400 text-white py-2 px-4 rounded-md cursor-not-allowed'
+                      >
+                        Starting...
+                      </button>
+                      <p className='text-blue-600 text-center'>{backendDataMessage}</p>
+                    </div>
+                  )}
+                  
+                  {backendDataStatus === 'stopping' && (
+                    <div className='space-y-3'>
+                      <button
+                        disabled
+                        className='w-full bg-gray-400 text-white py-2 px-4 rounded-md cursor-not-allowed'
+                      >
+                        Stopping...
+                      </button>
+                      <p className='text-blue-600 text-center'>{backendDataMessage}</p>
+                    </div>
+                  )}
+                  
+                  {backendDataStatus === 'success' && (
+                    <div className='space-y-3'>
+                      <div className='w-full bg-green-600 text-white py-2 px-4 rounded-md text-center'>
+                        ✓ Success
+                      </div>
+                      <p className='text-green-600 text-center'>{backendDataMessage}</p>
+                      <p className='text-gray-500 text-sm text-center'>Modal will close automatically...</p>
+                    </div>
+                  )}
+                  
+                  {backendDataStatus === 'error' && (
+                    <div className='space-y-3'>
+                      <div className='space-y-2'>
+                        <button
+                          onClick={startBackendData}
+                          className='w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors'
+                        >
+                          Start Backend Data
+                        </button>
+                        <button
+                          onClick={stopBackendData}
+                          className='w-full bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 transition-colors'
+                        >
+                          Stop Backend Data
+                        </button>
+                      </div>
+                      <p className='text-red-600 text-center'>{backendDataMessage}</p>
                     </div>
                   )}
                 </div>
