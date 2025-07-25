@@ -482,8 +482,8 @@ async function runLoop() {
     scriptIndex = 0;
     loopCount++;
     voteCounts = {};
-    //  To save wasting resources, stop the loop after 200 loops in guided demo mode
-    if (loopCount >= 200 && process.env.GUIDED_DEMO === "true") {
+    //  To save wasting resources, stop the loop after 5 loops in guided demo mode
+    if (loopCount >= 5 && process.env.GUIDED_DEMO === "true") {
       stopLoop();
     }
 
