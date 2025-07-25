@@ -841,7 +841,7 @@ const BettingDashboard = memo(function BettingDashboard ({
       <div className='flex justify-between items-center mb-4 px-2 sm:px-0'>
         <div className='flex items-center gap-3'>
           <h3 className='text-lg font-semibold text-gray-800'>{currentRace?.title}</h3>
-          <div className='hidden sm:flex gap-2'>
+          {/*<div className='hidden sm:flex gap-2'>
             <button
               onClick={() => {
                 if (chat) {
@@ -959,7 +959,7 @@ const BettingDashboard = memo(function BettingDashboard ({
             >
               +€5 Wallet
             </button>
-          </div>
+          </div>*/}
         </div>
         <span className='text-sm text-gray-500 font-normal'>Each Stake: {currencySymbol}{stake} - Each Way: 1/5 (3 places)</span>
       </div>
