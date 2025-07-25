@@ -22,7 +22,6 @@ export default function Header ({
   const [syncMessage, setSyncMessage] = useState('')
   const [ffmpegStatus, setFfmpegStatus] = useState<'idle' | 'starting' | 'stopping' | 'success' | 'error'>('idle')
   const [ffmpegMessage, setFfmpegMessage] = useState('')
-  const [countdownSeconds, setCountdownSeconds] = useState(8)
 
   const handlePinSubmit = (e) => {
     e.preventDefault()
@@ -51,7 +50,6 @@ export default function Header ({
     setSyncMessage('')
     setFfmpegStatus('idle')
     setFfmpegMessage('')
-    setCountdownSeconds(8)
   }
 
   const captureVideoScreenshot = async () => {
@@ -240,28 +238,14 @@ export default function Header ({
         });
         
         setFfmpegStatus('success')
-        setFfmpegMessage(`FFmpeg stream started successfully! Your browser will refresh in ${countdownSeconds} seconds...`)
+        setFfmpegMessage(`Sent command to backend.  BROWSER WILL REFRESH!`)
         
-        // Start countdown timer
-        let secondsLeft = 8
-        const countdownInterval = setInterval(() => {
-          secondsLeft--
-          setCountdownSeconds(secondsLeft)
-          setFfmpegMessage(`FFmpeg stream started successfully! Your browser will refresh in ${secondsLeft} seconds...`)
-          
-          if (secondsLeft <= 0) {
-            clearInterval(countdownInterval)
-            window.location.reload()
-          }
-        }, 1000)
-      } else {
-        setFfmpegStatus('error')
-        setFfmpegMessage('Chat object not available, cannot send command.')
-      }
+        setTimeout(() => {
+          window.location.reload()
+        }, 5000)
+      } 
     } catch (error) {
       console.error('Error starting FFmpeg stream:', error);
-      setFfmpegStatus('error')
-      setFfmpegMessage('Failed to start FFmpeg stream. Please try again.')
     }
   };
 
@@ -279,20 +263,15 @@ export default function Header ({
         });
         
         setFfmpegStatus('success')
-        setFfmpegMessage('FFmpeg stream stopped successfully!')
+        setFfmpegMessage('Sent command to stop FFmpeg stream')
         
         // Auto-close modal after 2 seconds
         setTimeout(() => {
           closeModal()
         }, 2000)
-      } else {
-        setFfmpegStatus('error')
-        setFfmpegMessage('Chat object not available, cannot send command.')
       }
     } catch (error) {
       console.error('Error stopping FFmpeg stream:', error);
-      setFfmpegStatus('error')
-      setFfmpegMessage('Failed to stop FFmpeg stream. Please try again.')
     }
   };
 
@@ -620,27 +599,6 @@ export default function Header ({
                         ✓ Success
                       </div>
                       <p className='text-green-600 text-center'>{ffmpegMessage}</p>
-                      <p className='text-gray-500 text-sm text-center'>Modal will close automatically...</p>
-                    </div>
-                  )}
-                  
-                  {ffmpegStatus === 'error' && (
-                    <div className='space-y-3'>
-                      <div className='space-y-2'>
-                        <button
-                          onClick={startFFmpegStream}
-                          className='w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 transition-colors'
-                        >
-                          Retry Start
-                        </button>
-                        <button
-                          onClick={stopFFmpegStream}
-                          className='w-full bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 transition-colors'
-                        >
-                          Retry Stop
-                        </button>
-                      </div>
-                      <p className='text-red-600 text-center'>{ffmpegMessage}</p>
                     </div>
                   )}
                 </div>
