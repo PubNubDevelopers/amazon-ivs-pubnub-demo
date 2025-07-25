@@ -135,3 +135,4 @@ dist
 .yarn/install-state.gz
 .pnp.*
 backend/racenight_shorter_timer_1.mp4
+.claude/settings.local.json
