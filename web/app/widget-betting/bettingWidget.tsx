@@ -776,6 +776,42 @@ const BettingDashboard = memo(function BettingDashboard ({
     return total > 0 ? `${currencySymbol}${total}` : ''
   }, [allUserBets])
 
+  // Track previous total wager values for animation
+  const [previousTotalWagers, setPreviousTotalWagers] = useState<Map<number, string>>(new Map())
+  const [animatingHorses, setAnimatingHorses] = useState<Set<number>>(new Set())
+
+  // Check if total wager has changed and trigger animation
+  useEffect(() => {
+    const newAnimatingHorses = new Set<number>()
+    const newPreviousTotalWagers = new Map(previousTotalWagers)
+    let hasChanges = false
+    
+    currentRace?.horses.forEach((horse) => {
+      const currentWager = getTotalWager(horse.number)
+      const previousWager = previousTotalWagers.get(horse.number) || ''
+      
+      if (currentWager !== previousWager && currentWager !== '') {
+        newAnimatingHorses.add(horse.number)
+        newPreviousTotalWagers.set(horse.number, currentWager)
+        hasChanges = true
+      }
+    })
+    
+    if (newAnimatingHorses.size > 0) {
+      setAnimatingHorses(newAnimatingHorses)
+      
+      // Remove animation class after animation completes
+      setTimeout(() => {
+        setAnimatingHorses(new Set())
+      }, 500) // Match the CSS animation duration
+    }
+    
+    // Only update previousTotalWagers if there were actual changes
+    if (hasChanges) {
+      setPreviousTotalWagers(newPreviousTotalWagers)
+    }
+  }, [allUserBets, currentRace, getTotalWager])
+
   // Memoize position styling function
   const getPositionStyling = useCallback((horseNumber) => {
     if (bettingStatus !== 'results') return 'hover:bg-gray-50'
@@ -802,7 +838,7 @@ const BettingDashboard = memo(function BettingDashboard ({
       <div className='flex justify-between items-center mb-4 px-2 sm:px-0'>
         <div className='flex items-center gap-3'>
           <h3 className='text-lg font-semibold text-gray-800'>{currentRace?.title}</h3>
-          {/*<div className='hidden sm:flex gap-2'>
+          <div className='hidden sm:flex gap-2'>
             <button
               onClick={() => {
                 if (chat) {
@@ -920,7 +956,7 @@ const BettingDashboard = memo(function BettingDashboard ({
             >
               +€5 Wallet
             </button>
-          </div>*/}
+          </div>
         </div>
         <span className='text-sm text-gray-500 font-normal'>Each Stake: {currencySymbol}{stake} - Each Way: 1/5 (3 places)</span>
       </div>
@@ -1035,7 +1071,9 @@ const BettingDashboard = memo(function BettingDashboard ({
                 
                 {/* Total Wager */}
                 <td className='px-1 sm:px-3 py-4 text-center'>
-                  <div className='text-sm font-medium text-gray-900'>
+                  <div className={`text-sm font-medium text-gray-900 transition-all duration-500 ${
+                    animatingHorses.has(horse.number) ? 'animate-wager-change' : ''
+                  }`}>
                     {getTotalWager(horse.number)}
                   </div>
                 </td>
