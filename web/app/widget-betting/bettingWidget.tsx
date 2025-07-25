@@ -283,8 +283,9 @@ export default function BettingWidget ({
     
     // Store data and show popup
     setWinningsData(results)
-    setShowResultsPopup(true)
-    
+    if (!isHistoricalResults || totalBetAmount > 0) {
+      setShowResultsPopup(true)
+    }
     // Update user's wallet with winnings/losses (only for real-time results, not historical)
     if (overallProfit !== 0 && !isHistoricalResults) {
       AwardWallet(chat, overallProfit, currentWallet)
