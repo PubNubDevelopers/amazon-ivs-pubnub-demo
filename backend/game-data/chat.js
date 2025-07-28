@@ -4,7 +4,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 1500,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-18",
         "text": "The horses look so calm before the storm."
@@ -15,7 +15,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 2000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-16",
         "text": "Here we go—any second now!"
@@ -26,7 +26,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 3000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-39",
         "text": "Who’s ready for some action?"
@@ -37,7 +37,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 4000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-04",
         "text": "The atmosphere is electric before the start."
@@ -48,7 +48,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 6000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-14",
         "text": "This is going to be an exciting race!"
@@ -59,7 +59,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 7000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-01",
         "text": "All eyes on Thunder Strike—can he pull it off?"
@@ -70,7 +70,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 8000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-22",
         "text": "I’ve got a good feeling about number 7."
@@ -81,7 +81,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 9000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-13",
         "text": "Look at those beautiful horses warming up."
@@ -92,7 +92,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 10000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-34",
         "text": "Let’s go, Thunder Strike!"
@@ -103,7 +103,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 11000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-29",
         "text": "Let’s go, Thunder Strike!"
@@ -114,7 +114,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 12000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-40",
         "text": "It’s almost time—good luck to all the riders!"
@@ -125,7 +125,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 13000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-39",
         "text": "Let’s go, Thunder Strike!"
@@ -136,7 +136,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 14000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-37",
         "text": "I can't wait for the race to start!"
@@ -147,7 +147,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 15000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-37",
         "text": "The track looks perfect for racing today."
@@ -158,7 +158,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 16000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-31",
         "text": "The horses look so calm before the storm."
@@ -169,7 +169,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 17000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-16",
         "text": "The excitement is unreal right now!"
@@ -180,7 +180,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 18000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-15",
         "text": "The parade to the post is always my favorite part."
@@ -191,7 +191,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 19000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-01",
         "text": "I love the energy before the race begins."
@@ -202,7 +202,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 20000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-13",
         "text": "The excitement is unreal right now!"
@@ -213,7 +213,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 21000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-06",
         "text": "The starting bell is about to ring."
@@ -224,7 +224,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 22000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-20",
         "text": "The parade to the post is always my favorite part."
@@ -235,7 +235,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 23000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-28",
         "text": "Come on, number 7!"
@@ -246,7 +246,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 24000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-19",
         "text": "Come on, number 7!"
@@ -257,7 +257,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 25000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-19",
         "text": "He's making a late charge!"
@@ -268,7 +268,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 26000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-21",
         "text": "What a thrilling race!"
@@ -279,7 +279,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 27000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-11",
         "text": "Unbelievable acceleration!"
@@ -290,7 +290,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 28000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-28",
         "text": "Can he hold on to first place?"
@@ -301,7 +301,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 29000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-39",
         "text": "It's too close to call!"
@@ -312,7 +312,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 30000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-34",
         "text": "Look at that finish!"
@@ -323,7 +323,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 31000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-19",
         "text": "What a move on the inside!"
@@ -334,7 +334,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 32000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-36",
         "text": "Unbelievable acceleration!"
@@ -345,7 +345,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 33000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-13",
         "text": "Who's going to break away?"
@@ -356,7 +356,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 34000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-25",
         "text": "Look at that finish!"
@@ -367,7 +367,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 35000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-01",
         "text": "They're coming around the final turn!"
@@ -378,7 +378,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 36000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-15",
         "text": "He's gaining ground—can he catch up?"
@@ -389,7 +389,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 37000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-13",
         "text": "It's a battle to the finish!"
@@ -400,7 +400,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 38000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-15",
         "text": "Unbelievable acceleration!"
@@ -411,7 +411,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 39000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-20",
         "text": "My bet finally paid off!"
@@ -422,7 +422,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 40000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-01",
         "text": "That was a nail-biter right to the end."
@@ -433,7 +433,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 41000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-04",
         "text": "Thunder Strike really earned that victory."
@@ -444,7 +444,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 42000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-12",
         "text": "Well deserved win for number 7."
@@ -455,7 +455,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 43000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-39",
         "text": "The jockey did an amazing job out there."
@@ -466,7 +466,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 44000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-11",
         "text": "Congratulations to the winner!"
@@ -477,7 +477,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 45000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-39",
         "text": "That was a nail-biter right to the end."
@@ -488,7 +488,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 46000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-30",
         "text": "That was a perfect ending to a great race."
@@ -499,7 +499,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 47000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-05",
         "text": "That was a perfect ending to a great race."
@@ -510,7 +510,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 48000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-38",
         "text": "I hope all the horses and jockeys are okay after that."
@@ -521,7 +521,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 49000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-39",
         "text": "Photo finish! My heart is still racing."
@@ -532,7 +532,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 50000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-34",
         "text": "That was a true display of heart and determination."
@@ -543,7 +543,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 51000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-02",
         "text": "Already looking forward to the next race!"
@@ -554,7 +554,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 52000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-39",
         "text": "That was a perfect ending to a great race."
@@ -565,7 +565,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 53000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-19",
         "text": "Already looking forward to the next race!"
@@ -576,7 +576,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 54000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-27",
         "text": "Cheers to the new champion!"
@@ -587,7 +587,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 55000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-34",
         "text": "That was absolutely unforgettable."
@@ -598,7 +598,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 56000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-10",
         "text": "That was the most exciting race I've seen in years."
@@ -609,7 +609,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 57000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-29",
         "text": "Cheers to the new champion!"
@@ -620,7 +620,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 58000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-36",
         "text": "That finish will be talked about for years."
@@ -631,7 +631,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 59000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-21",
         "text": "That was a perfect ending to a great race."
@@ -642,7 +642,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 60000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-29",
         "text": "I can't believe how close that was at the end."
@@ -653,7 +653,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 61000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-06",
         "text": "The energy in the stands is unbelievable."
@@ -664,7 +664,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 62000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-13",
         "text": "That was pure adrenaline from start to finish."
@@ -675,7 +675,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 63000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-35",
         "text": "I can't believe how close that was at the end."
@@ -686,7 +686,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 64000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-33",
         "text": "That was absolutely unforgettable."
@@ -697,7 +697,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 65000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-35",
         "text": "That was worth every penny."
@@ -708,7 +708,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 66000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-05",
         "text": "What a storybook ending."
@@ -719,7 +719,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 67000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-22",
         "text": "I didn't expect that underdog to place!"
@@ -730,7 +730,7 @@ exports.chat = [
     "timeSinceVideoStartedInMs": 68000,
     "persistInHistory": false,
     "action": {
-      "channel": "race.chat",
+      "channel": "race.chat.all",
       "data": {
         "user": "bot-33",
         "text": "My bet finally paid off!"

@@ -78,6 +78,7 @@ export default function ChatWidget ({
   const [showSpamPopup, setShowSpamPopup] = useState(false)
 
   const messagesContainerRef = useRef<HTMLDivElement>(null)
+  const activeChannelIdRef = useRef<string | null>(null)
 
   // Function to show spam popup with auto-hide
   const showSpamNotification = () => {
@@ -97,9 +98,12 @@ export default function ChatWidget ({
     fetchChannels()
     fetchUsers()
 
-    // Set the first channel as active if none is selected
+    // Set the appropriate channel as active based on subscribersOnly state
     if (!activeChannelId && publicChannels.length > 0) {
-      setActiveChannelId(publicChannels[0].id)
+      const defaultChannelId = publicChannels.length >= 2 && subscribersOnly 
+        ? publicChannels[1].id 
+        : publicChannels[0].id
+      setActiveChannelId(defaultChannelId)
     }
 
     const renderMessagePartMention = (
@@ -151,6 +155,25 @@ export default function ChatWidget ({
     }
   }, [chat, activeChannel])
 
+  /**
+   * Switch channels when subscribersOnly state changes
+   */
+  useEffect(() => {
+    if (!chat || publicChannels.length < 2) return
+    
+    // Switch to appropriate channel based on subscribersOnly state
+    const targetChannelId = subscribersOnly 
+      ? publicChannels[1]?.id  // Subscriber chat
+      : publicChannels[0]?.id  // Public chat
+    
+    if (targetChannelId && targetChannelId !== activeChannelId) {
+      // Clear messages immediately when switching to prevent confusion
+      setMessages([])
+      setPinnedMessage(null)
+      setActiveChannelId(targetChannelId) // This will trigger setupActiveChannel() which sets activeChannel
+    }
+  }, [subscribersOnly, publicChannels, chat, activeChannelId])
+
   useEffect(() => {
     if (simulatedOccupancy > 20) {
       const interval = setInterval(() => {
@@ -180,12 +203,22 @@ export default function ChatWidget ({
    */
   useEffect(() => {
     if (!chat || !activeChannelId) return
-    const cleanup = setupActiveChannel()
+    
+    // Update the ref to the current active channel ID
+    activeChannelIdRef.current = activeChannelId
+    
+    let cleanupFn: (() => void) | null = null
+    
+    const initializeChannel = async () => {
+      const result = await setupActiveChannel()
+      cleanupFn = result || null
+    }
+    
+    initializeChannel()
+    
     return () => {
-      if (cleanup && typeof cleanup.then === 'function') {
-        cleanup.then(fn => {
-          if (fn) fn()
-        })
+      if (cleanupFn && typeof cleanupFn === 'function') {
+        cleanupFn()
       }
     }
   }, [activeChannelId, chat])
@@ -273,9 +306,14 @@ export default function ChatWidget ({
 
       setPublicChannels(publicChan)
 
-      // Set default active channel if none selected
-      if (!activeChannelId && publicChan.length > 0) {
-        setActiveChannelId(publicChan[0].id)
+      // Set default active channel if none selected, considering subscribersOnly state
+      if (!activeChannelId) {
+        if (publicChan.length >= 2) {
+          const defaultChannelId = subscribersOnly ? publicChan[1].id : publicChan[0].id
+          setActiveChannelId(defaultChannelId)
+        } else if (publicChan.length > 0) {
+          setActiveChannelId(publicChan[0].id)
+        }
       }
     } catch (error) {
       console.error('Error fetching channels:', error)
@@ -304,8 +342,6 @@ export default function ChatWidget ({
   const setupActiveChannel = async () => {
     if (!chat || !activeChannelId) return
 
-    
-
     // Clear existing messages and typing users before setting up new channel
     setMessages([])
 
@@ -317,7 +353,6 @@ export default function ChatWidget ({
         console.error(`Channel ${activeChannelId} not found`)
         return
       }
-
 
       setActiveChannel(channel)
       //setWhoIsPresent(await chat.whoIsPresent(activeChannelId));
@@ -338,8 +373,15 @@ export default function ChatWidget ({
       let unsubscribeMessages = () => {}
 
       // Connect to channel to receive messages
-
       unsubscribeMessages = channel.connect(async (message: Message) => {
+        const currentActiveChannelId = activeChannelIdRef.current
+        
+        // Ignore messages from channels that are not the currently active channel
+        // Use activeChannelIdRef.current to get the most up-to-date value
+        if (message.channelId !== currentActiveChannelId) {
+          return
+        }
+        
         setMessages(prevMessages => {
           // Check if message already exists
           const messageExists = prevMessages.some(
@@ -604,7 +646,7 @@ export default function ChatWidget ({
                 : {}
             }
           ></div>
-          <div className={'ml-[16px]'}>
+          <div className={'ml-[16px] text-sm'}>
             {activeChannel.name || activeChannel.id}
           </div>
           <div className={'grow'} />
@@ -624,7 +666,7 @@ export default function ChatWidget ({
                 />
               </button>
             </div>
-            <div className={'flex items-center justify-center gap-1'}>
+            <div className={'flex items-center justify-center gap-1 text-sm'}>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 width='8'
@@ -733,14 +775,6 @@ export default function ChatWidget ({
             ) : (
               <>
                 {messages
-                  .filter((message) => {
-                    // If subscribers only is enabled, only show messages from users whose ID starts with 'user'
-                    if (subscribersOnly) {
-                      return message.userId.startsWith('user')
-                    }
-                    // Otherwise show all messages
-                    return true
-                  })
                   .map((message, index) => {
                     // const user = await chat.getUser('')
 

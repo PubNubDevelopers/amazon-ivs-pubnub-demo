@@ -103,7 +103,7 @@ async function handleControlMessage(msg) {
         messageText = "Messages Paused";
       }
       shouldSendChatMessages = !shouldSendChatMessages;
-      publishMessage("race.chat", { user: "bot-33", text: messageText }, false);
+      publishMessage("race.chat.all", { user: "bot-33", text: messageText }, false);
       break;
     case "ON_DEMAND_SCRIPT":
       if (!intervalId) return;
