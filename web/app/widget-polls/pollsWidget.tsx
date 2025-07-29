@@ -161,6 +161,16 @@ export default function PollsWidget ({
     }, 2000)
   }
 
+  // Only show the widget if there are open polls that can be answered, or if user is viewing a specific poll
+  const shouldShowWidget = polls?.filter(
+          poll => poll.isPollOpen == true
+        ).length > 0
+  
+  // Don't render the widget if there are no polls to show
+  if (!shouldShowWidget) {
+    return null
+  }
+
   return (
     <div className={`${className} px-6 pt-3 pb-4`}>
       {alert && (
@@ -179,7 +189,7 @@ export default function PollsWidget ({
         setVisibleGuide={setVisibleGuide}
         text={
           <span>
-            Polls are built on top of PubNub’s{' '}
+            Polls are built on top of PubNub's{' '}
             <span className='font-semibold'>Core Messaging Service</span>, to
             announce new polls, allow users to vote, and distribute results.{' '}
             <span className='font-semibold'>Functions</span> allow you to

@@ -7,7 +7,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-18",
-        "text": "The horses look so calm before the storm."
+        "text": "The horses look so calm before the storm.",
+        "type": "chat" 
       }
     }
   },
@@ -18,7 +19,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-16",
-        "text": "Here we go—any second now!"
+        "text": "Here we go—any second now!",
+        "type": "chat"
       }
     }
   },
@@ -29,7 +31,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-39",
-        "text": "Who’s ready for some action?"
+        "text": "Who’s ready for some action?",
+        "type": "chat"
       }
     }
   },
@@ -40,7 +43,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-04",
-        "text": "The atmosphere is electric before the start."
+        "text": "The atmosphere is electric before the start.",
+        "type": "chat"
       }
     }
   },
@@ -51,7 +55,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-14",
-        "text": "This is going to be an exciting race!"
+        "text": "This is going to be an exciting race!",
+        "type": "chat"
       }
     }
   },
@@ -62,7 +67,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-01",
-        "text": "All eyes on Thunder Strike—can he pull it off?"
+        "text": "All eyes on Thunder Strike—can he pull it off?",
+        "type": "chat"
       }
     }
   },
@@ -73,7 +79,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-22",
-        "text": "I’ve got a good feeling about number 7."
+        "text": "I’ve got a good feeling about number 7.",
+"type": "chat"
       }
     }
   },
@@ -84,7 +91,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-13",
-        "text": "Look at those beautiful horses warming up."
+        "text": "Look at those beautiful horses warming up.",
+"type": "chat"
       }
     }
   },
@@ -95,7 +103,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-34",
-        "text": "Let’s go, Thunder Strike!"
+        "text": "Let’s go, Thunder Strike!",
+"type": "chat"
       }
     }
   },
@@ -106,7 +115,9 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-29",
-        "text": "Let’s go, Thunder Strike!"
+        "text": "Let’s go, Thunder Strike!",
+        "type": "chat",
+"type": "chat"
       }
     }
   },
@@ -117,7 +128,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-40",
-        "text": "It’s almost time—good luck to all the riders!"
+        "text": "It’s almost time—good luck to all the riders!",
+"type": "chat"
       }
     }
   },
@@ -128,7 +140,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-39",
-        "text": "Let’s go, Thunder Strike!"
+        "text": "Let’s go, Thunder Strike!",
+"type": "chat"
       }
     }
   },
@@ -139,7 +152,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-37",
-        "text": "I can't wait for the race to start!"
+        "text": "I can't wait for the race to start!",
+"type": "chat"
       }
     }
   },
@@ -150,7 +164,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-37",
-        "text": "The track looks perfect for racing today."
+        "text": "The track looks perfect for racing today.",
+"type": "chat"
       }
     }
   },
@@ -161,7 +176,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-31",
-        "text": "The horses look so calm before the storm."
+        "text": "The horses look so calm before the storm.",
+"type": "chat"
       }
     }
   },
@@ -172,7 +188,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-16",
-        "text": "The excitement is unreal right now!"
+        "text": "The excitement is unreal right now!",
+"type": "chat"
       }
     }
   },
@@ -183,7 +200,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-15",
-        "text": "The parade to the post is always my favorite part."
+        "text": "The parade to the post is always my favorite part.",
+"type": "chat"
       }
     }
   },
@@ -194,7 +212,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-01",
-        "text": "I love the energy before the race begins."
+        "text": "I love the energy before the race begins.",
+"type": "chat"
       }
     }
   },
@@ -205,7 +224,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-13",
-        "text": "The excitement is unreal right now!"
+        "text": "The excitement is unreal right now!",
+"type": "chat"
       }
     }
   },
@@ -216,7 +236,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-06",
-        "text": "The starting bell is about to ring."
+        "text": "The starting bell is about to ring.",
+"type": "chat"
       }
     }
   },
@@ -227,7 +248,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-20",
-        "text": "The parade to the post is always my favorite part."
+        "text": "The parade to the post is always my favorite part.",
+"type": "chat"
       }
     }
   },
@@ -238,7 +260,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-28",
-        "text": "Come on, number 7!"
+        "text": "Come on, number 7!",
+"type": "chat"
       }
     }
   },
@@ -249,7 +272,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-19",
-        "text": "Come on, number 7!"
+        "text": "Come on, number 7!",
+"type": "chat"
       }
     }
   },
@@ -260,7 +284,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-19",
-        "text": "He's making a late charge!"
+        "text": "He's making a late charge!",
+"type": "chat"
       }
     }
   },
@@ -271,7 +296,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-21",
-        "text": "What a thrilling race!"
+        "text": "What a thrilling race!",
+"type": "chat"
       }
     }
   },
@@ -282,7 +308,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-11",
-        "text": "Unbelievable acceleration!"
+        "text": "Unbelievable acceleration!",
+"type": "chat"
       }
     }
   },
@@ -293,7 +320,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-28",
-        "text": "Can he hold on to first place?"
+        "text": "Can he hold on to first place?",
+"type": "chat"
       }
     }
   },
@@ -304,7 +332,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-39",
-        "text": "It's too close to call!"
+        "text": "It's too close to call!",
+"type": "chat"
       }
     }
   },
@@ -315,7 +344,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-34",
-        "text": "Look at that finish!"
+        "text": "Look at that finish!",
+"type": "chat"
       }
     }
   },
@@ -326,7 +356,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-19",
-        "text": "What a move on the inside!"
+        "text": "What a move on the inside!",
+"type": "chat"
       }
     }
   },
@@ -337,7 +368,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-36",
-        "text": "Unbelievable acceleration!"
+        "text": "Unbelievable acceleration!",
+"type": "chat"
       }
     }
   },
@@ -348,7 +380,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-13",
-        "text": "Who's going to break away?"
+        "text": "Who's going to break away?",
+"type": "chat"
       }
     }
   },
@@ -359,7 +392,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-25",
-        "text": "Look at that finish!"
+        "text": "Look at that finish!",
+"type": "chat"
       }
     }
   },
@@ -370,7 +404,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-01",
-        "text": "They're coming around the final turn!"
+        "text": "They're coming around the final turn!",
+"type": "chat"
       }
     }
   },
@@ -381,7 +416,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-15",
-        "text": "He's gaining ground—can he catch up?"
+        "text": "He's gaining ground—can he catch up?",
+"type": "chat"
       }
     }
   },
@@ -392,7 +428,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-13",
-        "text": "It's a battle to the finish!"
+        "text": "It's a battle to the finish!",
+"type": "chat"
       }
     }
   },
@@ -403,7 +440,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-15",
-        "text": "Unbelievable acceleration!"
+        "text": "Unbelievable acceleration!",
+"type": "chat"
       }
     }
   },
@@ -414,7 +452,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-20",
-        "text": "My bet finally paid off!"
+        "text": "My bet finally paid off!",
+"type": "chat"
       }
     }
   },
@@ -425,7 +464,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-01",
-        "text": "That was a nail-biter right to the end."
+        "text": "That was a nail-biter right to the end.",
+"type": "chat"
       }
     }
   },
@@ -436,7 +476,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-04",
-        "text": "Thunder Strike really earned that victory."
+        "text": "Thunder Strike really earned that victory.",
+"type": "chat"
       }
     }
   },
@@ -447,7 +488,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-12",
-        "text": "Well deserved win for number 7."
+        "text": "Well deserved win for number 7.",
+"type": "chat"
       }
     }
   },
@@ -458,7 +500,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-39",
-        "text": "The jockey did an amazing job out there."
+        "text": "The jockey did an amazing job out there.",
+"type": "chat"
       }
     }
   },
@@ -469,7 +512,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-11",
-        "text": "Congratulations to the winner!"
+        "text": "Congratulations to the winner!",
+"type": "chat"
       }
     }
   },
@@ -480,7 +524,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-39",
-        "text": "That was a nail-biter right to the end."
+        "text": "That was a nail-biter right to the end.",
+"type": "chat"
       }
     }
   },
@@ -491,7 +536,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-30",
-        "text": "That was a perfect ending to a great race."
+        "text": "That was a perfect ending to a great race.",
+"type": "chat"
       }
     }
   },
@@ -502,7 +548,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-05",
-        "text": "That was a perfect ending to a great race."
+        "text": "That was a perfect ending to a great race.",
+"type": "chat"
       }
     }
   },
@@ -513,7 +560,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-38",
-        "text": "I hope all the horses and jockeys are okay after that."
+        "text": "I hope all the horses and jockeys are okay after that.",
+"type": "chat"
       }
     }
   },
@@ -524,7 +572,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-39",
-        "text": "Photo finish! My heart is still racing."
+        "text": "Photo finish! My heart is still racing.",
+"type": "chat"
       }
     }
   },
@@ -535,7 +584,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-34",
-        "text": "That was a true display of heart and determination."
+        "text": "That was a true display of heart and determination.",
+"type": "chat"
       }
     }
   },
@@ -546,7 +596,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-02",
-        "text": "Already looking forward to the next race!"
+        "text": "Already looking forward to the next race!",
+"type": "chat"
       }
     }
   },
@@ -557,7 +608,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-39",
-        "text": "That was a perfect ending to a great race."
+        "text": "That was a perfect ending to a great race.",
+"type": "chat"
       }
     }
   },
@@ -568,7 +620,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-19",
-        "text": "Already looking forward to the next race!"
+        "text": "Already looking forward to the next race!",
+"type": "chat"
       }
     }
   },
@@ -579,7 +632,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-27",
-        "text": "Cheers to the new champion!"
+        "text": "Cheers to the new champion!",
+"type": "chat"
       }
     }
   },
@@ -590,7 +644,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-34",
-        "text": "That was absolutely unforgettable."
+        "text": "That was absolutely unforgettable.",
+"type": "chat"
       }
     }
   },
@@ -601,7 +656,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-10",
-        "text": "That was the most exciting race I've seen in years."
+        "text": "That was the most exciting race I've seen in years.",
+"type": "chat"
       }
     }
   },
@@ -612,7 +668,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-29",
-        "text": "Cheers to the new champion!"
+        "text": "Cheers to the new champion!",
+"type": "chat"
       }
     }
   },
@@ -623,7 +680,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-36",
-        "text": "That finish will be talked about for years."
+        "text": "That finish will be talked about for years.",
+"type": "chat"
       }
     }
   },
@@ -634,7 +692,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-21",
-        "text": "That was a perfect ending to a great race."
+        "text": "That was a perfect ending to a great race.",
+"type": "chat"
       }
     }
   },
@@ -645,7 +704,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-29",
-        "text": "I can't believe how close that was at the end."
+        "text": "I can't believe how close that was at the end.",
+"type": "chat"
       }
     }
   },
@@ -656,7 +716,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-06",
-        "text": "The energy in the stands is unbelievable."
+        "text": "The energy in the stands is unbelievable.",
+"type": "chat"
       }
     }
   },
@@ -667,7 +728,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-13",
-        "text": "That was pure adrenaline from start to finish."
+        "text": "That was pure adrenaline from start to finish.",
+"type": "chat"
       }
     }
   },
@@ -678,7 +740,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-35",
-        "text": "I can't believe how close that was at the end."
+        "text": "I can't believe how close that was at the end.",
+"type": "chat"
       }
     }
   },
@@ -689,7 +752,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-33",
-        "text": "That was absolutely unforgettable."
+        "text": "That was absolutely unforgettable.",
+"type": "chat"
       }
     }
   },
@@ -700,7 +764,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-35",
-        "text": "That was worth every penny."
+        "text": "That was worth every penny.",
+"type": "chat"
       }
     }
   },
@@ -711,7 +776,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-05",
-        "text": "What a storybook ending."
+        "text": "What a storybook ending.",
+"type": "chat"
       }
     }
   },
@@ -722,7 +788,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-22",
-        "text": "I didn't expect that underdog to place!"
+        "text": "I didn't expect that underdog to place!",
+"type": "chat"
       }
     }
   },
@@ -733,7 +800,8 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-33",
-        "text": "My bet finally paid off!"
+        "text": "My bet finally paid off!",
+"type": "chat"
       }
     }
   }

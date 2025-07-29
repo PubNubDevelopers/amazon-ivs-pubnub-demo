@@ -67,7 +67,8 @@ def generate_horse_racing_chat():
                 "channel": "race.chat.all",
                 "data": {
                     "user": f"bot-{bot_number}",
-                    "text": comment
+                    "text": comment,
+                    "type": "chat"
                 }
             }
         }

@@ -550,6 +550,18 @@ export default function Page () {
           Mock Illuminate requesting a poll (Anger)
         </div>
 
+        <div
+          className={`${testStyle}`}
+          onClick={() =>
+            sendPubNubMessage(serverVideoControlChannelId, {
+              type: 'ON_DEMAND_SCRIPT',
+              params: { scriptName: 'engagement' }
+            })
+          }
+        >
+          Mock Illuminate requesting a poll (Engagement)
+        </div>
+
         <div className='text-xl'>Match Statistics</div>
 
         <div className={`${testStyle}`} onClick={() => sendMatchStatsMessage()}>
