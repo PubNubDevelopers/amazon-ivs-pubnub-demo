@@ -448,14 +448,14 @@ async function runLoop() {
     const eventObj = matchScript[scriptIndex];
     // Publish the event
 
-    if (!(eventObj.action.channel === "race.chat" && !shouldSendChatMessages)) {
+    if (!(eventObj.action.channel === "race.chat.all" && !shouldSendChatMessages)) {
       // Check for betting open events
       if (eventObj.action?.channel === "race.betting" && eventObj.action?.data?.type === "betting_open") {
         await clearHistory("race.betting");
       }
       
       //console.log("publishing message");
-      publishMessage(
+      await publishMessage(
         eventObj.action.channel,
         eventObj.action.data,
         !!eventObj.persistInHistory

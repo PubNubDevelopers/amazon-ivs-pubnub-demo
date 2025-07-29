@@ -24,6 +24,8 @@ export default function Header ({
   const [ffmpegMessage, setFfmpegMessage] = useState('')
   const [backendDataStatus, setBackendDataStatus] = useState<'idle' | 'starting' | 'stopping' | 'success' | 'error'>('idle')
   const [backendDataMessage, setBackendDataMessage] = useState('')
+  const [botChatStatus, setBotChatStatus] = useState<'idle' | 'resuming' | 'pausing' | 'success' | 'error'>('idle')
+  const [botChatMessage, setBotChatMessage] = useState('')
 
   const handlePinSubmit = (e) => {
     e.preventDefault()
@@ -54,6 +56,8 @@ export default function Header ({
     setFfmpegMessage('')
     setBackendDataStatus('idle')
     setBackendDataMessage('')
+    setBotChatStatus('idle')
+    setBotChatMessage('')
   }
 
   const captureVideoScreenshot = async () => {
@@ -244,8 +248,8 @@ export default function Header ({
           channel: serverVideoControlChannelId
         });
         
-        setFfmpegStatus('success')
-        setFfmpegMessage(`Sent command to backend.  BROWSER WILL REFRESH! WAIT.`)
+        setFfmpegStatus('idle')
+        setFfmpegMessage('Sent command to backend. BROWSER WILL REFRESH! WAIT.')
         
         setTimeout(() => {
           window.location.reload()
@@ -269,13 +273,8 @@ export default function Header ({
           channel: serverVideoControlChannelId
         });
         
-        setFfmpegStatus('success')
+        setFfmpegStatus('idle')
         setFfmpegMessage('Sent command to stop FFmpeg stream')
-        
-        // Auto-close modal after 2 seconds
-        //setTimeout(() => {
-        //  closeModal()
-        //}, 2000)
       }
     } catch (error) {
       console.error('Error stopping FFmpeg stream:', error);
@@ -295,13 +294,8 @@ export default function Header ({
           channel: serverVideoControlChannelId
         });
         
-        setBackendDataStatus('success')
+        setBackendDataStatus('idle')
         setBackendDataMessage('Backend data generator started successfully!')
-        
-        // Auto-close modal after 2 seconds
-        //setTimeout(() => {
-        //  closeModal()
-        //}, 2000)
       }
     } catch (error) {
       console.error('Error starting backend data generator:', error);
@@ -323,18 +317,36 @@ export default function Header ({
           channel: serverVideoControlChannelId
         });
         
-        setBackendDataStatus('success')
+        setBackendDataStatus('idle')
         setBackendDataMessage('Backend data generator stopped successfully!')
-        
-        // Auto-close modal after 2 seconds
-        //setTimeout(() => {
-        //  closeModal()
-        //}, 2000)
       }
     } catch (error) {
       console.error('Error stopping backend data generator:', error);
       setBackendDataStatus('error')
       setBackendDataMessage('Failed to stop backend data generator.')
+    }
+  };
+
+  const toggleBotChat = async () => {
+    setBotChatStatus('resuming')
+    setBotChatMessage('Updating bot chat...')
+    
+    try {
+      if (chat) {
+        await chat.sdk.publish({
+          message: {
+            type: 'BOT_CHAT'
+          },
+          channel: serverVideoControlChannelId
+        })
+        
+        setBotChatStatus('idle')
+        setBotChatMessage('Bot chat updated successfully!')
+      }
+    } catch (error) {
+      console.error('Error updating bot chat:', error);
+      setBotChatStatus('error')
+      setBotChatMessage('Failed to update bot chat.')
     }
   };
 
@@ -522,7 +534,7 @@ export default function Header ({
           onClick={closeModal}
         >
           <div 
-            className='bg-white rounded-lg shadow-xl p-6 w-96 max-w-[90vw] max-h-[90vh] overflow-auto'
+            className='bg-white rounded-lg shadow-xl p-6 w-[600px] max-w-[90vw] max-h-[90vh] overflow-auto'
             onClick={e => e.stopPropagation()}
           >
             <div className='flex justify-between items-center mb-4'>
@@ -564,16 +576,189 @@ export default function Header ({
                 </form>
               </div>
             ) : (
-              <div className='space-y-4'>
-                {/* Sync Stream Section */}
+              <div className='space-y-6'>
+                {/* Backend Generator Controls Section */}
                 <div>
-                  <h3 className='text-lg font-semibold text-gray-900 mb-3'>Stream Synchronization</h3>
+                  <h2 className='text-xl font-bold text-gray-900 mb-4'>Backend Generator Controls</h2>
+                  
+                  {/* Data Generator Subsection */}
+                  <div className='mb-4'>
+                    <h3 className='text-lg font-semibold text-gray-900 mb-2'>Data Generator</h3>
+                    <p className='text-gray-600 text-sm mb-3'>Start or stop sending commentary, betting updates, and bot chat</p>
+                    {backendDataStatus === 'idle' && (
+                      <div className='space-y-3'>
+                        <div className='flex space-x-2'>
+                          <button
+                            onClick={startBackendData}
+                            className='flex-1 bg-green-300 text-green-800 py-2 px-4 rounded-md hover:bg-green-400 transition-colors'
+                          >
+                            Start Backend Data
+                          </button>
+                          <button
+                            onClick={stopBackendData}
+                            className='flex-1 bg-red-200 text-red-800 py-2 px-4 rounded-md hover:bg-red-300 transition-colors'
+                          >
+                            Stop Backend Data
+                          </button>
+                        </div>
+                        {backendDataMessage && (
+                          <p className='text-green-600 text-center'>{backendDataMessage}</p>
+                        )}
+                      </div>
+                    )}
+                    
+                    {backendDataStatus === 'starting' && (
+                      <div className='space-y-3'>
+                        <button
+                          disabled
+                          className='w-full bg-gray-400 text-white py-2 px-4 rounded-md cursor-not-allowed'
+                        >
+                          Starting...
+                        </button>
+                        <p className='text-blue-600 text-center'>{backendDataMessage}</p>
+                      </div>
+                    )}
+                    
+                    {backendDataStatus === 'stopping' && (
+                      <div className='space-y-3'>
+                        <button
+                          disabled
+                          className='w-full bg-gray-400 text-white py-2 px-4 rounded-md cursor-not-allowed'
+                        >
+                          Stopping...
+                        </button>
+                        <p className='text-blue-600 text-center'>{backendDataMessage}</p>
+                      </div>
+                    )}
+                    
+                    
+                    {backendDataStatus === 'error' && (
+                      <div className='space-y-3'>
+                        <div className='flex space-x-2'>
+                          <button
+                            onClick={startBackendData}
+                            className='flex-1 bg-green-300 text-green-800 py-2 px-4 rounded-md hover:bg-green-400 transition-colors'
+                          >
+                            Start Backend Data
+                          </button>
+                          <button
+                            onClick={stopBackendData}
+                            className='flex-1 bg-red-200 text-red-800 py-2 px-4 rounded-md hover:bg-red-300 transition-colors'
+                          >
+                            Stop Backend Data
+                          </button>
+                        </div>
+                        <p className='text-red-600 text-center'>{backendDataMessage}</p>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Stream Control Subsection */}
+                  <div>
+                    <h3 className='text-lg font-semibold text-gray-900 mb-2'>Stream Control</h3>
+                    <p className='text-gray-600 text-sm mb-3'>Start or stop streaming the live streamed video over AWS IVS</p>
+                    {ffmpegStatus === 'idle' && (
+                      <div className='space-y-3'>
+                        <div className='flex space-x-2'>
+                          <button
+                            onClick={startFFmpegStream}
+                            className='flex-1 bg-green-300 text-green-800 py-2 px-4 rounded-md hover:bg-green-400 transition-colors'
+                          >
+                            Start FFmpeg Stream
+                          </button>
+                          <button
+                            onClick={stopFFmpegStream}
+                            className='flex-1 bg-red-200 text-red-800 py-2 px-4 rounded-md hover:bg-red-300 transition-colors'
+                          >
+                            Stop FFmpeg Stream
+                          </button>
+                        </div>
+                        {ffmpegMessage && (
+                          <p className='text-green-600 text-center'>{ffmpegMessage}</p>
+                        )}
+                      </div>
+                    )}
+                    
+                    {ffmpegStatus === 'starting' && (
+                      <div className='space-y-3'>
+                        <button
+                          disabled
+                          className='w-full bg-gray-400 text-white py-2 px-4 rounded-md cursor-not-allowed'
+                        >
+                          Starting...
+                        </button>
+                        <p className='text-blue-600 text-center'>{ffmpegMessage}</p>
+                      </div>
+                    )}
+                    
+                    {ffmpegStatus === 'stopping' && (
+                      <div className='space-y-3'>
+                        <button
+                          disabled
+                          className='w-full bg-gray-400 text-white py-2 px-4 rounded-md cursor-not-allowed'
+                        >
+                          Stopping...
+                        </button>
+                        <p className='text-blue-600 text-center'>{ffmpegMessage}</p>
+                      </div>
+                    )}
+                    
+                  </div>
+
+                  {/* Bot Chat Subsection */}
+                  <div className='mt-8'>
+                    <h3 className='text-lg font-semibold text-gray-900 mb-2'>Bot Chat</h3>
+                    <p className='text-gray-600 text-sm mb-3'>Pause or resume bot chat in the public channel</p>
+                    {botChatStatus === 'idle' && (
+                      <div className='space-y-3'>
+                        <button
+                          onClick={toggleBotChat}
+                          className='w-full bg-blue-300 text-blue-800 py-2 px-4 rounded-md hover:bg-blue-400 transition-colors'
+                        >
+                          Pause / Resume Bot Chat
+                        </button>
+                        {botChatMessage && (
+                          <p className='text-green-600 text-center'>{botChatMessage}</p>
+                        )}
+                      </div>
+                    )}
+                    
+                    {botChatStatus === 'resuming' && (
+                      <div className='space-y-3'>
+                        <button
+                          disabled
+                          className='w-full bg-gray-400 text-white py-2 px-4 rounded-md cursor-not-allowed'
+                        >
+                          Updating...
+                        </button>
+                        <p className='text-blue-600 text-center'>{botChatMessage}</p>
+                      </div>
+                    )}
+                    
+                    {botChatStatus === 'error' && (
+                      <div className='space-y-3'>
+                        <button
+                          onClick={toggleBotChat}
+                          className='w-full bg-blue-300 text-blue-800 py-2 px-4 rounded-md hover:bg-blue-400 transition-colors'
+                        >
+                          Pause / Resume Bot Chat
+                        </button>
+                        <p className='text-red-600 text-center'>{botChatMessage}</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Synchronization Section */}
+                <div>
+                  <h2 className='text-xl font-bold text-gray-900 mb-2'>Synchronization</h2>
+                  <p className='text-gray-600 text-sm mb-4'>Synchronize the backend data with the video stream (requires stream to be started and visible)</p>
                   {syncStatus === 'idle' && (
                     <button
                       onClick={captureVideoScreenshot}
-                      className='w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors'
+                      className='w-full bg-blue-300 text-blue-800 py-2 px-4 rounded-md hover:bg-blue-400 transition-colors'
                     >
-                      Sync Stream
+                      Sync video to data
                     </button>
                   )}
                   
@@ -595,7 +780,6 @@ export default function Header ({
                         ✓ Success
                       </div>
                       <p className='text-green-600 text-center'>{syncMessage}</p>
-                      {/*<p className='text-gray-500 text-sm text-center'>Modal will close automatically...</p>*/}
                     </div>
                   )}
                   
@@ -603,140 +787,11 @@ export default function Header ({
                     <div className='space-y-3'>
                       <button
                         onClick={captureVideoScreenshot}
-                        className='w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors'
+                        className='w-full bg-green-300 text-green-800 py-2 px-4 rounded-md hover:bg-green-400 transition-colors'
                       >
                         Retry Sync
                       </button>
                       <p className='text-red-600 text-center'>{syncMessage}</p>
-                    </div>
-                  )}
-                </div>
-
-                {/* FFmpeg Stream Control Section */}
-                <div>
-                  <h3 className='text-lg font-semibold text-gray-900 mb-3'>FFmpeg Stream Control</h3>
-                  {ffmpegStatus === 'idle' && (
-                    <div className='space-y-2'>
-                      <button
-                        onClick={startFFmpegStream}
-                        className='w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 transition-colors'
-                      >
-                        Start FFmpeg Stream
-                      </button>
-                      <button
-                        onClick={stopFFmpegStream}
-                        className='w-full bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 transition-colors'
-                      >
-                        Stop FFmpeg Stream
-                      </button>
-                    </div>
-                  )}
-                  
-                  {ffmpegStatus === 'starting' && (
-                    <div className='space-y-3'>
-                      <button
-                        disabled
-                        className='w-full bg-gray-400 text-white py-2 px-4 rounded-md cursor-not-allowed'
-                      >
-                        Starting...
-                      </button>
-                      <p className='text-blue-600 text-center'>{ffmpegMessage}</p>
-                    </div>
-                  )}
-                  
-                  {ffmpegStatus === 'stopping' && (
-                    <div className='space-y-3'>
-                      <button
-                        disabled
-                        className='w-full bg-gray-400 text-white py-2 px-4 rounded-md cursor-not-allowed'
-                      >
-                        Stopping...
-                      </button>
-                      <p className='text-blue-600 text-center'>{ffmpegMessage}</p>
-                    </div>
-                  )}
-                  
-                  {ffmpegStatus === 'success' && (
-                    <div className='space-y-3'>
-                      <div className='w-full bg-green-600 text-white py-2 px-4 rounded-md text-center'>
-                        ✓ Success
-                      </div>
-                      <p className='text-green-600 text-center'>{ffmpegMessage}</p>
-                    </div>
-                  )}
-                </div>
-
-                {/* Backend Data Generator Section */}
-                <div>
-                  <h3 className='text-lg font-semibold text-gray-900 mb-3'>Backend Data Generator</h3>
-                  {backendDataStatus === 'idle' && (
-                    <div className='space-y-2'>
-                      <button
-                        onClick={startBackendData}
-                        className='w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors'
-                      >
-                        Start Backend Data
-                      </button>
-                      <button
-                        onClick={stopBackendData}
-                        className='w-full bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 transition-colors'
-                      >
-                        Stop Backend Data
-                      </button>
-                    </div>
-                  )}
-                  
-                  {backendDataStatus === 'starting' && (
-                    <div className='space-y-3'>
-                      <button
-                        disabled
-                        className='w-full bg-gray-400 text-white py-2 px-4 rounded-md cursor-not-allowed'
-                      >
-                        Starting...
-                      </button>
-                      <p className='text-blue-600 text-center'>{backendDataMessage}</p>
-                    </div>
-                  )}
-                  
-                  {backendDataStatus === 'stopping' && (
-                    <div className='space-y-3'>
-                      <button
-                        disabled
-                        className='w-full bg-gray-400 text-white py-2 px-4 rounded-md cursor-not-allowed'
-                      >
-                        Stopping...
-                      </button>
-                      <p className='text-blue-600 text-center'>{backendDataMessage}</p>
-                    </div>
-                  )}
-                  
-                  {backendDataStatus === 'success' && (
-                    <div className='space-y-3'>
-                      <div className='w-full bg-green-600 text-white py-2 px-4 rounded-md text-center'>
-                        ✓ Success
-                      </div>
-                      <p className='text-green-600 text-center'>{backendDataMessage}</p>
-                      <p className='text-gray-500 text-sm text-center'>Modal will close automatically...</p>
-                    </div>
-                  )}
-                  
-                  {backendDataStatus === 'error' && (
-                    <div className='space-y-3'>
-                      <div className='space-y-2'>
-                        <button
-                          onClick={startBackendData}
-                          className='w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors'
-                        >
-                          Start Backend Data
-                        </button>
-                        <button
-                          onClick={stopBackendData}
-                          className='w-full bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 transition-colors'
-                        >
-                          Stop Backend Data
-                        </button>
-                      </div>
-                      <p className='text-red-600 text-center'>{backendDataMessage}</p>
                     </div>
                   )}
                 </div>
