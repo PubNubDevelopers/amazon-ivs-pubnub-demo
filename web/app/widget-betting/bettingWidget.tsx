@@ -389,7 +389,7 @@ export default function BettingWidget ({
         text={
           <span>
             Betting can be built on top of PubNub’s{' '}
-            <span className='font-semibold'>Core Messaging Service</span>
+            <span className='font-semibold'>Core Messaging Service</span> that provides messages with very low latency between client and server, ensuring every user has the most recent view of the race, and nobody has an unfair advantage.
           </span>
         }
         xOffset={`${isMobilePreview ? 'left-[0px]' : 'right-[0px]'}`}
