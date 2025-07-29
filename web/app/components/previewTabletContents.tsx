@@ -29,6 +29,8 @@ export default function TabletContents ({
   logout,
   currentScore,
   currentWallet,
+  isEnglish,
+  setIsEnglish,
   heightConstrained = true
 }) {
   const [notification, setNotification] = useState<{
@@ -286,7 +288,14 @@ export default function TabletContents ({
     return (
       <div className='flex flex-row items-center justify-end sm:justify-between w-full px-6 py-[11.5px]'>
         <div className='hidden sm:flex text-3xl font-bold'>Live Stream</div>
-        <UserStatus chat={chat} logout={logout} currentScore={currentScore} currentWallet={currentWallet} />
+        <UserStatus 
+          chat={chat} 
+          logout={logout} 
+          currentScore={currentScore} 
+          currentWallet={currentWallet}
+          isEnglish={isEnglish}
+          setIsEnglish={setIsEnglish}
+        />
       </div>
     )
   }

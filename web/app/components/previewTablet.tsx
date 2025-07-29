@@ -10,6 +10,8 @@ export default function PreviewTablet ({
   logout,
   currentScore,
   currentWallet,
+  isEnglish,
+  setIsEnglish,
 }) {
   return (
     <div className={``}>
@@ -22,6 +24,8 @@ export default function PreviewTablet ({
         logout={logout}
         currentScore={currentScore}
         currentWallet={currentWallet}
+        isEnglish={isEnglish}
+        setIsEnglish={setIsEnglish}
       />
     </div>
   )
