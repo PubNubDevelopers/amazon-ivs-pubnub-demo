@@ -105,3 +105,31 @@ export const inProgressTranslations = {
   'nl': 'Bezig',
   'pt': 'Em Andamento'
 }
+
+// Translation map for Betting widget - Betting Closed status
+export const bettingClosedTranslations = {
+  'en': 'BETTING CLOSED',
+  'nl': 'WEDDEN GESLOTEN',
+  'pt': 'APOSTAS FECHADAS'
+}
+
+// Translation map for Betting widget - Race Results status
+export const raceResultsTranslations = {
+  'en': 'RACE RESULTS',
+  'nl': 'RACE RESULTATEN',
+  'pt': 'RESULTADOS DA CORRIDA'
+}
+
+// Translation map for Betting widget - Each Stake label
+export const eachStakeTranslations = {
+  'en': 'Each Stake',
+  'nl': 'Elke Inzet',
+  'pt': 'Cada Aposta'
+}
+
+// Translation map for Betting widget - Each Way label
+export const eachWayTranslations = {
+  'en': 'Each Way',
+  'nl': 'Each Way',
+  'pt': 'Cada Direção'
+}

@@ -169,6 +169,7 @@ export default function TabletContents ({
                 )
               }}
               currentWallet={currentWallet}
+              isEnglish={isEnglish}
             />
 
 
