@@ -5,6 +5,7 @@ export const gf = new GiphyFetch(process.env.NEXT_PUBLIC_GIPHY_API_KEY!)
 export interface GifObject {
   id: string
   title: string
+  rating?: string
   images: {
     fixed_height: {
       url: string
