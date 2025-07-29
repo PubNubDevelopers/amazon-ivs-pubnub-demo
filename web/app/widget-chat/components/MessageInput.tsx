@@ -147,7 +147,7 @@ export default function MessageInput ({
         const messageMetadata = !isEnglish ? {
           shouldTranslate: true,
           language: alternativeLanguage
-        } : {}
+        } : undefined
         
         await messageDraftRef.current.send({
           meta: messageMetadata
