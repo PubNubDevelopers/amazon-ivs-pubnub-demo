@@ -197,7 +197,7 @@ export default function TabletContents ({
             <div className='hidden sm:flex min-h-3'></div>
           </div>
           <div className='w-full sm:w-1/3 min-w-[350px] flex flex-col gap-4'>
-            {/*{dynamicAd && (
+            {dynamicAd && (
               <AdvertsOfferWidget
                 className={`${defaultWidgetClasses}`}
                 isMobilePreview={false}
@@ -222,7 +222,7 @@ export default function TabletContents ({
                   })
                 }}
               />
-            )}*/}
+            )}
             <ChatWidget
               className={`${defaultWidgetClasses}`}
               isMobilePreview={false}
