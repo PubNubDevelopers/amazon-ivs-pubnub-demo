@@ -28,3 +28,10 @@ export const liveStreamTranslations = {
   'nl': 'Live Stream',
   'pt': 'Stream ao Vivo'
 }
+
+// Translation map for Live indicator
+export const liveTranslations = {
+  'en': 'LIVE',
+  'nl': 'LIVE',
+  'pt': 'AO VIVO'
+}

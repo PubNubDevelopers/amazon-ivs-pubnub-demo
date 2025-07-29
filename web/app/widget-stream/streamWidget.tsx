@@ -6,8 +6,10 @@ import {
   illuminateUpgradeReaction,
   dataControlOccupancyChannelId,
   AlertType,
-  streamUrl
+  streamUrl,
+  alternativeLanguage
 } from '../data/constants'
+import { liveTranslations } from '../data/translations'
 import { PlayCircle } from '../side-menu/sideMenuIcons'
 import Alert from '../components/alert'
 import GuideOverlay from '../components/guideOverlay'
@@ -23,7 +25,8 @@ export default function StreamWidget ({
   guidesShown,
   visibleGuide,
   setVisibleGuide,
-  awardPoints
+  awardPoints,
+  isEnglish
 }) {
   const [occupancy, setOccupancy] = useState(0)
   const [realOccupancy, setRealOccupancy] = useState(0)
@@ -400,6 +403,17 @@ export default function StreamWidget ({
 
   function LiveOccupancyCount () {
     const displayOccupancy = occupancy + realOccupancy
+    
+    // Get the appropriate translation based on language selection
+    const getLiveText = () => {
+      if (isEnglish) {
+        return liveTranslations['en']
+      } else {
+        // Use alternative language or fallback to English
+        return liveTranslations[alternativeLanguage] || liveTranslations['en']
+      }
+    }
+    
     useEffect(() => {
       if (occupancy > 50) {
         const interval = setInterval(() => {
@@ -416,7 +430,7 @@ export default function StreamWidget ({
       <div className='flex flex-row h-7 text-white bg-cherry shadow-md rounded-l-full rounded-r-full'>
         <div className='flex flex-row px-2 py-1 gap-1 items-center'>
           <PlayCircle width={20} height={20} />
-          LIVE
+          {getLiveText()}
         </div>
         <div className='flex flex-row px-2 py-1 gap-1 items-center border-l-2 border-white/20 min-w-14'>
           <RemoveRedEye />

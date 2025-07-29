@@ -149,6 +149,7 @@ export default function TabletContents ({
                   showNewPointsAlert
                 )
               }}
+              isEnglish={isEnglish}
             />
             <BettingWidget
               className={`${defaultWidgetClasses}`}

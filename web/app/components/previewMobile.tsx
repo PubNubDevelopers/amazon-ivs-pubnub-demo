@@ -28,7 +28,8 @@ export default function PreviewMobile ({
   setVisibleGuide,
   logout,
   currentScore,
-  currentWallet
+  currentWallet,
+  isEnglish
 }) {
   const [notification, setNotification] = useState<{
     heading: string
@@ -144,6 +145,7 @@ export default function PreviewMobile ({
                   showNewPointsAlert
                 )
               }}
+              isEnglish={isEnglish}
             />
             {dynamicAd && (
               <AdvertsOfferWidget
