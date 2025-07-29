@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { liveCommentaryChannelId } from '../data/constants'
+import { liveCommentaryChannelId, liveCommentaryTranslations, alternativeLanguage } from '../data/constants'
 import GuideOverlay from '../components/guideOverlay'
 import { Channel, Message as pnMessage } from '@pubnub/chat'
 
@@ -9,7 +9,8 @@ export default function LiveCommentaryWidget ({
   chat,
   guidesShown,
   visibleGuide,
-  setVisibleGuide
+  setVisibleGuide,
+  isEnglish
 }) {
   const liveCommentaryScrollRef = useRef<HTMLDivElement>(null)
   const [messages, setMessages] = useState<any[]>([])
@@ -63,9 +64,19 @@ export default function LiveCommentaryWidget ({
     })
   }
 
+  // Get the appropriate translation based on language selection
+  const getHeaderText = () => {
+    if (isEnglish) {
+      return liveCommentaryTranslations['en']
+    } else {
+      // Use alternative language or fallback to English
+      return liveCommentaryTranslations[alternativeLanguage] || liveCommentaryTranslations['en']
+    }
+  }
+
   return (
     <div className={`${className} px-3 pt-3 pb-4`}>
-      <div className='font-semibold text-base pb-1'>Live Commentary</div>
+      <div className='font-semibold text-base pb-1'>{getHeaderText()}</div>
       <GuideOverlay
         id={'liveCommentary'}
         guidesShown={guidesShown}

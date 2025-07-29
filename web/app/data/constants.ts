@@ -41,6 +41,13 @@ export const bettingOddsDisplay = "fractional" //  "decimal" or "fractional"
 // Language settings
 export const alternativeLanguage = "nl"
 
+// Translation map for Live Commentary
+export const liveCommentaryTranslations = {
+  'en': 'Live Commentary',
+  'nl': 'Live Commentaar',
+  'pt': 'Comentário ao Vivo'
+}
+
 // Admin settings
 export const adminPin = "8888"
 

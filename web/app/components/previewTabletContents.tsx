@@ -266,6 +266,7 @@ export default function TabletContents ({
               guidesShown={guidesShown}
               visibleGuide={visibleGuide}
               setVisibleGuide={setVisibleGuide}
+              isEnglish={isEnglish}
             />
 
             {/*<BotWidget
