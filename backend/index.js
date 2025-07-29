@@ -13,6 +13,7 @@ const { polls } = require("./game-data/polls.js");
 const { reactions } = require("./game-data/reactions.js");
 const { stats } = require("./game-data/stats.js");
 const { betting } = require("./game-data/betting.js");
+const { engagement } = require("./illuminate/illuminate-polls.js");
 
 // Initialize PubNub
 const pubnub = new PubNub({
@@ -44,6 +45,7 @@ pubnub.subscribe({
 });
 pubnub.addListener({
   message: async ({ channel, message }) => {
+    //console.log("Received message on channel:", channel, "with message:", message);
     if (channel === CONTROL_CHANNEL) {
       await handleControlMessage(message);
     } else if (
@@ -112,9 +114,16 @@ async function handleControlMessage(msg) {
 
       var onDemandScript = null;
       var delay = 0;
+
+      if (scriptName === "engagement") {
+        onDemandScript = engagement;
+        delay = 30000;
+      } else {
         console.error("[Control] Unknown script name:", scriptName);
         return;
-      //runOnDemandScript(onDemandScript, delay);
+      }
+
+      runOnDemandScript(onDemandScript, delay);
 
       break;
     case "START_FFMPEG_STREAM":
@@ -368,7 +377,7 @@ async function publishMessage(channel, message, persistInHistory = false) {
       // Set User ID
       let userId = message.user || "other";
       pubnub.setUUID(userId);
-      console.log("Publishing message to channel:", channel, "with message:", message);
+      //console.log("Publishing message to channel:", channel, "with message:", message);
       await pubnub.publish({
         channel: channel,
         message: message,

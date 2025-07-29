@@ -239,6 +239,24 @@ export default function TabletContents ({
                 })
               }}
             />
+            <PollsWidget
+              className={`${defaultWidgetClasses}`}
+              isMobilePreview={false}
+              chat={chat}
+              isGuidedDemo={isGuidedDemo}
+              guidesShown={guidesShown}
+              visibleGuide={visibleGuide}
+              setVisibleGuide={setVisibleGuide}
+              awardPoints={(points, message) => {
+                AwardPoints(
+                  chat,
+                  points,
+                  message,
+                  currentScoreRef.current,
+                  showNewPointsAlert
+                )
+              }}
+            />
             <LiveCommentaryWidget
               className={`${defaultWidgetClasses}`}
               isMobilePreview={false}
