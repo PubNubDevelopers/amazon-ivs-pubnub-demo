@@ -133,3 +133,17 @@ export const eachWayTranslations = {
   'nl': 'Each Way',
   'pt': 'Cada Direção'
 }
+
+// Translation map for Chat channel names - indexed by channel ID
+export const chatChannelNamesTranslations = {
+  'race.chat.all': {
+    'en': 'Public Chat',
+    'nl': 'Openbare Chat',
+    'pt': 'Chat Público'
+  },
+  'race.chat.subscribers': {
+    'en': 'Subscriber Chat',
+    'nl': 'Abonnee Chat',
+    'pt': 'Chat de Assinantes'
+  }
+}

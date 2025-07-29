@@ -8,7 +8,7 @@ import {
   streamReactionsChannelId,
   alternativeLanguage
 } from '../data/constants'
-import { subscribersOnlyTranslations, onlineTranslations } from '../data/translations'
+import { subscribersOnlyTranslations, onlineTranslations, chatChannelNamesTranslations } from '../data/translations'
 import {
   Chat,
   User,
@@ -587,6 +587,20 @@ export default function ChatWidget ({
     }
   }
 
+  const getChannelDisplayName = (channelId: string, fallbackName: string) => {
+    // Check if we have a translation for this specific channel ID
+    const channelTranslations = chatChannelNamesTranslations[channelId]
+    if (channelTranslations) {
+      if (isEnglish) {
+        return channelTranslations['en']
+      } else {
+        return channelTranslations[alternativeLanguage] || channelTranslations['en']
+      }
+    }
+    // Fall back to original behavior if no translation exists
+    return fallbackName
+  }
+
   function backgroundClicked (e) {
     setShowMentions(false)
     setShowReactions(false)
@@ -679,7 +693,7 @@ export default function ChatWidget ({
             }
           ></div>
           <div className={'ml-[16px] text-sm'}>
-            {activeChannel.name || activeChannel.id}
+            {getChannelDisplayName(activeChannel.id, activeChannel.name || activeChannel.id)}
           </div>
           <div className={'grow'} />
           <div className={'flex items-center gap-3'}>
