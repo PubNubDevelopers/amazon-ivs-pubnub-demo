@@ -90,6 +90,7 @@ export default function SportsEventPage ({
         guidesShown={guidesShown}
         setGuidesShown={setGuidesShown}
         chat={chat}
+        isEnglish={isEnglish}
       ></Header>
 
       {/*<div className='sm:hidden flex flex-col mt-10 h-screen justify-center w-full text-center gap-16 text-4xl'>

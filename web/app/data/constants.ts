@@ -48,6 +48,20 @@ export const liveCommentaryTranslations = {
   'pt': 'Comentário ao Vivo'
 }
 
+// Translation map for How it Works button
+export const howItWorksTranslations = {
+  'en': 'How it Works',
+  'nl': 'Hoe het Werkt',
+  'pt': 'Como Funciona'
+}
+
+// Translation map for Close guide button
+export const closeGuideTranslations = {
+  'en': 'Close guide',
+  'nl': 'Gids sluiten',
+  'pt': 'Fechar guia'
+}
+
 // Admin settings
 export const adminPin = "8888"
 
