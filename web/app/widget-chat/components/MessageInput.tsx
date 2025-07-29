@@ -21,6 +21,7 @@ interface MessageInputProps {
   activeChannelRestrictions: Restriction | null
   isGuidedDemo: boolean
   showSpamNotification: () => void
+  showImageModerationNotification: () => void
 }
 
 export default function MessageInput ({
@@ -36,7 +37,8 @@ export default function MessageInput ({
   setShowStickerPicker,
   activeChannelRestrictions,
   isGuidedDemo,
-  showSpamNotification
+  showSpamNotification,
+  showImageModerationNotification
 }: MessageInputProps) {
   const [ref, hovering] = useHover()
   const [mentionQuery, setMentionQuery] = useState('')
@@ -166,6 +168,12 @@ export default function MessageInput ({
   }
 
   const handleStickerSelect = async (gif: GifObject) => {
+    // Check if the gif rating is inappropriate (anything other than 'g')
+    if (gif.rating && gif.rating !== 'g') {
+      showImageModerationNotification()
+      return
+    }
+
     try {
       // Send sticker as a custom message via PubNub SDK directly
       await channel.sendText(JSON.stringify({

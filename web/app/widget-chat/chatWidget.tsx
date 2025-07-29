@@ -77,6 +77,9 @@ export default function ChatWidget ({
   // Spam popup state
   const [showSpamPopup, setShowSpamPopup] = useState(false)
 
+  // Image moderation popup state
+  const [showImageModerationPopup, setShowImageModerationPopup] = useState(false)
+
   const messagesContainerRef = useRef<HTMLDivElement>(null)
   const activeChannelIdRef = useRef<string | null>(null)
 
@@ -85,6 +88,14 @@ export default function ChatWidget ({
     setShowSpamPopup(true)
     setTimeout(() => {
       setShowSpamPopup(false)
+    }, 3000)
+  }
+
+  // Function to show image moderation popup with auto-hide
+  const showImageModerationNotification = () => {
+    setShowImageModerationPopup(true)
+    setTimeout(() => {
+      setShowImageModerationPopup(false)
     }, 3000)
   }
 
@@ -758,6 +769,15 @@ export default function ChatWidget ({
               </div>
             </div>
           )}
+
+          {/* Image Moderation Popup */}
+          {showImageModerationPopup && (
+            <div className='absolute inset-0 flex items-center justify-center z-50 animate-in fade-in duration-300'>
+              <div className='bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg font-semibold'>
+                Moderation: Sticker removed as violated chat policies
+              </div>
+            </div>
+          )}
           
           <div
             ref={messagesContainerRef}
@@ -807,6 +827,7 @@ export default function ChatWidget ({
             activeChannelRestrictions={activeChannelRestrictions}
             isGuidedDemo={isGuidedDemo}
             showSpamNotification={showSpamNotification}
+            showImageModerationNotification={showImageModerationNotification}
           />
         </div>
       )}
