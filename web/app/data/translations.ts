@@ -35,3 +35,24 @@ export const liveTranslations = {
   'nl': 'LIVE',
   'pt': 'AO VIVO'
 }
+
+// Translation map for Chat widget - Subscribers only
+export const subscribersOnlyTranslations = {
+  'en': 'Subscribers only',
+  'nl': 'Alleen abonnees',
+  'pt': 'Apenas assinantes'
+}
+
+// Translation map for Chat widget - online status
+export const onlineTranslations = {
+  'en': 'online',
+  'nl': 'online',
+  'pt': 'online'
+}
+
+// Translation map for Chat widget - message placeholder
+export const messageInputPlaceholderTranslations = {
+  'en': 'Write your message here',
+  'nl': 'Schrijf hier je bericht',
+  'pt': 'Escreva sua mensagem aqui'
+}

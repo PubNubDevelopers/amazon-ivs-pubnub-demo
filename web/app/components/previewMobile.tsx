@@ -188,6 +188,7 @@ export default function PreviewMobile ({
                   imageUrl: null
                 })
               }}
+              isEnglish={isEnglish}
             />
             <PollsWidget
               className={`${defaultWidgetClasses}`}

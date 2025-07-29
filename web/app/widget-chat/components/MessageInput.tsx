@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
-import { reactions } from '@/app/data/constants'
+import { reactions, alternativeLanguage } from '@/app/data/constants'
+import { messageInputPlaceholderTranslations } from '@/app/data/translations'
 import { User, MessageDraftV2, Channel } from '@pubnub/chat'
 import { useHover } from '@uidotdev/usehooks'
 import { Restriction } from '../chatWidget'
@@ -22,6 +23,7 @@ interface MessageInputProps {
   isGuidedDemo: boolean
   showSpamNotification: () => void
   showImageModerationNotification: () => void
+  isEnglish?: boolean
 }
 
 export default function MessageInput ({
@@ -38,7 +40,8 @@ export default function MessageInput ({
   activeChannelRestrictions,
   isGuidedDemo,
   showSpamNotification,
-  showImageModerationNotification
+  showImageModerationNotification,
+  isEnglish = true
 }: MessageInputProps) {
   const [ref, hovering] = useHover()
   const [mentionQuery, setMentionQuery] = useState('')
@@ -46,6 +49,15 @@ export default function MessageInput ({
   const [mentionStartIndex, setMentionStartIndex] = useState(-1)
   const inputRef = useRef<HTMLInputElement>(null)
   const messageDraftRef = useRef<MessageDraftV2 | null>(null)
+
+  // Translation function
+  const getPlaceholderText = () => {
+    if (isEnglish) {
+      return messageInputPlaceholderTranslations['en']
+    } else {
+      return messageInputPlaceholderTranslations[alternativeLanguage] || messageInputPlaceholderTranslations['en']
+    }
+  }
 
   useEffect(() => {
     // Initialize message draft when component mounts
@@ -317,7 +329,7 @@ export default function MessageInput ({
               ? 'You have been muted'
               : activeChannelRestrictions?.ban
               ? 'You have been banned'
-              : 'Write your message here'
+              : getPlaceholderText()
           }`}
           className='w-full focus:outline-none focus:shadow-outline'
           value={messageInput}

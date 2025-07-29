@@ -5,8 +5,10 @@ import GuideOverlay from '../components/guideOverlay'
 import {
   dataControlOccupancyChannelId,
   serverVideoControlChannelId,
-  streamReactionsChannelId
+  streamReactionsChannelId,
+  alternativeLanguage
 } from '../data/constants'
+import { subscribersOnlyTranslations, onlineTranslations } from '../data/translations'
 import {
   Chat,
   User,
@@ -26,6 +28,7 @@ interface ChatWidgetProps {
   visibleGuide: string
   setVisibleGuide: (guide: string) => void
   userMentioned: (messageText: string) => void
+  isEnglish?: boolean
 }
 
 export interface Restriction {
@@ -42,7 +45,8 @@ export default function ChatWidget ({
   guidesShown,
   visibleGuide,
   setVisibleGuide,
-  userMentioned
+  userMentioned,
+  isEnglish = true
 }: ChatWidgetProps) {
   // Channel state
   const [activeChannelId, setActiveChannelId] = useState<string | null>(null)
@@ -566,6 +570,23 @@ export default function ChatWidget ({
     )
   }
 
+  // Translation functions
+  const getSubscribersOnlyText = () => {
+    if (isEnglish) {
+      return subscribersOnlyTranslations['en']
+    } else {
+      return subscribersOnlyTranslations[alternativeLanguage] || subscribersOnlyTranslations['en']
+    }
+  }
+
+  const getOnlineText = () => {
+    if (isEnglish) {
+      return onlineTranslations['en']
+    } else {
+      return onlineTranslations[alternativeLanguage] || onlineTranslations['en']
+    }
+  }
+
   function backgroundClicked (e) {
     setShowMentions(false)
     setShowReactions(false)
@@ -663,7 +684,7 @@ export default function ChatWidget ({
           <div className={'grow'} />
           <div className={'flex items-center gap-3'}>
             <div className={'flex items-center gap-2'}>
-              <label className={'text-sm text-white'}>Subscribers only</label>
+              <label className={'text-sm text-white'}>{getSubscribersOnlyText()}</label>
               <button
                 onClick={() => setSubscribersOnly(!subscribersOnly)}
                 className={`relative inline-flex h-[20px] w-[36px] items-center rounded-full transition-colors ${
@@ -687,7 +708,7 @@ export default function ChatWidget ({
               >
                 <circle cx='4' cy='4' r='4' fill='#22C55E' />
               </svg>{' '}
-              {simulatedOccupancy + realOccupancy} online
+              {simulatedOccupancy + realOccupancy} {getOnlineText()}
             </div>
           </div>
         </div>
@@ -828,6 +849,7 @@ export default function ChatWidget ({
             isGuidedDemo={isGuidedDemo}
             showSpamNotification={showSpamNotification}
             showImageModerationNotification={showImageModerationNotification}
+            isEnglish={isEnglish}
           />
         </div>
       )}
