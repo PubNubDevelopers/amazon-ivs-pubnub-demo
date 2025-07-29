@@ -1,14 +1,23 @@
 export const channelData = [
   {
-    id: "race.chat",
-    name: "Chat",
+    id: "race.chat.all",
+    name: "Public Chat",
     description: "Public conversation about the stream",
     avatar:
       "https://aws-ivs-pubnub-sme.netlify.app/avatars/group/chat2.png",
     createInAppContext: true,
   },
+  {
+    id: "race.chat.subscribers",
+    name: "Subscriber Chat",
+    description: "Chat for subscribers only",
+    avatar:
+      "https://aws-ivs-pubnub-sme.netlify.app/avatars/group/chat2.png",
+    createInAppContext: true,
+  }
 ];
 export const chatChannelId = channelData[0].id;
+export const subscriberChatChannelId = channelData[1].id;
 export const liveCommentaryChannelId = "race.commentary";
 export const streamReactionsChannelId = "game.stream-reactions";
 export const pollDeclarations = "game.new-poll";
