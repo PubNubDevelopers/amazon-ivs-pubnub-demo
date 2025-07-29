@@ -143,7 +143,15 @@ export default function MessageInput ({
   const handleSendMessage = async () => {
     if (messageDraftRef.current && messageInput.trim()) {
       try {
-        await messageDraftRef.current.send()
+        // Add translation metadata if language is not English
+        const messageMetadata = !isEnglish ? {
+          shouldTranslate: true,
+          language: alternativeLanguage
+        } : {}
+        
+        await messageDraftRef.current.send({
+          meta: messageMetadata
+        })
         if (!isGuidedDemo) {
           //  This code is only used by the PubNub website
           actionCompleted({
