@@ -100,9 +100,9 @@ async function handleControlMessage(msg) {
       break;
     case "BOT_CHAT":
       if (!intervalId) return;
-      let messageText = "Messages Restarted";
+      let messageText = "Messages Sped up";
       if (shouldSendChatMessages) {
-        messageText = "Messages Paused";
+        messageText = "Messages Slowed down";
       }
       shouldSendChatMessages = !shouldSendChatMessages;
       publishMessage("race.chat.all", { user: "bot-33", text: messageText }, false);
@@ -457,14 +457,14 @@ async function runLoop() {
     const eventObj = matchScript[scriptIndex];
     // Publish the event
 
-    if (!(eventObj.action.channel === "race.chat.all" && !shouldSendChatMessages)) {
+    if (!(eventObj.action.channel === "race.chat.all" && !shouldSendChatMessages && currentTime % 5000 !== 0)) {
       // Check for betting open events
       if (eventObj.action?.channel === "race.betting" && eventObj.action?.data?.type === "betting_open") {
         await clearHistory("race.betting");
       }
       
       //console.log("publishing message");
-      await publishMessage(
+      publishMessage(
         eventObj.action.channel,
         eventObj.action.data,
         !!eventObj.persistInHistory

@@ -715,7 +715,7 @@ export default function Header ({
                           onClick={toggleBotChat}
                           className='w-full bg-blue-300 text-blue-800 py-2 px-4 rounded-md hover:bg-blue-400 transition-colors'
                         >
-                          Pause / Resume Bot Chat
+                          Slow / Speed up Bot Chat
                         </button>
                         {botChatMessage && (
                           <p className='text-green-600 text-center'>{botChatMessage}</p>
@@ -741,7 +741,7 @@ export default function Header ({
                           onClick={toggleBotChat}
                           className='w-full bg-blue-300 text-blue-800 py-2 px-4 rounded-md hover:bg-blue-400 transition-colors'
                         >
-                          Pause / Resume Bot Chat
+                          Slow / Speed up Bot Chat
                         </button>
                         <p className='text-red-600 text-center'>{botChatMessage}</p>
                       </div>
