@@ -56,3 +56,52 @@ export const messageInputPlaceholderTranslations = {
   'nl': 'Schrijf hier je bericht',
   'pt': 'Escreva sua mensagem aqui'
 }
+
+// Translation map for Log out button
+export const logOutTranslations = {
+  'en': 'Log out',
+  'nl': 'Uitloggen',
+  'pt': 'Sair'
+}
+
+// Translation map for Switch User button
+export const switchUserTranslations = {
+  'en': 'Switch User',
+  'nl': 'Gebruiker Wisselen',
+  'pt': 'Trocar Usuário'
+}
+
+// Translation map for Poll widget - Open unanswered polls header
+export const openUnansweredPollsTranslations = {
+  'en': 'Open, unanswered polls',
+  'nl': 'Open, onbeantwoorde polls',
+  'pt': 'Enquetes abertas, não respondidas'
+}
+
+// Translation map for Poll widget - Win for fun button
+export const winForFunTranslations = {
+  'en': 'fun',
+  'nl': 'plezier',
+  'pt': 'diversão'
+}
+
+// Translation map for Poll widget - See all polls button
+export const seeAllPollsTranslations = {
+  'en': 'See all polls',
+  'nl': 'Alle polls bekijken',
+  'pt': 'Ver todas as enquetes'
+}
+
+// Translation map for Poll widget - Results header
+export const resultsTranslations = {
+  'en': 'Results',
+  'nl': 'Resultaten',
+  'pt': 'Resultados'
+}
+
+// Translation map for Poll widget - In Progress status
+export const inProgressTranslations = {
+  'en': 'In Progress',
+  'nl': 'Bezig',
+  'pt': 'Em Andamento'
+}

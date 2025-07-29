@@ -262,6 +262,7 @@ export default function TabletContents ({
                   showNewPointsAlert
                 )
               }}
+              isEnglish={isEnglish}
             />
             <LiveCommentaryWidget
               className={`${defaultWidgetClasses}`}

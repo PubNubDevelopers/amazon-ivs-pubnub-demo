@@ -4,6 +4,7 @@ import Avatar from './avatar'
 import Cup from './icons/cup'
 import Cash from './icons/cash'
 import { currencySymbol, alternativeLanguage } from '../data/constants'
+import { logOutTranslations, switchUserTranslations } from '../data/translations'
 import { getFlagFromLanguageCode } from '../utils/flagUtils'
 
 export default function UserStatus ({ chat, logout, currentScore, currentWallet, isEnglish, setIsEnglish }) {
@@ -31,6 +32,23 @@ export default function UserStatus ({ chat, logout, currentScore, currentWallet,
   // Toggle between English and alternative language
   const toggleLanguage = () => {
     setIsEnglish(!isEnglish)
+  }
+
+  // Translation functions
+  const getLogOutText = () => {
+    if (isEnglish) {
+      return logOutTranslations['en']
+    } else {
+      return logOutTranslations[alternativeLanguage] || logOutTranslations['en']
+    }
+  }
+
+  const getSwitchUserText = () => {
+    if (isEnglish) {
+      return switchUserTranslations['en']
+    } else {
+      return switchUserTranslations[alternativeLanguage] || switchUserTranslations['en']
+    }
   }
 
   return (
@@ -92,7 +110,7 @@ export default function UserStatus ({ chat, logout, currentScore, currentWallet,
           </div>
         </div>
       </div>
-      <div className='text-base font-normal text-teal700 underline cursor-pointer' onClick={(e) => {logout();}}>{isLoginBypass ? 'Switch User' : 'Log out'}</div>
+      <div className='text-base font-normal text-teal700 underline cursor-pointer' onClick={(e) => {logout();}}>{isLoginBypass ? getSwitchUserText() : getLogOutText()}</div>
     </div>
   )
 }

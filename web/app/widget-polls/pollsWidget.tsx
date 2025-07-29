@@ -6,8 +6,16 @@ import {
   pollVotes,
   pollResults,
   illuminatePollTesting,
-  AlertType
+  AlertType,
+  alternativeLanguage
 } from '../data/constants'
+import { 
+  openUnansweredPollsTranslations,
+  winForFunTranslations,
+  seeAllPollsTranslations,
+  resultsTranslations,
+  inProgressTranslations
+} from '../data/translations'
 import { actionCompleted } from 'pubnub-demo-integration'
 
 export default function PollsWidget ({
@@ -18,7 +26,8 @@ export default function PollsWidget ({
   guidesShown,
   visibleGuide,
   setVisibleGuide,
-  awardPoints
+  awardPoints,
+  isEnglish = true
 }) {
   const [currentlyVisiblePoll, setCurrentlyVisiblePoll] = useState(null)
   const [polls, setPolls] = useState<any[]>([])
@@ -151,6 +160,47 @@ export default function PollsWidget ({
     }
   }, [chat])
 
+  // Translation functions
+  const getOpenUnansweredPollsText = () => {
+    if (isEnglish) {
+      return openUnansweredPollsTranslations['en']
+    } else {
+      return openUnansweredPollsTranslations[alternativeLanguage] || openUnansweredPollsTranslations['en']
+    }
+  }
+
+  const getWinForFunText = () => {
+    if (isEnglish) {
+      return winForFunTranslations['en']
+    } else {
+      return winForFunTranslations[alternativeLanguage] || winForFunTranslations['en']
+    }
+  }
+
+  const getSeeAllPollsText = () => {
+    if (isEnglish) {
+      return seeAllPollsTranslations['en']
+    } else {
+      return seeAllPollsTranslations[alternativeLanguage] || seeAllPollsTranslations['en']
+    }
+  }
+
+  const getResultsText = () => {
+    if (isEnglish) {
+      return resultsTranslations['en']
+    } else {
+      return resultsTranslations[alternativeLanguage] || resultsTranslations['en']
+    }
+  }
+
+  const getInProgressText = () => {
+    if (isEnglish) {
+      return inProgressTranslations['en']
+    } else {
+      return inProgressTranslations[alternativeLanguage] || inProgressTranslations['en']
+    }
+  }
+
   function showPollAlert (pollText) {
     setAlert({ points: null, body: `${pollText ?? 'New poll available'}` })
     //  Catch all
@@ -239,7 +289,7 @@ export default function PollsWidget ({
   function PollsToDisplay ({}) {
     return (
       <div className='flex flex-col'>
-        <PollCardTitle text='Open, unanswered polls' />
+        <PollCardTitle text={getOpenUnansweredPollsText()} />
         {polls?.filter(
           poll => poll.isPollOpen == true && poll.answered == false
         ).length == 0 ? (
@@ -255,7 +305,7 @@ export default function PollsWidget ({
                   buttonText={`${isMobilePreview ? 'Win for' : 'Win for'} ${
                     poll.victoryPoints && poll.victoryPoints > 0
                       ? `${poll.victoryPoints} points`
-                      : 'fun'
+                      : getWinForFunText()
                   }`}
                   onButtonClick={() => {
                     setCurrentlyVisiblePoll(poll.id)
@@ -266,7 +316,7 @@ export default function PollsWidget ({
         )}
         {polls?.filter(
           poll => poll.isPollOpen == false || poll.answered == true
-        ).length > 0 && <PollCardTitle text='Results' />}
+        ).length > 0 && <PollCardTitle text={getResultsText()} />}
         {polls
           ?.filter(poll => poll.isPollOpen == false || poll.answered == true)
           .sort((a, b) => b.id - a.id) // Sort by ID descending
@@ -276,7 +326,7 @@ export default function PollsWidget ({
               <PollRowWithButton
                 key={index}
                 poll={poll}
-                buttonText={`${poll.isPollOpen ? 'In Progress' : 'Closed'}`}
+                buttonText={`${poll.isPollOpen ? getInProgressText() : 'Closed'}`}
                 onButtonClick={() => {
                   setCurrentlyVisiblePoll(poll.id)
                 }}
@@ -371,7 +421,7 @@ export default function PollsWidget ({
 
         <div className='flex flex-row justify-between'>
           <PollButton
-            buttonText={'See all polls'}
+            buttonText={getSeeAllPollsText()}
             isOpaque={false}
             onClick={() => {
               setCurrentlyVisiblePoll(null)

@@ -207,6 +207,7 @@ export default function PreviewMobile ({
                   showNewPointsAlert
                 )
               }}
+              isEnglish={isEnglish}
             />
             <MatchStatsWidget
               className={`${defaultWidgetClasses}`}
