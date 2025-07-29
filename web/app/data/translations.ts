@@ -21,3 +21,10 @@ export const closeGuideTranslations = {
   'nl': 'Gids sluiten',
   'pt': 'Fechar guia'
 }
+
+// Translation map for Live Stream header
+export const liveStreamTranslations = {
+  'en': 'Live Stream',
+  'nl': 'Live Stream',
+  'pt': 'Stream ao Vivo'
+}

@@ -17,8 +17,10 @@ import {
   pushChannelSelfId,
   pushChannelSalesId,
   dynamicAdChannelId,
-  AlertType
+  AlertType,
+  alternativeLanguage
 } from '../data/constants'
+import { liveStreamTranslations } from '../data/translations'
 
 export default function TabletContents ({
   chat,
@@ -106,7 +108,7 @@ export default function TabletContents ({
           }}
         />
       )}
-      <TabletHeader currentScore={currentScore} currentWallet={currentWallet} />
+      <TabletHeader currentScore={currentScore} currentWallet={currentWallet} isEnglish={isEnglish} />
       <GuideOverlay
         id={'userPoints'}
         guidesShown={guidesShown}
@@ -285,10 +287,20 @@ export default function TabletContents ({
     </div>
   )
 
-  function TabletHeader ({ currentScore, currentWallet }) {
+  function TabletHeader ({ currentScore, currentWallet, isEnglish }) {
+    // Get the appropriate translation based on language selection
+    const getLiveStreamText = () => {
+      if (isEnglish) {
+        return liveStreamTranslations['en']
+      } else {
+        // Use alternative language or fallback to English
+        return liveStreamTranslations[alternativeLanguage] || liveStreamTranslations['en']
+      }
+    }
+
     return (
       <div className='flex flex-row items-center justify-end sm:justify-between w-full px-6 py-[11.5px]'>
-        <div className='hidden sm:flex text-3xl font-bold'>Live Stream</div>
+        <div className='hidden sm:flex text-3xl font-bold'>{getLiveStreamText()}</div>
         <UserStatus 
           chat={chat} 
           logout={logout} 
