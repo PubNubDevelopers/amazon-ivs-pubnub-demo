@@ -41,26 +41,6 @@ export const bettingOddsDisplay = "fractional" //  "decimal" or "fractional"
 // Language settings
 export const alternativeLanguage = "nl"
 
-// Translation map for Live Commentary
-export const liveCommentaryTranslations = {
-  'en': 'Live Commentary',
-  'nl': 'Live Commentaar',
-  'pt': 'Comentário ao Vivo'
-}
-
-// Translation map for How it Works button
-export const howItWorksTranslations = {
-  'en': 'How it Works',
-  'nl': 'Hoe het Werkt',
-  'pt': 'Como Funciona'
-}
-
-// Translation map for Close guide button
-export const closeGuideTranslations = {
-  'en': 'Close guide',
-  'nl': 'Gids sluiten',
-  'pt': 'Fechar guia'
-}
 
 // Admin settings
 export const adminPin = "8888"

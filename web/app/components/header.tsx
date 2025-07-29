@@ -2,7 +2,8 @@ import { Input } from '@heroui/react'
 import React from 'react'
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
-import { adminPin, serverVideoControlChannelId, ffmpegStreamFilename, howItWorksTranslations, closeGuideTranslations, alternativeLanguage } from '../data/constants'
+import { adminPin, serverVideoControlChannelId, ffmpegStreamFilename, alternativeLanguage } from '../data/constants'
+import { howItWorksTranslations, closeGuideTranslations } from '../data/translations'
 import { createWorker } from 'tesseract.js'
 
 export default function Header ({

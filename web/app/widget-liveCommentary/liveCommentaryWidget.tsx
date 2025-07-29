@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
-import { liveCommentaryChannelId, liveCommentaryTranslations, alternativeLanguage } from '../data/constants'
+import { liveCommentaryChannelId, alternativeLanguage } from '../data/constants'
+import { liveCommentaryTranslations } from '../data/translations'
 import GuideOverlay from '../components/guideOverlay'
 import { Channel, Message as pnMessage } from '@pubnub/chat'
 
