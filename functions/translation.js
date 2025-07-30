@@ -1,5 +1,6 @@
 const vault = require('vault');
 const xhr = require('xhr');
+const pubnub = require('pubnub');
 
 export default request => {
     /** The "XHR" sample function is triggered after messages are published to subscribers
@@ -314,6 +315,9 @@ export default request => {
     if (!targetLanguage) {
         return request.ok();
     }
+    
+    // Extract channel name from request
+    const channel = request.channels[0];
 
     const payload = request.message;
     if (payload) {
@@ -342,20 +346,30 @@ export default request => {
                 
                 return xhr.fetch('https://' + opts.host, http_options).then((response) => {
                     const body = JSON.parse(response.body);
-                    //Able to translate text
-                    console.log("TRANSLATED")
-                    console.log(body)
-                    //if (body.TranslatedText) {
-                        //request.message.text = body.TranslatedText;
-                        //message has been translated, mark both the source and the target as the same.
-                        //request.message.source = translate.target;
-                    //} else {
-                        //translate.error = body['Message'];
-                    //}
+                    console.log("TRANSLATED", body);
                     
-                    return request.ok();
+                    if (body.TranslatedText) {
+                        // Create translated message with same structure as original
+                        const translatedMessage = {
+                            type: payload.type,
+                            text: body.TranslatedText,
+                            files: payload.files || []
+                        };
+                        
+                        // Publish translated message to same channel
+                        return pubnub.publish({
+                            channel: channel,
+                            message: translatedMessage
+                        }).then(() => {
+                            return request.ok();
+                        });
+                    } else {
+                        console.log('Translation error:', body['Message']);
+                        return request.ok();
+                    }
                 }).catch((error) => {
                     console.log('Error:', error);
+                    return request.ok();
                 });
             });
         });
