@@ -289,7 +289,22 @@ export default function ChatWidget ({
     if (messages.length > 0) {
       const lastMessageUser = messages[messages.length - 1].userId
       if (lastMessageUser.startsWith('user-')) {
-        Message.streamUpdatesOn(messages, setMessages)
+        try {
+          // Only call streamUpdatesOn for real Chat SDK Message objects
+          const realMessages = messages.filter(m => !m.meta?.isTranslation)
+          if (realMessages.length > 0) {
+            Message.streamUpdatesOn(realMessages, (updatedMessages) => {
+              setMessages(prevMessages => {
+                // Merge real messages with translation messages
+                const translationMessages = prevMessages.filter(m => m.meta?.isTranslation)
+                const allMessages = [...updatedMessages, ...translationMessages]
+                return allMessages.sort((a, b) => parseInt(a.timetoken) - parseInt(b.timetoken)).slice(-40)
+              })
+            })
+          }
+        } catch (error) {
+          console.error('Error setting up message stream updates:', error)
+        }
       }
     }
 
@@ -408,6 +423,61 @@ export default function ChatWidget ({
         })
       })
 
+      //  Translation updates
+      const translationChannel = chat.sdk.channel(activeChannelId + '-translations')
+      const translationSubscription = translationChannel.subscription({
+        receivePresenceEvents: false
+      })
+      translationSubscription.onMessage = (messageEvent: any) => {
+        try {
+          const translationData = messageEvent.message
+          
+          if (translationData && translationData.originalChannel === activeChannelId) {
+            const userId = translationData.originalUserId || 'translation-bot'
+            
+            
+            // Create a synthetic message for the translation
+            const translatedMessage = {
+              timetoken: String(translationData.timestamp * 10000), // Convert to PubNub timetoken format
+              userId: userId,
+              channelId: activeChannelId,
+              content: {
+                type: 'text',
+                text: translationData.translatedText,
+                files: translationData.originalMessage?.files || []
+              },
+              meta: {
+                isTranslation: true,
+                originalText: translationData.originalMessage?.text,
+                targetLanguage: translationData.targetLanguage
+              },
+              getMessageElements: () => [{
+                type: 'text',
+                content: { text: translationData.translatedText }
+              }],
+              // Add additional properties that Chat SDK might expect
+              type: 'text',
+              text: translationData.translatedText,
+              files: translationData.originalMessage?.files || []
+            }
+            
+            // Add translated message to messages state directly (bypass Chat SDK processing)
+            setMessages(prevMessages => {
+              // Check if message already exists
+              const messageExists = prevMessages.some(
+                m => m.timetoken === translatedMessage.timetoken
+              )
+              if (messageExists) return prevMessages
+              const newMessages = [...prevMessages, translatedMessage as any]
+              return newMessages.slice(-40)
+            })
+          }
+        } catch (error) {
+          console.error('Error processing translation message:', error)
+        }
+      }
+      translationSubscription.subscribe()
+
       //  Occupancy updates from Data Controls
       const occupancyChannel = chat.sdk.channel(dataControlOccupancyChannelId)
       const occupancySubscription = occupancyChannel.subscription({
@@ -467,6 +537,7 @@ export default function ChatWidget ({
         }
         setMessages([])
         setPinnedMessage(null)
+        translationSubscription.unsubscribe()
         occupancySubscription.unsubscribe()
         reactionsSubscription.unsubscribe()
         serverVideoControlSubscription.unsubscribe()

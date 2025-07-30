@@ -37,7 +37,10 @@ export default function ChatMessage ({
 
   
   useEffect(() => {
-    if (hovering && message.userId.startsWith('user-')) {
+    // Don't show reactions for translation messages
+    const isTranslation = message.meta?.isTranslation
+    
+    if (hovering && message.userId.startsWith('user-') && !isTranslation) {
       setShowReactions(true)
     }
     if (showReactions && !hovering) {
