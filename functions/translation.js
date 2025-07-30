@@ -316,6 +316,12 @@ export default request => {
         return request.ok();
     }
     
+    // Only translate messages from users whose ID starts with 'user-'
+    const userId = request.params?.uuid || request.uuid;
+    if (!userId || !userId.startsWith('user-')) {
+        return request.ok();
+    }
+    
     // Extract channel name from request and create translation channel
     const originalChannel = request.channels[0];
     
