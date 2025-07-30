@@ -113,8 +113,9 @@ export default function LiveCommentaryWidget ({
           return (
             <CommentaryRow
               key={message.timetoken}
-              text={message.message.text}
+              message={message.message}
               timeCode={message.message.timeCode}
+              isEnglish={isEnglish}
             />
           )
         })}
@@ -123,10 +124,19 @@ export default function LiveCommentaryWidget ({
   )
 }
 
-function CommentaryRow ({ text, timeCode }) {
+function CommentaryRow ({ message, timeCode, isEnglish }) {
+  const getDisplayText = () => {
+    if (isEnglish) {
+      return message.text
+    } else {
+      const translatedTextKey = `text-${alternativeLanguage}`
+      return message[translatedTextKey] || message.text
+    }
+  }
+
   return (
     <div className='flex flex-row items-center justify-between font-normal text-sm'>
-      <div className=''>{text}</div>
+      <div className=''>{getDisplayText()}</div>
       {/*<div className='text-neutral500'>{timeCode}</div>*/}
     </div>
   )

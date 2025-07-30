@@ -6,6 +6,8 @@ exports.commentary = [
       "channel": "race.commentary",
       "data": {
         "text": "The horses look in magnificent condition as they parade before the crowd.",
+        "text-nl": "De paarden zien er in uitstekende conditie uit terwijl ze voor het publiek paraderen.",
+        "text-pt": "Os cavalos parecem em magnífico estado enquanto desfilam diante da multidão.",
         "timeCode": "00:00"
       }
     }
