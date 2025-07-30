@@ -144,10 +144,9 @@ export default function MessageInput ({
     if (messageDraftRef.current && messageInput.trim()) {
       try {
         // Add translation metadata if language is not English
-        const messageMetadata = !isEnglish ? {
-          shouldTranslate: true,
+        const messageMetadata = {
           language: alternativeLanguage
-        } : undefined
+        }
         
         await messageDraftRef.current.send({
           meta: messageMetadata
