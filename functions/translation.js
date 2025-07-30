@@ -318,7 +318,13 @@ export default request => {
     
     // Extract channel name from request and create translation channel
     const originalChannel = request.channels[0];
-    const translationChannel = originalChannel + '.translations';
+    
+    // Prevent infinite loops - don't process translation channels
+    if (originalChannel.includes('-translations')) {
+        return request.ok();
+    }
+    
+    const translationChannel = originalChannel + '-translations';
 
     const payload = request.message;
     
@@ -378,7 +384,7 @@ export default request => {
                                 originalMessage: payload,
                                 translatedText: body.TranslatedText,
                                 targetLanguage: targetLanguage,
-                                originalUserId: request.uuid,
+                                originalUserId: request.params?.uuid || request.uuid,
                                 timestamp: Date.now()
                             }
                         }).then(() => {
