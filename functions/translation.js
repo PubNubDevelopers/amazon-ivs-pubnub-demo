@@ -299,6 +299,22 @@ export default request => {
       return new RequestSigner(request, credentials).sign()
     }
 
+    // Check if language metadata is present
+    let targetLanguage = null;
+    if (request.params && request.params.meta) {
+        try {
+            const meta = JSON.parse(request.params.meta);
+            targetLanguage = meta.language;
+        } catch (e) {
+            // Invalid JSON in meta, continue without translation
+        }
+    }
+    
+    // Return early if no language metadata
+    if (!targetLanguage) {
+        return request.ok();
+    }
+
     const payload = request.message;
     if (payload) {
         return vault.get('AWS_access_key').then((AWS_access_key) => {
@@ -317,7 +333,7 @@ export default request => {
                     body: JSON.stringify({
                         "Text": translate.text,
                         "SourceLanguageCode": "en",//translate.source,
-                        "TargetLanguageCode": "nl"//translate.target
+                        "TargetLanguageCode": targetLanguage
                     })
                 }
                 
