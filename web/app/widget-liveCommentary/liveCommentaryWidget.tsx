@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { liveCommentaryChannelId, alternativeLanguage } from '../data/constants'
-import { liveCommentaryTranslations } from '../data/translations'
+import { liveCommentaryTranslations, skipToLatestTranslations } from '../data/translations'
 import GuideOverlay from '../components/guideOverlay'
 import { Channel, Message as pnMessage } from '@pubnub/chat'
 
@@ -102,7 +102,7 @@ export default function LiveCommentaryWidget ({
       />
 
       {!scrolledToBottom && (
-        <SkipToLatestButton liveCommentaryScrollRef={liveCommentaryScrollRef} />
+        <SkipToLatestButton liveCommentaryScrollRef={liveCommentaryScrollRef} isEnglish={isEnglish} />
       )}
       <div
         className='flex flex-col gap-1 min-h-32 max-h-32 overflow-y-auto overscroll-none'
@@ -142,7 +142,7 @@ function CommentaryRow ({ message, timeCode, isEnglish }) {
   )
 }
 
-function SkipToLatestButton ({ liveCommentaryScrollRef }) {
+function SkipToLatestButton ({ liveCommentaryScrollRef, isEnglish }) {
   function scrollToBottom (e) {
     if (liveCommentaryScrollRef.current) {
       liveCommentaryScrollRef.current.scrollTop =
@@ -150,6 +150,17 @@ function SkipToLatestButton ({ liveCommentaryScrollRef }) {
     }
     e.stopPropagation()
   }
+
+  // Get the appropriate translation based on language selection
+  const getButtonText = () => {
+    if (isEnglish) {
+      return skipToLatestTranslations['en']
+    } else {
+      // Use alternative language or fallback to English
+      return skipToLatestTranslations[alternativeLanguage] || skipToLatestTranslations['en']
+    }
+  }
+
   return (
     <div className='relative w-full'>
       <div className='absolute w-full'>
@@ -158,7 +169,7 @@ function SkipToLatestButton ({ liveCommentaryScrollRef }) {
             className='px-3 py-1 w-fit min-h-8 max-h-8 font-medium text-sm bg-navy50 border-1 border-navy300 rounded-md shadow-sm cursor-pointer'
             onClick={e => scrollToBottom(e)}
           >
-            Skip to latest
+            {getButtonText()}
           </div>{' '}
         </div>
       </div>

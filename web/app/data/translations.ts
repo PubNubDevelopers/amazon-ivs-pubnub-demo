@@ -134,6 +134,13 @@ export const eachWayTranslations = {
   'pt': 'Cada Direção'
 }
 
+// Translation map for Skip to latest button
+export const skipToLatestTranslations = {
+  'en': 'Skip to latest',
+  'nl': 'Ga naar laatste',
+  'pt': 'Pular para o último'
+}
+
 // Translation map for Chat channel names - indexed by channel ID
 export const chatChannelNamesTranslations = {
   'race.chat.all': {
