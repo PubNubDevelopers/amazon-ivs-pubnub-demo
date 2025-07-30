@@ -391,8 +391,67 @@ export default function ChatWidget ({
       
       try {
         const history = await channel.getHistory()
+        let allMessages = history.messages || []
 
-        setMessages(history.messages || [])
+        // Also fetch translation history
+        try {
+          const translationChannelName = activeChannelId + '-translations'
+          console.log('Fetching translation history for:', translationChannelName)
+          
+          const translationHistory = await chat.sdk.fetchMessages({
+            channels: [translationChannelName],
+            count: 100
+          })
+          
+          console.log('Translation history response:', translationHistory)
+          
+          // Handle fetchMessages response structure
+          let translationMessagesArray = null
+          if (translationHistory && translationHistory.channels && translationHistory.channels[translationChannelName]) {
+            translationMessagesArray = translationHistory.channels[translationChannelName]
+          }
+          
+          if (translationMessagesArray && Array.isArray(translationMessagesArray)) {
+            const translationMessages = translationMessagesArray.map(msg => {
+              const translationData = msg.message
+              if (translationData && translationData.originalChannel === activeChannelId) {
+                const userId = translationData.originalUserId || 'translation-bot'
+                
+                return {
+                  timetoken: String(translationData.timestamp * 10000),
+                  userId: userId,
+                  channelId: activeChannelId,
+                  content: {
+                    type: 'text',
+                    text: translationData.translatedText,
+                    files: translationData.originalMessage?.files || []
+                  },
+                  meta: {
+                    isTranslation: true,
+                    originalText: translationData.originalMessage?.text,
+                    targetLanguage: translationData.targetLanguage
+                  },
+                  getMessageElements: () => [{
+                    type: 'text',
+                    content: { text: translationData.translatedText }
+                  }],
+                  type: 'text',
+                  text: translationData.translatedText,
+                  files: translationData.originalMessage?.files || []
+                }
+              }
+              return null
+            }).filter(Boolean)
+            
+            // Merge and sort by timestamp
+            allMessages = [...allMessages, ...translationMessages]
+              .sort((a, b) => parseInt(a.timetoken) - parseInt(b.timetoken))
+          }
+        } catch (translationError) {
+          console.error('Error fetching translation history:', translationError)
+        }
+
+        setMessages(allMessages)
       } catch (error) {
         console.error('Error fetching message history:', error)
         setMessages([])
