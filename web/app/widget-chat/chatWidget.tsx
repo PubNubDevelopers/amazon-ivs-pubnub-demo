@@ -312,6 +312,15 @@ export default function ChatWidget ({
   }, [messages])
 
   /**
+   * Scroll to bottom when language changes to ensure visibility of filtered messages
+   */
+  useEffect(() => {
+    if (messages.length > 0) {
+      scrollToBottom()
+    }
+  }, [isEnglish])
+
+  /**
    * Fetches all available channels and organizes them by type
    */
   const fetchChannels = async () => {
@@ -839,7 +848,7 @@ export default function ChatWidget ({
                 />
               </button>
             </div>
-            <div className={'flex items-center justify-center gap-1 text-sm'}>
+            <div className={'flex items-center justify-center gap-1 text-sm whitespace-nowrap'}>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 width='8'
