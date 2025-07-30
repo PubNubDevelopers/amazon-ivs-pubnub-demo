@@ -901,6 +901,11 @@ export default function ChatWidget ({
             ) : (
               <>
                 {messages
+                  .filter((message) => {
+                    const isTranslation = message.meta?.isTranslation
+                    // Show translations when isEnglish=false, show originals when isEnglish=true
+                    return isEnglish ? !isTranslation : isTranslation
+                  })
                   .map((message, index) => {
                     // const user = await chat.getUser('')
 
