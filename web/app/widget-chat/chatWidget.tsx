@@ -5,8 +5,10 @@ import GuideOverlay from '../components/guideOverlay'
 import {
   dataControlOccupancyChannelId,
   serverVideoControlChannelId,
-  streamReactionsChannelId
+  streamReactionsChannelId,
+  alternativeLanguage
 } from '../data/constants'
+import { subscribersOnlyTranslations, onlineTranslations, chatChannelNamesTranslations } from '../data/translations'
 import {
   Chat,
   User,
@@ -26,6 +28,7 @@ interface ChatWidgetProps {
   visibleGuide: string
   setVisibleGuide: (guide: string) => void
   userMentioned: (messageText: string) => void
+  isEnglish?: boolean
 }
 
 export interface Restriction {
@@ -42,7 +45,8 @@ export default function ChatWidget ({
   guidesShown,
   visibleGuide,
   setVisibleGuide,
-  userMentioned
+  userMentioned,
+  isEnglish = true
 }: ChatWidgetProps) {
   // Channel state
   const [activeChannelId, setActiveChannelId] = useState<string | null>(null)
@@ -285,12 +289,36 @@ export default function ChatWidget ({
     if (messages.length > 0) {
       const lastMessageUser = messages[messages.length - 1].userId
       if (lastMessageUser.startsWith('user-')) {
-        Message.streamUpdatesOn(messages, setMessages)
+        try {
+          // Only call streamUpdatesOn for real Chat SDK Message objects
+          const realMessages = messages.filter(m => !m.meta?.isTranslation)
+          if (realMessages.length > 0) {
+            Message.streamUpdatesOn(realMessages, (updatedMessages) => {
+              setMessages(prevMessages => {
+                // Merge real messages with translation messages
+                const translationMessages = prevMessages.filter(m => m.meta?.isTranslation)
+                const allMessages = [...updatedMessages, ...translationMessages]
+                return allMessages.sort((a, b) => parseInt(a.timetoken) - parseInt(b.timetoken)).slice(-40)
+              })
+            })
+          }
+        } catch (error) {
+          console.error('Error setting up message stream updates:', error)
+        }
       }
     }
 
     scrollToBottom()
   }, [messages])
+
+  /**
+   * Scroll to bottom when language changes to ensure visibility of filtered messages
+   */
+  useEffect(() => {
+    if (messages.length > 0) {
+      scrollToBottom()
+    }
+  }, [isEnglish])
 
   /**
    * Fetches all available channels and organizes them by type
@@ -372,8 +400,64 @@ export default function ChatWidget ({
       
       try {
         const history = await channel.getHistory()
+        let allMessages = history.messages || []
 
-        setMessages(history.messages || [])
+        // Also fetch translation history
+        try {
+          const translationChannelName = activeChannelId + '-translations'
+          
+          const translationHistory = await chat.sdk.fetchMessages({
+            channels: [translationChannelName],
+            count: 100
+          })
+          
+          // Handle fetchMessages response structure
+          let translationMessagesArray: any = null
+          if (translationHistory && translationHistory.channels && translationHistory.channels[translationChannelName]) {
+            translationMessagesArray = translationHistory.channels[translationChannelName]
+          }
+          
+          if (translationMessagesArray && Array.isArray(translationMessagesArray)) {
+            const translationMessages = translationMessagesArray.map(msg => {
+              const translationData = msg.message
+              if (translationData && translationData.originalChannel === activeChannelId) {
+                const userId = translationData.originalUserId || 'translation-bot'
+                
+                return {
+                  timetoken: String(translationData.timestamp * 10000),
+                  userId: userId,
+                  channelId: activeChannelId,
+                  content: {
+                    type: 'text',
+                    text: translationData.translatedText,
+                    files: translationData.originalMessage?.files || []
+                  },
+                  meta: {
+                    isTranslation: true,
+                    originalText: translationData.originalMessage?.text,
+                    targetLanguage: translationData.targetLanguage
+                  },
+                  getMessageElements: () => [{
+                    type: 'text',
+                    content: { text: translationData.translatedText }
+                  }],
+                  type: 'text',
+                  text: translationData.translatedText,
+                  files: translationData.originalMessage?.files || []
+                }
+              }
+              return null
+            }).filter((msg): msg is any => msg !== null)
+            
+            // Merge and sort by timestamp
+            allMessages = [...allMessages, ...translationMessages]
+              .sort((a, b) => parseInt(a.timetoken) - parseInt(b.timetoken))
+          }
+        } catch (translationError) {
+          // Silently handle translation history fetch errors
+        }
+
+        setMessages(allMessages)
       } catch (error) {
         console.error('Error fetching message history:', error)
         setMessages([])
@@ -403,6 +487,61 @@ export default function ChatWidget ({
           return newMessages.slice(-40)
         })
       })
+
+      //  Translation updates
+      const translationChannel = chat.sdk.channel(activeChannelId + '-translations')
+      const translationSubscription = translationChannel.subscription({
+        receivePresenceEvents: false
+      })
+      translationSubscription.onMessage = (messageEvent: any) => {
+        try {
+          const translationData = messageEvent.message
+          
+          if (translationData && translationData.originalChannel === activeChannelId) {
+            const userId = translationData.originalUserId || 'translation-bot'
+            
+            
+            // Create a synthetic message for the translation
+            const translatedMessage = {
+              timetoken: String(translationData.timestamp * 10000), // Convert to PubNub timetoken format
+              userId: userId,
+              channelId: activeChannelId,
+              content: {
+                type: 'text',
+                text: translationData.translatedText,
+                files: translationData.originalMessage?.files || []
+              },
+              meta: {
+                isTranslation: true,
+                originalText: translationData.originalMessage?.text,
+                targetLanguage: translationData.targetLanguage
+              },
+              getMessageElements: () => [{
+                type: 'text',
+                content: { text: translationData.translatedText }
+              }],
+              // Add additional properties that Chat SDK might expect
+              type: 'text',
+              text: translationData.translatedText,
+              files: translationData.originalMessage?.files || []
+            }
+            
+            // Add translated message to messages state directly (bypass Chat SDK processing)
+            setMessages(prevMessages => {
+              // Check if message already exists
+              const messageExists = prevMessages.some(
+                m => m.timetoken === translatedMessage.timetoken
+              )
+              if (messageExists) return prevMessages
+              const newMessages = [...prevMessages, translatedMessage as any]
+              return newMessages.slice(-40)
+            })
+          }
+        } catch (error) {
+          console.error('Error processing translation message:', error)
+        }
+      }
+      translationSubscription.subscribe()
 
       //  Occupancy updates from Data Controls
       const occupancyChannel = chat.sdk.channel(dataControlOccupancyChannelId)
@@ -463,6 +602,7 @@ export default function ChatWidget ({
         }
         setMessages([])
         setPinnedMessage(null)
+        translationSubscription.unsubscribe()
         occupancySubscription.unsubscribe()
         reactionsSubscription.unsubscribe()
         serverVideoControlSubscription.unsubscribe()
@@ -566,6 +706,37 @@ export default function ChatWidget ({
     )
   }
 
+  // Translation functions
+  const getSubscribersOnlyText = () => {
+    if (isEnglish) {
+      return subscribersOnlyTranslations['en']
+    } else {
+      return subscribersOnlyTranslations[alternativeLanguage] || subscribersOnlyTranslations['en']
+    }
+  }
+
+  const getOnlineText = () => {
+    if (isEnglish) {
+      return onlineTranslations['en']
+    } else {
+      return onlineTranslations[alternativeLanguage] || onlineTranslations['en']
+    }
+  }
+
+  const getChannelDisplayName = (channelId: string, fallbackName: string) => {
+    // Check if we have a translation for this specific channel ID
+    const channelTranslations = chatChannelNamesTranslations[channelId]
+    if (channelTranslations) {
+      if (isEnglish) {
+        return channelTranslations['en']
+      } else {
+        return channelTranslations[alternativeLanguage] || channelTranslations['en']
+      }
+    }
+    // Fall back to original behavior if no translation exists
+    return fallbackName
+  }
+
   function backgroundClicked (e) {
     setShowMentions(false)
     setShowReactions(false)
@@ -658,12 +829,12 @@ export default function ChatWidget ({
             }
           ></div>
           <div className={'ml-[16px] text-sm'}>
-            {activeChannel.name || activeChannel.id}
+            {getChannelDisplayName(activeChannel.id, activeChannel.name || activeChannel.id)}
           </div>
           <div className={'grow'} />
           <div className={'flex items-center gap-3'}>
             <div className={'flex items-center gap-2'}>
-              <label className={'text-sm text-white'}>Subscribers only</label>
+              <label className={'text-sm text-white'}>{getSubscribersOnlyText()}</label>
               <button
                 onClick={() => setSubscribersOnly(!subscribersOnly)}
                 className={`relative inline-flex h-[20px] w-[36px] items-center rounded-full transition-colors ${
@@ -677,7 +848,7 @@ export default function ChatWidget ({
                 />
               </button>
             </div>
-            <div className={'flex items-center justify-center gap-1 text-sm'}>
+            <div className={'flex items-center justify-center gap-1 text-sm whitespace-nowrap'}>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 width='8'
@@ -687,7 +858,7 @@ export default function ChatWidget ({
               >
                 <circle cx='4' cy='4' r='4' fill='#22C55E' />
               </svg>{' '}
-              {simulatedOccupancy + realOccupancy} online
+              {simulatedOccupancy + realOccupancy} {getOnlineText()}
             </div>
           </div>
         </div>
@@ -795,6 +966,44 @@ export default function ChatWidget ({
             ) : (
               <>
                 {messages
+                  .filter((message) => {
+                    const isTranslation = message.meta?.isTranslation
+                    
+                    // Check if this is a sticker message
+                    const isSticker = (() => {
+                      try {
+                        const messageText = message.getMessageElements().map((element) => {
+                          if (element.type === 'mention') {
+                            return element.content.name
+                          }
+                          if (element.type === 'text') {
+                            return element.content.text
+                          }
+                          return ''
+                        }).join('')
+                        const parsed = JSON.parse(messageText)
+                        return parsed.type === 'sticker'
+                      } catch {
+                        return false
+                      }
+                    })()
+                    
+                    // Always show stickers regardless of language setting
+                    if (isSticker) {
+                      return true
+                    }
+                    
+                    // Check if this is a bot message with pre-translations
+                    const isBotMessage = message.userId && message.userId.startsWith('bot-')
+                    
+                    // Show translations when isEnglish=false, show originals when isEnglish=true
+                    // Always show bot messages (they will be handled by ChatMessage component for language)
+                    if (isBotMessage) {
+                      return true
+                    }
+                    
+                    return isEnglish ? !isTranslation : isTranslation
+                  })
                   .map((message, index) => {
                     // const user = await chat.getUser('')
 
@@ -806,6 +1015,7 @@ export default function ChatWidget ({
                         users={users}
                         channel={activeChannel}
                         pinnedMessage={pinnedMessage}
+                        isEnglish={isEnglish}
                       />
                     )
                   })}
@@ -828,6 +1038,7 @@ export default function ChatWidget ({
             isGuidedDemo={isGuidedDemo}
             showSpamNotification={showSpamNotification}
             showImageModerationNotification={showImageModerationNotification}
+            isEnglish={isEnglish}
           />
         </div>
       )}

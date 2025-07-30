@@ -17,6 +17,8 @@ export default function LoginPage ({
   isPopout
 }) {
   const [userArray, setUserArray] = useState<any | null>(null)
+  const [isLoggingIn, setIsLoggingIn] = useState(false)
+  const [loginMessage, setLoginMessage] = useState('')
 
   const ArrowBack = props => {
     return (
@@ -187,20 +189,44 @@ export default function LoginPage ({
   }, [])
 
   async function login (userId) {
-    const { accessManagerToken } = await getAuthKey(
-      userId,
-      isGuidedDemo,
-      `-${process.env.NEXT_PUBLIC_ENVIRONMENT_NUMBER ?? ''}`
-    )
-    const localChat = await Chat.init({
-      publishKey: process.env.NEXT_PUBLIC_PUBNUB_PUBLISH_KEY as string,
-      subscribeKey: process.env.NEXT_PUBLIC_PUBNUB_SUBSCRIBE_KEY as string,
-      userId: userId,
-      authKey: accessManagerToken
-    })
-    setChat(localChat)
-    setUserId(userId)
-    setLoginPageShown(false)
+    setIsLoggingIn(true)
+    setLoginMessage('Getting authentication token...')
+    
+    try {
+      const { accessManagerToken } = await getAuthKey(
+        userId,
+        isGuidedDemo,
+        `-${process.env.NEXT_PUBLIC_ENVIRONMENT_NUMBER ?? ''}`
+      )
+      
+      setLoginMessage('Initializing chat...')
+      
+      // Use setTimeout to allow UI to update before heavy operations
+      setTimeout(async () => {
+        try {
+          const localChat = await Chat.init({
+            publishKey: process.env.NEXT_PUBLIC_PUBNUB_PUBLISH_KEY as string,
+            subscribeKey: process.env.NEXT_PUBLIC_PUBNUB_SUBSCRIBE_KEY as string,
+            userId: userId,
+            authKey: accessManagerToken
+          })
+          
+          setLoginMessage('Completing login...')
+          setChat(localChat)
+          setUserId(userId)
+          setLoginPageShown(false)
+        } catch (error) {
+          console.error('Chat initialization failed:', error)
+          setLoginMessage('Login failed. Please try again.')
+          setIsLoggingIn(false)
+        }
+      }, 100) // Small delay to allow UI update
+      
+    } catch (error) {
+      console.error('Auth token failed:', error)
+      setLoginMessage('Login failed. Please try again.')
+      setIsLoggingIn(false)
+    }
   }
 
   function returnToSalesScreen () {
@@ -215,38 +241,57 @@ export default function LoginPage ({
         </div>
       ) : (
         <div className='flex flex-col gap-8 md:gap-20 items-center text-navy100 px-4'>
-          <div className='flex flex-row gap-4 items-center text-center'>
-            {isGuidedDemo && !isPopout && (
-              <div
-                className='cursor-pointer'
-                onClick={() => {
-                  returnToSalesScreen()
-                }}
-              >
-                <ArrowBack />
+          {isLoggingIn ? (
+            <div className='flex flex-col gap-6 items-center text-center'>
+              <div className='flex mb-5 animate-spin'>
+                <Image
+                  src='/icons/loading.png'
+                  alt='Loading'
+                  className=''
+                  width={50}
+                  height={50}
+                  priority
+                />
               </div>
-            )}
-            {userArray && (
-              <div className='text-2xl md:text-5xl font-extrabold'>
-                Choose a user to log in
+              <div className='text-2xl md:text-4xl font-extrabold'>Logging in...</div>
+              <div className='text-lg md:text-xl'>{loginMessage}</div>
+            </div>
+          ) : (
+            <>
+              <div className='flex flex-row gap-4 items-center text-center'>
+                {isGuidedDemo && !isPopout && (
+                  <div
+                    className='cursor-pointer'
+                    onClick={() => {
+                      returnToSalesScreen()
+                    }}
+                  >
+                    <ArrowBack />
+                  </div>
+                )}
+                {userArray && (
+                  <div className='text-2xl md:text-5xl font-extrabold'>
+                    Choose a user to log in
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-          <div className='grid grid-cols-2 md:flex md:flex-row gap-4 md:gap-6'>
-            {userArray?.slice(0, 4).map((user, index) => {
-              return (
-                <LoginAvatar
-                  key={index}
-                  id={index}
-                  name={user.name}
-                  avatarUrl={user.avatar}
-                  personSelected={key => {
-                    login(userArray[key].id)
-                  }}
-                ></LoginAvatar>
-              )
-            })}
-          </div>
+              <div className='grid grid-cols-2 md:flex md:flex-row gap-4 md:gap-6'>
+                {userArray?.slice(0, 4).map((user, index) => {
+                  return (
+                    <LoginAvatar
+                      key={index}
+                      id={index}
+                      name={user.name}
+                      avatarUrl={user.avatar}
+                      personSelected={key => {
+                        login(userArray[key].id)
+                      }}
+                    ></LoginAvatar>
+                  )
+                })}
+              </div>
+            </>
+          )}
         </div>
       )}
     </div>

@@ -17,6 +17,7 @@ export default function Page () {
       : null
   const [currentScore, setCurrentScore] = useState(0)
   const [currentWallet, setCurrentWallet] = useState(1000)
+  const [isEnglish, setIsEnglish] = useState(true)
 
   function logout () {
     setLoginPageShown(true)
@@ -69,6 +70,8 @@ export default function Page () {
           currentScore={currentScore}
           currentWallet={currentWallet}
           heightConstrained={false}
+          isEnglish={isEnglish}
+          setIsEnglish={setIsEnglish}
         />
       </div>
     )

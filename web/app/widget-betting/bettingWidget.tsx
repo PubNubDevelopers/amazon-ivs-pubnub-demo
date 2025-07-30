@@ -4,8 +4,15 @@ import { jerseySilks } from './assets'
 import {
   bettingChannelId,
   currencySymbol,
-  bettingOddsDisplay
+  bettingOddsDisplay,
+  alternativeLanguage
 } from '../data/constants'
+import {
+  bettingClosedTranslations,
+  raceResultsTranslations,
+  eachStakeTranslations,
+  eachWayTranslations
+} from '../data/translations'
 import { AwardWallet } from '../commonLogic'
 
 export default function BettingWidget ({
@@ -17,7 +24,8 @@ export default function BettingWidget ({
   visibleGuide,
   setVisibleGuide,
   awardPoints,
-  currentWallet
+  currentWallet,
+  isEnglish = true
 }) {
 
   const [bettingStatus, setBettingStatus] = useState('open') // 'open', 'closed', 'results'
@@ -161,6 +169,39 @@ export default function BettingWidget ({
   }, [chat, currentUserBets, bettingChannelId])
 
   const stake = 5
+
+  // Translation functions
+  const getBettingClosedText = () => {
+    if (isEnglish) {
+      return bettingClosedTranslations['en']
+    } else {
+      return bettingClosedTranslations[alternativeLanguage] || bettingClosedTranslations['en']
+    }
+  }
+
+  const getRaceResultsText = () => {
+    if (isEnglish) {
+      return raceResultsTranslations['en']
+    } else {
+      return raceResultsTranslations[alternativeLanguage] || raceResultsTranslations['en']
+    }
+  }
+
+  const getEachStakeText = () => {
+    if (isEnglish) {
+      return eachStakeTranslations['en']
+    } else {
+      return eachStakeTranslations[alternativeLanguage] || eachStakeTranslations['en']
+    }
+  }
+
+  const getEachWayText = () => {
+    if (isEnglish) {
+      return eachWayTranslations['en']
+    } else {
+      return eachWayTranslations[alternativeLanguage] || eachWayTranslations['en']
+    }
+  }
 
 
 
@@ -389,7 +430,7 @@ export default function BettingWidget ({
         text={
           <span>
             Betting can be built on top of PubNub’s{' '}
-            <span className='font-semibold'>Core Messaging Service</span>
+            <span className='font-semibold'>Core Messaging Service</span> that provides messages with very low latency between client and server, ensuring every user has the most recent view of the race, and nobody has an unfair advantage.
           </span>
         }
         xOffset={`${isMobilePreview ? 'left-[0px]' : 'right-[0px]'}`}
@@ -414,6 +455,10 @@ export default function BettingWidget ({
         currentUserBets={currentUserBets}
         allUserBets={allUserBets}
         currentWallet={currentWallet}
+        getBettingClosedText={getBettingClosedText}
+        getRaceResultsText={getRaceResultsText}
+        getEachStakeText={getEachStakeText}
+        getEachWayText={getEachWayText}
       />
       
       {/* Results Popup */}
@@ -530,7 +575,11 @@ const BettingDashboard = memo(function BettingDashboard ({
   removeCurrentUserBet,
   currentUserBets,
   allUserBets,
-  currentWallet
+  currentWallet,
+  getBettingClosedText,
+  getRaceResultsText,
+  getEachStakeText,
+  getEachWayText
 }: {
   bettingStatus: string
   setBettingStatus: (status: string) => void
@@ -560,6 +609,10 @@ const BettingDashboard = memo(function BettingDashboard ({
   currentUserBets: Map<number, number>
   allUserBets: Map<string, Map<number, number>>
   currentWallet: number
+  getBettingClosedText: () => string
+  getRaceResultsText: () => string
+  getEachStakeText: () => string
+  getEachWayText: () => string
 }) {
 
   // Convert pounds to stone and pounds
@@ -961,20 +1014,20 @@ const BettingDashboard = memo(function BettingDashboard ({
             </button>
           </div>*/}
         </div>
-        <span className='text-sm text-gray-500 font-normal'>Each Stake: {currencySymbol}{stake} - Each Way: 1/5 (3 places)</span>
+        <span className='text-sm text-gray-500 font-normal'>{getEachStakeText()}: {currencySymbol}{stake} - {getEachWayText()}: 1/5 (3 places)</span>
       </div>
       
       {/* Betting Status Indicator */}
       {bettingStatus === 'closed' && (
         <div className='mb-4 mx-4 sm:mx-0 p-3 bg-red-100 border border-red-300 rounded-lg'>
-          <div className='text-center text-red-800 font-semibold'>BETTING CLOSED</div>
+          <div className='text-center text-red-800 font-semibold'>{getBettingClosedText()}</div>
         </div>
       )}
       
       {/* Race Results Indicator */}
       {bettingStatus === 'results' && (
         <div className='mb-4 mx-4 sm:mx-0 p-3 bg-blue-100 border border-blue-300 rounded-lg'>
-          <div className='text-center text-blue-800 font-semibold'>RACE RESULTS</div>
+          <div className='text-center text-blue-800 font-semibold'>{getRaceResultsText()}</div>
         </div>
       )}
       

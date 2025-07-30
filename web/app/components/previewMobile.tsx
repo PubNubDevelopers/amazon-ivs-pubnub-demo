@@ -28,7 +28,9 @@ export default function PreviewMobile ({
   setVisibleGuide,
   logout,
   currentScore,
-  currentWallet
+  currentWallet,
+  isEnglish,
+  setIsEnglish
 }) {
   const [notification, setNotification] = useState<{
     heading: string
@@ -144,6 +146,7 @@ export default function PreviewMobile ({
                   showNewPointsAlert
                 )
               }}
+              isEnglish={isEnglish}
             />
             {dynamicAd && (
               <AdvertsOfferWidget
@@ -186,6 +189,7 @@ export default function PreviewMobile ({
                   imageUrl: null
                 })
               }}
+              isEnglish={isEnglish}
             />
             <PollsWidget
               className={`${defaultWidgetClasses}`}
@@ -204,6 +208,7 @@ export default function PreviewMobile ({
                   showNewPointsAlert
                 )
               }}
+              isEnglish={isEnglish}
             />
             <MatchStatsWidget
               className={`${defaultWidgetClasses}`}
@@ -230,6 +235,7 @@ export default function PreviewMobile ({
               guidesShown={guidesShown}
               visibleGuide={visibleGuide}
               setVisibleGuide={setVisibleGuide}
+              isEnglish={isEnglish}
             />
             <AdvertsWidget
               className={`${defaultWidgetClasses}`}
@@ -258,7 +264,7 @@ export default function PreviewMobile ({
   function MobileHeader ({ currentScore, currentWallet }) {
     return (
       <div className='flex flex-col w-full px-4 py-[11.5px]'>
-        <UserStatus chat={chat} logout={logout} currentScore={currentScore} currentWallet={currentWallet} />
+        <UserStatus chat={chat} logout={logout} currentScore={currentScore} currentWallet={currentWallet} isEnglish={isEnglish} setIsEnglish={setIsEnglish} />
         <div className='text-2xl font-bold'>Live Stream</div>
       </div>
     )

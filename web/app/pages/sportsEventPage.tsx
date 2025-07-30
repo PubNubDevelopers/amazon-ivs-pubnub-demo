@@ -25,6 +25,7 @@ export default function SportsEventPage ({
   const [currentWallet, setCurrentWallet] = useState(1000)
   const [dataControlsDropDownVisible, setDataControlsDropDownVisible] =
   useState(false)
+  const [isEnglish, setIsEnglish] = useState(true) // Language toggle state for all components
 
   function backgroundClicked () {
     //console.log('background clicked')
@@ -89,6 +90,7 @@ export default function SportsEventPage ({
         guidesShown={guidesShown}
         setGuidesShown={setGuidesShown}
         chat={chat}
+        isEnglish={isEnglish}
       ></Header>
 
       {/*<div className='sm:hidden flex flex-col mt-10 h-screen justify-center w-full text-center gap-16 text-4xl'>
@@ -130,6 +132,8 @@ export default function SportsEventPage ({
               logout={logout}
               currentScore={currentScore}
               currentWallet={currentWallet}
+              isEnglish={isEnglish}
+              setIsEnglish={setIsEnglish}
             ></PreviewTablet>
           </div>
           {/*<PreviewMobile

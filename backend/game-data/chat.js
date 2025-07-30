@@ -8,6 +8,8 @@ exports.chat = [
       "data": {
         "user": "bot-18",
         "text": "The horses look so calm before the storm.",
+        "text-nl": "De paarden zien er zo kalm uit voor de storm.",
+        "text-pt": "Os cavalos parecem tão calmos antes da tempestade.",
         "type": "chat" 
       }
     }
@@ -20,6 +22,8 @@ exports.chat = [
       "data": {
         "user": "bot-16",
         "text": "Here we go—any second now!",
+        "text-nl": "Daar gaan we—elk moment nu!",
+        "text-pt": "Aqui vamos—a qualquer segundo agora!",
         "type": "chat"
       }
     }
@@ -31,7 +35,9 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-39",
-        "text": "Who’s ready for some action?",
+        "text": "Who's ready for some action?",
+        "text-nl": "Wie is er klaar voor wat actie?",
+        "text-pt": "Quem está pronto para ação?",
         "type": "chat"
       }
     }
@@ -44,6 +50,8 @@ exports.chat = [
       "data": {
         "user": "bot-04",
         "text": "The atmosphere is electric before the start.",
+        "text-nl": "De sfeer is elektrisch voor de start.",
+        "text-pt": "A atmosfera está elétrica antes do início.",
         "type": "chat"
       }
     }
@@ -56,6 +64,8 @@ exports.chat = [
       "data": {
         "user": "bot-14",
         "text": "This is going to be an exciting race!",
+        "text-nl": "Dit wordt een spannende race!",
+        "text-pt": "Esta vai ser uma corrida emocionante!",
         "type": "chat"
       }
     }
@@ -68,6 +78,8 @@ exports.chat = [
       "data": {
         "user": "bot-01",
         "text": "All eyes on Thunder Strike—can he pull it off?",
+        "text-nl": "Alle ogen op Thunder Strike—kan hij het klaarspelen?",
+        "text-pt": "Todos os olhos em Thunder Strike—será que ele consegue?",
         "type": "chat"
       }
     }
@@ -79,8 +91,10 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-22",
-        "text": "I’ve got a good feeling about number 7.",
-"type": "chat"
+        "text": "I've got a good feeling about number 7.",
+        "text-nl": "Ik heb een goed gevoel over nummer 7.",
+        "text-pt": "Tenho um bom pressentimento sobre o número 7.",
+        "type": "chat"
       }
     }
   },
@@ -92,7 +106,9 @@ exports.chat = [
       "data": {
         "user": "bot-13",
         "text": "Look at those beautiful horses warming up.",
-"type": "chat"
+        "text-nl": "Kijk naar die prachtige paarden die opwarmen.",
+        "text-pt": "Olha esses cavalos lindos se aquecendo.",
+        "type": "chat"
       }
     }
   },
@@ -103,8 +119,10 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-34",
-        "text": "Let’s go, Thunder Strike!",
-"type": "chat"
+        "text": "Let's go, Thunder Strike!",
+        "text-nl": "Kom op, Thunder Strike!",
+        "text-pt": "Vamos, Thunder Strike!",
+        "type": "chat"
       }
     }
   },
@@ -115,9 +133,10 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-29",
-        "text": "Let’s go, Thunder Strike!",
-        "type": "chat",
-"type": "chat"
+        "text": "Let's go, Thunder Strike!",
+        "text-nl": "Kom op, Thunder Strike!",
+        "text-pt": "Vamos, Thunder Strike!",
+        "type": "chat"
       }
     }
   },
@@ -128,8 +147,10 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-40",
-        "text": "It’s almost time—good luck to all the riders!",
-"type": "chat"
+        "text": "It's almost time—good luck to all the riders!",
+        "text-nl": "Het is bijna tijd—veel succes aan alle ruiters!",
+        "text-pt": "Está quase na hora—boa sorte a todos os jóqueis!",
+        "type": "chat"
       }
     }
   },
@@ -140,8 +161,10 @@ exports.chat = [
       "channel": "race.chat.all",
       "data": {
         "user": "bot-39",
-        "text": "Let’s go, Thunder Strike!",
-"type": "chat"
+        "text": "Let's go, Thunder Strike!",
+        "text-nl": "Kom op, Thunder Strike!",
+        "text-pt": "Vamos, Thunder Strike!",
+        "type": "chat"
       }
     }
   },
@@ -153,7 +176,9 @@ exports.chat = [
       "data": {
         "user": "bot-37",
         "text": "I can't wait for the race to start!",
-"type": "chat"
+        "text-nl": "Ik kan niet wachten tot de race begint!",
+        "text-pt": "Mal posso esperar para a corrida começar!",
+        "type": "chat"
       }
     }
   },
@@ -165,7 +190,9 @@ exports.chat = [
       "data": {
         "user": "bot-37",
         "text": "The track looks perfect for racing today.",
-"type": "chat"
+        "text-nl": "De baan ziet er perfect uit voor racen vandaag.",
+        "text-pt": "A pista está perfeita para corrida hoje.",
+        "type": "chat"
       }
     }
   },
@@ -177,7 +204,9 @@ exports.chat = [
       "data": {
         "user": "bot-31",
         "text": "The horses look so calm before the storm.",
-"type": "chat"
+        "text-nl": "De paarden zien er zo kalm uit voor de storm.",
+        "text-pt": "Os cavalos parecem tão calmos antes da tempestade.",
+        "type": "chat"
       }
     }
   },
@@ -189,7 +218,9 @@ exports.chat = [
       "data": {
         "user": "bot-16",
         "text": "The excitement is unreal right now!",
-"type": "chat"
+        "text-nl": "De spanning is onwerkelijk op dit moment!",
+        "text-pt": "A emoção está irreal agora!",
+        "type": "chat"
       }
     }
   },
@@ -201,7 +232,9 @@ exports.chat = [
       "data": {
         "user": "bot-15",
         "text": "The parade to the post is always my favorite part.",
-"type": "chat"
+        "text-nl": "De parade naar de start is altijd mijn favoriete deel.",
+        "text-pt": "O desfile até o poste é sempre minha parte favorita.",
+        "type": "chat"
       }
     }
   },
@@ -213,7 +246,9 @@ exports.chat = [
       "data": {
         "user": "bot-01",
         "text": "I love the energy before the race begins.",
-"type": "chat"
+        "text-nl": "Ik hou van de energie voordat de race begint.",
+        "text-pt": "Adoro a energia antes da corrida começar.",
+        "type": "chat"
       }
     }
   },
@@ -225,7 +260,9 @@ exports.chat = [
       "data": {
         "user": "bot-13",
         "text": "The excitement is unreal right now!",
-"type": "chat"
+        "text-nl": "De spanning is onwerkelijk op dit moment!",
+        "text-pt": "A emoção está irreal agora!",
+        "type": "chat"
       }
     }
   },
@@ -237,7 +274,9 @@ exports.chat = [
       "data": {
         "user": "bot-06",
         "text": "The starting bell is about to ring.",
-"type": "chat"
+        "text-nl": "De startbel gaat zo rinkelen.",
+        "text-pt": "O sino de largada está prestes a tocar.",
+        "type": "chat"
       }
     }
   },
@@ -249,7 +288,9 @@ exports.chat = [
       "data": {
         "user": "bot-20",
         "text": "The parade to the post is always my favorite part.",
-"type": "chat"
+        "text-nl": "De parade naar de start is altijd mijn favoriete deel.",
+        "text-pt": "O desfile até o poste é sempre minha parte favorita.",
+        "type": "chat"
       }
     }
   },
@@ -261,7 +302,9 @@ exports.chat = [
       "data": {
         "user": "bot-28",
         "text": "Come on, number 7!",
-"type": "chat"
+        "text-nl": "Kom op, nummer 7!",
+        "text-pt": "Vamos, número 7!",
+        "type": "chat"
       }
     }
   },
@@ -273,7 +316,9 @@ exports.chat = [
       "data": {
         "user": "bot-19",
         "text": "Come on, number 7!",
-"type": "chat"
+        "text-nl": "Kom op, nummer 7!",
+        "text-pt": "Vamos, número 7!",
+        "type": "chat"
       }
     }
   },
@@ -285,7 +330,9 @@ exports.chat = [
       "data": {
         "user": "bot-19",
         "text": "He's making a late charge!",
-"type": "chat"
+        "text-nl": "Hij maakt een late charge!",
+        "text-pt": "Ele está fazendo uma investida final!",
+        "type": "chat"
       }
     }
   },
@@ -297,7 +344,9 @@ exports.chat = [
       "data": {
         "user": "bot-21",
         "text": "What a thrilling race!",
-"type": "chat"
+        "text-nl": "Wat een spannende race!",
+        "text-pt": "Que corrida emocionante!",
+        "type": "chat"
       }
     }
   },
@@ -309,7 +358,9 @@ exports.chat = [
       "data": {
         "user": "bot-11",
         "text": "Unbelievable acceleration!",
-"type": "chat"
+        "text-nl": "Ongelooflijke acceleratie!",
+        "text-pt": "Aceleração inacreditável!",
+        "type": "chat"
       }
     }
   },
@@ -321,7 +372,9 @@ exports.chat = [
       "data": {
         "user": "bot-28",
         "text": "Can he hold on to first place?",
-"type": "chat"
+        "text-nl": "Kan hij de eerste plaats vasthouden?",
+        "text-pt": "Consegue manter o primeiro lugar?",
+        "type": "chat"
       }
     }
   },
@@ -333,7 +386,9 @@ exports.chat = [
       "data": {
         "user": "bot-39",
         "text": "It's too close to call!",
-"type": "chat"
+        "text-nl": "Het is te close om te zeggen!",
+        "text-pt": "Está muito apertado para decidir!",
+        "type": "chat"
       }
     }
   },
@@ -345,7 +400,9 @@ exports.chat = [
       "data": {
         "user": "bot-34",
         "text": "Look at that finish!",
-"type": "chat"
+        "text-nl": "Kijk naar die finish!",
+        "text-pt": "Olha essa chegada!",
+        "type": "chat"
       }
     }
   },
@@ -357,7 +414,9 @@ exports.chat = [
       "data": {
         "user": "bot-19",
         "text": "What a move on the inside!",
-"type": "chat"
+        "text-nl": "Wat een beweging aan de binnenkant!",
+        "text-pt": "Que movimento por dentro!",
+        "type": "chat"
       }
     }
   },
@@ -369,7 +428,9 @@ exports.chat = [
       "data": {
         "user": "bot-36",
         "text": "Unbelievable acceleration!",
-"type": "chat"
+        "text-nl": "Ongelooflijke acceleratie!",
+        "text-pt": "Aceleração inacreditável!",
+        "type": "chat"
       }
     }
   },
@@ -381,7 +442,9 @@ exports.chat = [
       "data": {
         "user": "bot-13",
         "text": "Who's going to break away?",
-"type": "chat"
+        "text-nl": "Wie gaat er wegbreken?",
+        "text-pt": "Quem vai escapar?",
+        "type": "chat"
       }
     }
   },
@@ -393,7 +456,9 @@ exports.chat = [
       "data": {
         "user": "bot-25",
         "text": "Look at that finish!",
-"type": "chat"
+        "text-nl": "Kijk naar die finish!",
+        "text-pt": "Olha essa chegada!",
+        "type": "chat"
       }
     }
   },
@@ -405,7 +470,9 @@ exports.chat = [
       "data": {
         "user": "bot-01",
         "text": "They're coming around the final turn!",
-"type": "chat"
+        "text-nl": "Ze komen door de laatste bocht!",
+        "text-pt": "Estão chegando na curva final!",
+        "type": "chat"
       }
     }
   },
@@ -417,7 +484,9 @@ exports.chat = [
       "data": {
         "user": "bot-15",
         "text": "He's gaining ground—can he catch up?",
-"type": "chat"
+        "text-nl": "Hij wint terrein—kan hij inhalen?",
+        "text-pt": "Ele está ganhando terreno—consegue alcançar?",
+        "type": "chat"
       }
     }
   },
@@ -429,7 +498,9 @@ exports.chat = [
       "data": {
         "user": "bot-13",
         "text": "It's a battle to the finish!",
-"type": "chat"
+        "text-nl": "Het is een gevecht tot de finish!",
+        "text-pt": "É uma batalha até o final!",
+        "type": "chat"
       }
     }
   },
@@ -441,7 +512,9 @@ exports.chat = [
       "data": {
         "user": "bot-15",
         "text": "Unbelievable acceleration!",
-"type": "chat"
+        "text-nl": "Ongelooflijke acceleratie!",
+        "text-pt": "Aceleração inacreditável!",
+        "type": "chat"
       }
     }
   },
@@ -453,7 +526,9 @@ exports.chat = [
       "data": {
         "user": "bot-20",
         "text": "My bet finally paid off!",
-"type": "chat"
+        "text-nl": "Mijn inzet heeft eindelijk uitbetaald!",
+        "text-pt": "Minha aposta finalmente deu certo!",
+        "type": "chat"
       }
     }
   },
@@ -465,7 +540,9 @@ exports.chat = [
       "data": {
         "user": "bot-01",
         "text": "That was a nail-biter right to the end.",
-"type": "chat"
+        "text-nl": "Dat was nagelbijten tot het einde.",
+        "text-pt": "Foi de tirar o fôlego até o final.",
+        "type": "chat"
       }
     }
   },
@@ -477,7 +554,9 @@ exports.chat = [
       "data": {
         "user": "bot-04",
         "text": "Thunder Strike really earned that victory.",
-"type": "chat"
+        "text-nl": "Thunder Strike heeft die overwinning echt verdiend.",
+        "text-pt": "Thunder Strike realmente mereceu essa vitória.",
+        "type": "chat"
       }
     }
   },
@@ -489,7 +568,9 @@ exports.chat = [
       "data": {
         "user": "bot-12",
         "text": "Well deserved win for number 7.",
-"type": "chat"
+        "text-nl": "Welverdiende overwinning voor nummer 7.",
+        "text-pt": "Vitória bem merecida para o número 7.",
+        "type": "chat"
       }
     }
   },
@@ -501,7 +582,9 @@ exports.chat = [
       "data": {
         "user": "bot-39",
         "text": "The jockey did an amazing job out there.",
-"type": "chat"
+        "text-nl": "De jockey deed geweldig werk daarbuiten.",
+        "text-pt": "O jóquei fez um trabalho incrível lá.",
+        "type": "chat"
       }
     }
   },
@@ -513,7 +596,9 @@ exports.chat = [
       "data": {
         "user": "bot-11",
         "text": "Congratulations to the winner!",
-"type": "chat"
+        "text-nl": "Gefeliciteerd aan de winnaar!",
+        "text-pt": "Parabéns ao vencedor!",
+        "type": "chat"
       }
     }
   },
@@ -525,7 +610,9 @@ exports.chat = [
       "data": {
         "user": "bot-39",
         "text": "That was a nail-biter right to the end.",
-"type": "chat"
+        "text-nl": "Dat was nagelbijten tot het einde.",
+        "text-pt": "Foi de tirar o fôlego até o final.",
+        "type": "chat"
       }
     }
   },
@@ -537,7 +624,9 @@ exports.chat = [
       "data": {
         "user": "bot-30",
         "text": "That was a perfect ending to a great race.",
-"type": "chat"
+        "text-nl": "Dat was een perfecte afloop van een geweldige race.",
+        "text-pt": "Esse foi um final perfeito para uma grande corrida.",
+        "type": "chat"
       }
     }
   },
@@ -549,7 +638,9 @@ exports.chat = [
       "data": {
         "user": "bot-05",
         "text": "That was a perfect ending to a great race.",
-"type": "chat"
+        "text-nl": "Dat was een perfecte afloop van een geweldige race.",
+        "text-pt": "Esse foi um final perfeito para uma grande corrida.",
+        "type": "chat"
       }
     }
   },
@@ -561,7 +652,9 @@ exports.chat = [
       "data": {
         "user": "bot-38",
         "text": "I hope all the horses and jockeys are okay after that.",
-"type": "chat"
+        "text-nl": "Ik hoop dat alle paarden en jockeys oké zijn na dat.",
+        "text-pt": "Espero que todos os cavalos e jóqueis estejam bem depois disso.",
+        "type": "chat"
       }
     }
   },
@@ -573,7 +666,9 @@ exports.chat = [
       "data": {
         "user": "bot-39",
         "text": "Photo finish! My heart is still racing.",
-"type": "chat"
+        "text-nl": "Fotofinish! Mijn hart bonkt nog steeds.",
+        "text-pt": "Final por foto! Meu coração ainda está acelerado.",
+        "type": "chat"
       }
     }
   },
@@ -585,7 +680,9 @@ exports.chat = [
       "data": {
         "user": "bot-34",
         "text": "That was a true display of heart and determination.",
-"type": "chat"
+        "text-nl": "Dat was een echte vertoning van hart en vastberadenheid.",
+        "text-pt": "Essa foi uma verdadeira demonstração de coração e determinação.",
+        "type": "chat"
       }
     }
   },
@@ -597,7 +694,9 @@ exports.chat = [
       "data": {
         "user": "bot-02",
         "text": "Already looking forward to the next race!",
-"type": "chat"
+        "text-nl": "Kijk al uit naar de volgende race!",
+        "text-pt": "Já ansiosa pela próxima corrida!",
+        "type": "chat"
       }
     }
   },
@@ -609,7 +708,9 @@ exports.chat = [
       "data": {
         "user": "bot-39",
         "text": "That was a perfect ending to a great race.",
-"type": "chat"
+        "text-nl": "Dat was een perfecte afloop van een geweldige race.",
+        "text-pt": "Esse foi um final perfeito para uma grande corrida.",
+        "type": "chat"
       }
     }
   },
@@ -621,7 +722,9 @@ exports.chat = [
       "data": {
         "user": "bot-19",
         "text": "Already looking forward to the next race!",
-"type": "chat"
+        "text-nl": "Kijk al uit naar de volgende race!",
+        "text-pt": "Já ansiosa pela próxima corrida!",
+        "type": "chat"
       }
     }
   },
@@ -633,7 +736,9 @@ exports.chat = [
       "data": {
         "user": "bot-27",
         "text": "Cheers to the new champion!",
-"type": "chat"
+        "text-nl": "Proost op de nieuwe kampioen!",
+        "text-pt": "Um brinde ao novo campeão!",
+        "type": "chat"
       }
     }
   },
@@ -645,7 +750,9 @@ exports.chat = [
       "data": {
         "user": "bot-34",
         "text": "That was absolutely unforgettable.",
-"type": "chat"
+        "text-nl": "Dat was absoluut onvergetelijk.",
+        "text-pt": "Isso foi absolutamente inesquecível.",
+        "type": "chat"
       }
     }
   },
@@ -657,7 +764,9 @@ exports.chat = [
       "data": {
         "user": "bot-10",
         "text": "That was the most exciting race I've seen in years.",
-"type": "chat"
+        "text-nl": "Dat was de meest spannende race die ik in jaren heb gezien.",
+        "text-pt": "Essa foi a corrida mais emocionante que vi em anos.",
+        "type": "chat"
       }
     }
   },
@@ -669,7 +778,9 @@ exports.chat = [
       "data": {
         "user": "bot-29",
         "text": "Cheers to the new champion!",
-"type": "chat"
+        "text-nl": "Proost op de nieuwe kampioen!",
+        "text-pt": "Um brinde ao novo campeão!",
+        "type": "chat"
       }
     }
   },
@@ -681,7 +792,9 @@ exports.chat = [
       "data": {
         "user": "bot-36",
         "text": "That finish will be talked about for years.",
-"type": "chat"
+        "text-nl": "Die finish zal jarenlang besproken worden.",
+        "text-pt": "Essa chegada será comentada por anos.",
+        "type": "chat"
       }
     }
   },
@@ -693,7 +806,9 @@ exports.chat = [
       "data": {
         "user": "bot-21",
         "text": "That was a perfect ending to a great race.",
-"type": "chat"
+        "text-nl": "Dat was een perfecte afloop van een geweldige race.",
+        "text-pt": "Esse foi um final perfeito para uma grande corrida.",
+        "type": "chat"
       }
     }
   },
@@ -705,7 +820,9 @@ exports.chat = [
       "data": {
         "user": "bot-29",
         "text": "I can't believe how close that was at the end.",
-"type": "chat"
+        "text-nl": "Ik kan niet geloven hoe dichtbij dat was aan het einde.",
+        "text-pt": "Não acredito como foi apertado no final.",
+        "type": "chat"
       }
     }
   },
@@ -717,7 +834,9 @@ exports.chat = [
       "data": {
         "user": "bot-06",
         "text": "The energy in the stands is unbelievable.",
-"type": "chat"
+        "text-nl": "De energie op de tribunes is ongelooflijk.",
+        "text-pt": "A energia nas arquibancadas é inacreditável.",
+        "type": "chat"
       }
     }
   },
@@ -729,7 +848,9 @@ exports.chat = [
       "data": {
         "user": "bot-13",
         "text": "That was pure adrenaline from start to finish.",
-"type": "chat"
+        "text-nl": "Dat was pure adrenaline van start tot finish.",
+        "text-pt": "Isso foi pura adrenalina do início ao fim.",
+        "type": "chat"
       }
     }
   },
@@ -741,7 +862,9 @@ exports.chat = [
       "data": {
         "user": "bot-35",
         "text": "I can't believe how close that was at the end.",
-"type": "chat"
+        "text-nl": "Ik kan niet geloven hoe dichtbij dat was aan het einde.",
+        "text-pt": "Não acredito como foi apertado no final.",
+        "type": "chat"
       }
     }
   },
@@ -753,7 +876,9 @@ exports.chat = [
       "data": {
         "user": "bot-33",
         "text": "That was absolutely unforgettable.",
-"type": "chat"
+        "text-nl": "Dat was absoluut onvergetelijk.",
+        "text-pt": "Isso foi absolutamente inesquecível.",
+        "type": "chat"
       }
     }
   },
@@ -765,7 +890,9 @@ exports.chat = [
       "data": {
         "user": "bot-35",
         "text": "That was worth every penny.",
-"type": "chat"
+        "text-nl": "Dat was elke cent waard.",
+        "text-pt": "Isso valeu cada centavo.",
+        "type": "chat"
       }
     }
   },
@@ -777,7 +904,9 @@ exports.chat = [
       "data": {
         "user": "bot-05",
         "text": "What a storybook ending.",
-"type": "chat"
+        "text-nl": "Wat een sprookjesachtig einde.",
+        "text-pt": "Que final de conto de fadas.",
+        "type": "chat"
       }
     }
   },
@@ -789,7 +918,9 @@ exports.chat = [
       "data": {
         "user": "bot-22",
         "text": "I didn't expect that underdog to place!",
-"type": "chat"
+        "text-nl": "Ik verwachtte niet dat die underdog zou eindigen!",
+        "text-pt": "Não esperava que o azarão se classificasse!",
+        "type": "chat"
       }
     }
   },
@@ -801,7 +932,9 @@ exports.chat = [
       "data": {
         "user": "bot-33",
         "text": "My bet finally paid off!",
-"type": "chat"
+        "text-nl": "Mijn inzet heeft eindelijk uitbetaald!",
+        "text-pt": "Minha aposta finalmente deu certo!",
+        "type": "chat"
       }
     }
   }

@@ -6,7 +6,7 @@ import {
   TimetokenUtils,
   MixedTextTypedElement
 } from '@pubnub/chat'
-import { reactions } from '@/app/data/constants'
+import { reactions, alternativeLanguage } from '@/app/data/constants'
 import { useHover } from '@uidotdev/usehooks'
 
 interface ChatMessageProps {
@@ -18,6 +18,7 @@ interface ChatMessageProps {
   users: User[]
   channel: Channel
   pinnedMessage: Message | null
+  isEnglish?: boolean
 }
 
 export default function ChatMessage ({
@@ -25,7 +26,8 @@ export default function ChatMessage ({
   currentUser,
   users,
   channel,
-  pinnedMessage
+  pinnedMessage,
+  isEnglish = true
 }: ChatMessageProps) {
   const [ref, hovering] = useHover()
   const [showReactions, setShowReactions] = useState(false)
@@ -37,7 +39,10 @@ export default function ChatMessage ({
 
   
   useEffect(() => {
-    if (hovering && message.userId.startsWith('user-')) {
+    // Don't show reactions for translation messages
+    const isTranslation = message.meta?.isTranslation
+    
+    if (hovering && message.userId.startsWith('user-') && !isTranslation) {
       setShowReactions(true)
     }
     if (showReactions && !hovering) {
@@ -119,6 +124,48 @@ export default function ChatMessage ({
 
   const filtered = users.filter(user => message.userId === user.id)
   const user = filtered.length === 1 ? filtered[0] : null
+
+  // Helper function to get the appropriate message text for bot messages
+  const getBotMessageText = () => {
+    // Check if this is a bot message
+    if (!message.userId.startsWith('bot-')) {
+      return null // Not a bot message, use default rendering
+    }
+
+    try {
+      // Get the message text from content
+      const messageText = message.getMessageElements().map(renderMessagePart).join('')
+
+      // Try to parse the message text as JSON to check for translations
+      let translationsData: any = null
+      try {
+        const parsed = JSON.parse(messageText)
+        if (parsed.type === 'bot_translations') {
+          translationsData = parsed
+        }
+      } catch (e) {
+        // Not JSON, treat as regular text
+        return null
+      }
+
+      if (translationsData) {
+        if (!isEnglish) {
+          // Return appropriate translation based on alternativeLanguage
+          if (alternativeLanguage === 'nl' && translationsData['text-nl']) {
+            return translationsData['text-nl']
+          } else if (alternativeLanguage === 'pt' && translationsData['text-pt']) {
+            return translationsData['text-pt']
+          }
+        }
+        // Return English text from translations data
+        return translationsData.text
+      }
+    } catch (error) {
+      console.error('Error processing bot message:', error)
+    }
+    
+    return null // Use default rendering
+  }
 
   const renderMessagePart = (
     messagePart: MixedTextTypedElement,
@@ -217,7 +264,15 @@ export default function ChatMessage ({
                   </div>
                 )
               })()
-            : message.getMessageElements().map(renderMessagePart)}
+            : (() => {
+                // Check if this is a bot message with translations
+                const botText = getBotMessageText()
+                if (botText !== null) {
+                  return botText
+                }
+                // Default rendering for non-bot messages or bot messages without translations
+                return message.getMessageElements().map(renderMessagePart)
+              })()}
         </div>
         <div className={'text-[11px] font-[400] leading-[150%] flex items-center gap-1'}>
           {pubnubTimetokenToHHMM(message.timetoken)}

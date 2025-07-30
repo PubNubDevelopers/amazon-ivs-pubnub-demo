@@ -2,7 +2,8 @@ import { Input } from '@heroui/react'
 import React from 'react'
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
-import { adminPin, serverVideoControlChannelId, ffmpegStreamFilename } from '../data/constants'
+import { adminPin, serverVideoControlChannelId, ffmpegStreamFilename, alternativeLanguage } from '../data/constants'
+import { howItWorksTranslations, closeGuideTranslations } from '../data/translations'
 import { createWorker } from 'tesseract.js'
 
 export default function Header ({
@@ -12,7 +13,8 @@ export default function Header ({
   setTabletPreview,
   guidesShown,
   setGuidesShown,
-  chat
+  chat,
+  isEnglish
 }) {
   const [adminModalOpen, setAdminModalOpen] = useState(false)
   const [pinInput, setPinInput] = useState('')
@@ -26,6 +28,25 @@ export default function Header ({
   const [backendDataMessage, setBackendDataMessage] = useState('')
   const [botChatStatus, setBotChatStatus] = useState<'idle' | 'resuming' | 'pausing' | 'success' | 'error'>('idle')
   const [botChatMessage, setBotChatMessage] = useState('')
+
+  // Get the appropriate translation based on language selection
+  const getHowItWorksText = () => {
+    if (isEnglish) {
+      return howItWorksTranslations['en']
+    } else {
+      // Use alternative language or fallback to English
+      return howItWorksTranslations[alternativeLanguage] || howItWorksTranslations['en']
+    }
+  }
+
+  const getCloseGuideText = () => {
+    if (isEnglish) {
+      return closeGuideTranslations['en']
+    } else {
+      // Use alternative language or fallback to English
+      return closeGuideTranslations[alternativeLanguage] || closeGuideTranslations['en']
+    }
+  }
 
   const handlePinSubmit = (e) => {
     e.preventDefault()
@@ -522,7 +543,7 @@ export default function Header ({
             }}
           >
             {guidesShown && <CloseIcon />}
-            {!guidesShown ? 'How it works' : 'Close guide'}
+            {!guidesShown ? getHowItWorksText() : getCloseGuideText()}
           </div>
         </div>
       </div>
