@@ -316,10 +316,17 @@ export default request => {
         return request.ok();
     }
     
-    // Extract channel name from request
-    const channel = request.channels[0];
+    // Extract channel name from request and create translation channel
+    const originalChannel = request.channels[0];
+    const translationChannel = originalChannel + '.translations';
 
     const payload = request.message;
+    
+    // Prevent infinite loops - don't translate already translated messages
+    if (payload && payload.translated) {
+        return request.ok();
+    }
+    
     if (payload) {
         return vault.get('AWS_access_key').then((AWS_access_key) => {
             return vault.get('AWS_secret_key').then((AWS_secret_key) => {
@@ -349,17 +356,31 @@ export default request => {
                     console.log("TRANSLATED", body);
                     
                     if (body.TranslatedText) {
-                        // Create translated message with same structure as original
+                        // Create translated message with Chat SDK compatible structure
                         const translatedMessage = {
                             type: payload.type,
                             text: body.TranslatedText,
-                            files: payload.files || []
+                            files: payload.files || [],
+                            // Mark as translated to prevent infinite loops
+                            translated: true,
+                            originalText: payload.text,
+                            targetLanguage: targetLanguage
                         };
                         
-                        // Publish translated message to same channel
+                        // Generate a unique timetoken for the translated message
+                        const currentTime = Date.now() * 10000; // PubNub timetoken format
+                        
+                        // Publish to dedicated translation channel to avoid Chat SDK conflicts
                         return pubnub.publish({
-                            channel: channel,
-                            message: translatedMessage
+                            channel: translationChannel,
+                            message: {
+                                originalChannel: originalChannel,
+                                originalMessage: payload,
+                                translatedText: body.TranslatedText,
+                                targetLanguage: targetLanguage,
+                                originalUserId: request.uuid,
+                                timestamp: Date.now()
+                            }
                         }).then(() => {
                             return request.ok();
                         });
