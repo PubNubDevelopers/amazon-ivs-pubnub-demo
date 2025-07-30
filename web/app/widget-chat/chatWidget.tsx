@@ -396,14 +396,11 @@ export default function ChatWidget ({
         // Also fetch translation history
         try {
           const translationChannelName = activeChannelId + '-translations'
-          console.log('Fetching translation history for:', translationChannelName)
           
           const translationHistory = await chat.sdk.fetchMessages({
             channels: [translationChannelName],
             count: 100
           })
-          
-          console.log('Translation history response:', translationHistory)
           
           // Handle fetchMessages response structure
           let translationMessagesArray = null
@@ -448,7 +445,7 @@ export default function ChatWidget ({
               .sort((a, b) => parseInt(a.timetoken) - parseInt(b.timetoken))
           }
         } catch (translationError) {
-          console.error('Error fetching translation history:', translationError)
+          // Silently handle translation history fetch errors
         }
 
         setMessages(allMessages)
