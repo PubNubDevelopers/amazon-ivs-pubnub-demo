@@ -39,7 +39,7 @@ export const currencySymbol = "€"
 export const bettingOddsDisplay = "fractional" //  "decimal" or "fractional"
 
 // Language settings
-export const alternativeLanguage = "nl"
+export const alternativeLanguage: "nl" | "pt" = "nl"
 
 
 // Admin settings

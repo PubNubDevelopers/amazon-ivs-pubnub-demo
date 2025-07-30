@@ -137,7 +137,7 @@ export default function ChatMessage ({
       const messageText = message.getMessageElements().map(renderMessagePart).join('')
 
       // Try to parse the message text as JSON to check for translations
-      let translationsData = null
+      let translationsData: any = null
       try {
         const parsed = JSON.parse(messageText)
         if (parsed.type === 'bot_translations') {

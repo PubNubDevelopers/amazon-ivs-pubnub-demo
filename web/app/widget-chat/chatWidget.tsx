@@ -403,7 +403,7 @@ export default function ChatWidget ({
           })
           
           // Handle fetchMessages response structure
-          let translationMessagesArray = null
+          let translationMessagesArray: any = null
           if (translationHistory && translationHistory.channels && translationHistory.channels[translationChannelName]) {
             translationMessagesArray = translationHistory.channels[translationChannelName]
           }
@@ -438,7 +438,7 @@ export default function ChatWidget ({
                 }
               }
               return null
-            }).filter(Boolean)
+            }).filter((msg): msg is any => msg !== null)
             
             // Merge and sort by timestamp
             allMessages = [...allMessages, ...translationMessages]
