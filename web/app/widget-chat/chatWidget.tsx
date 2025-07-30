@@ -984,7 +984,15 @@ export default function ChatWidget ({
                       return true
                     }
                     
+                    // Check if this is a bot message with pre-translations
+                    const isBotMessage = message.userId && message.userId.startsWith('bot-')
+                    
                     // Show translations when isEnglish=false, show originals when isEnglish=true
+                    // Always show bot messages (they will be handled by ChatMessage component for language)
+                    if (isBotMessage) {
+                      return true
+                    }
+                    
                     return isEnglish ? !isTranslation : isTranslation
                   })
                   .map((message, index) => {
@@ -998,6 +1006,7 @@ export default function ChatWidget ({
                         users={users}
                         channel={activeChannel}
                         pinnedMessage={pinnedMessage}
+                        isEnglish={isEnglish}
                       />
                     )
                   })}

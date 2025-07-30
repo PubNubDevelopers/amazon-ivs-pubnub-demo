@@ -377,10 +377,30 @@ async function publishMessage(channel, message, persistInHistory = false) {
       // Set User ID
       let userId = message.user || "other";
       pubnub.setUUID(userId);
-      //console.log("Publishing message to channel:", channel, "with message:", message);
+      
+      // For bot messages with translations, encode all translations into the text field as JSON
+      let messageToSend = { ...message };
+      if (userId.startsWith('bot-') && (message['text-nl'] || message['text-pt'])) {
+        // Create a JSON object with all translations
+        const translationsData = {
+          type: 'bot_translations',
+          text: message.text,
+          'text-nl': message['text-nl'],
+          'text-pt': message['text-pt']
+        };
+        
+        // Replace the text field with the JSON string
+        messageToSend.text = JSON.stringify(translationsData);
+        
+        // Remove translation fields from main message
+        delete messageToSend['text-nl'];
+        delete messageToSend['text-pt'];
+      }
+      
+      //console.log("Publishing message to channel:", channel, "with message:", messageToSend);
       await pubnub.publish({
         channel: channel,
-        message: message,
+        message: messageToSend,
         storeInHistory: persistInHistory,
       });
     }
