@@ -959,6 +959,31 @@ export default function ChatWidget ({
                 {messages
                   .filter((message) => {
                     const isTranslation = message.meta?.isTranslation
+                    
+                    // Check if this is a sticker message
+                    const isSticker = (() => {
+                      try {
+                        const messageText = message.getMessageElements().map((element) => {
+                          if (element.type === 'mention') {
+                            return element.content.name
+                          }
+                          if (element.type === 'text') {
+                            return element.content.text
+                          }
+                          return ''
+                        }).join('')
+                        const parsed = JSON.parse(messageText)
+                        return parsed.type === 'sticker'
+                      } catch {
+                        return false
+                      }
+                    })()
+                    
+                    // Always show stickers regardless of language setting
+                    if (isSticker) {
+                      return true
+                    }
+                    
                     // Show translations when isEnglish=false, show originals when isEnglish=true
                     return isEnglish ? !isTranslation : isTranslation
                   })
