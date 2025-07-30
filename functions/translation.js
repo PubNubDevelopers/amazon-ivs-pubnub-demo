@@ -1,12 +1,70 @@
+/**
+ * PUBNUB FUNCTION CONFIGURATION INSTRUCTIONS
+ * ==========================================
+ * 
+ * This PubNub Function provides real-time message translation using AWS Translate.
+ * It processes messages from users (with IDs starting with 'user-') and publishes 
+ * translated versions to separate translation channels.
+ * 
+ * SETUP REQUIREMENTS:
+ * 
+ * 1. PUBNUB FUNCTION CONFIGURATION:
+ *    - Function Type: "After Publish or Fire"
+ *    - Channel Pattern: "race.chat.*"
+ *    - Function Name: "Translation Function" (or similar)
+ *    - Runtime: Node.js
+ * 
+ * 2. VAULT CONFIGURATION (in PubNub Admin Portal):
+ *    Navigate to your PubNub app → Functions → Vault and add:
+ *    - Key: "AWS_access_key" | Value: Your AWS Access Key ID
+ *    - Key: "AWS_secret_key" | Value: Your AWS Secret Access Key
+ * 
+ * 3. AWS IAM PERMISSIONS:
+ *    Ensure your AWS credentials have the "translate:TranslateText" permission.
+ *    Recommended policy:
+ *    {
+ *        "Version": "2012-10-17",
+ *        "Statement": [
+ *            {
+ *                "Effect": "Allow",
+ *                "Action": "translate:TranslateText",
+ *                "Resource": "*"
+ *            }
+ *        ]
+ *    }
+ * 
+ * 4. CHANNEL NAMING CONVENTION:
+ *    - Original messages: race.chat.{channel-id}
+ *    - Translation messages: race.chat.{channel-id}-translations
+ *    - Ensure channel names don't exceed PubNub's 2-dot limit
+ * 
+ * 5. MESSAGE METADATA:
+ *    The function expects messages with metadata containing language information:
+ *    {
+ *        "meta": {
+ *            "language": "es|fr|de|it|pt|..." // Target language code
+ *        }
+ *    }
+ * 
+ * FUNCTION BEHAVIOR:
+ * - Only translates messages from users with IDs starting with 'user-'
+ * - Skips translation if no language metadata is present
+ * - Prevents infinite loops by ignoring translation channels
+ * - Publishes translations to {original-channel}-translations
+ * - Uses AWS Translate with English as source language
+ * 
+ * TROUBLESHOOTING:
+ * - Check Vault configuration if AWS errors occur
+ * - Verify channel patterns match "race.chat.*"
+ * - Ensure message metadata includes language field
+ * - Monitor PubNub Function logs for errors
+ */
+
 const vault = require('vault');
 const xhr = require('xhr');
 const pubnub = require('pubnub');
 
 export default request => {
-    /** The "XHR" sample function is triggered after messages are published to subscribers
-    * It optionally routes messages to an external HTTPS endpoint and handles a success
-    * or failure response from the service.
-    **/
     const xhr  = require('xhr');
     const post = { method : "POST", body : request.message };
     const url  = "https://my.company.com/save";
