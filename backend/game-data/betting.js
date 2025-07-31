@@ -1,10 +1,11 @@
-//  Start of betting: 1000
-//  Start of race: 23000
-//  End of race: 39000
+//  Start of betting: 0
+//  Start of race: 30000
+//  End of race: 136000
+//  End of video loop: 180000
 
 exports.betting = [
   {
-    timeSinceVideoStartedInMs: 1000,
+    timeSinceVideoStartedInMs: 0,
     persistInHistory: true,
     action: {
       channel: 'race.betting',
@@ -16,7 +17,7 @@ exports.betting = [
         horses: [
           {
             number: 1,
-            name: 'Blazing Comet',
+            name: 'Iron Mirage',
             trainer: 'Matha Caldwell',
             jockey: 'Miguel Santiago',
             age: 2,
@@ -52,7 +53,7 @@ exports.betting = [
           },
           {
             number: 5,
-            name: 'Iron Mirage',
+            name: 'Blazing Comet',
             trainer: 'Tomás Rivera',
             jockey: 'Ricardo Del Mar',
             age: 2,
@@ -67,49 +68,13 @@ exports.betting = [
             age: 2,
             weight: 134,
             odds: 13.00
-          },
-          {
-            number: 7,
-            name: 'Crimson Rocket',
-            trainer: 'Derek Lin',
-            jockey: 'Ava Johnson',
-            age: 1,
-            weight: 132,
-            odds: 15.00
-          },
-          {
-            number: 8,
-            name: 'Golden Gale',
-            trainer: 'Priya Singh',
-            jockey: 'Lucas Moretti',
-            age: 2,
-            weight: 137,
-            odds: 18.00
-          },
-          {
-            number: 9,
-            name: 'Shadow Whisper',
-            trainer: 'Nina Müller',
-            jockey: 'Omar Farouk',
-            age: 1,
-            weight: 129,
-            odds: 21.00
-          },
-          {
-            number: 10,
-            name: 'Emerald Dancer',
-            trainer: 'Jack O\'Reilly',
-            jockey: 'Emily Chen',
-            age: 2,
-            weight: 135,
-            odds: 26.00
           }
         ]
       }
     }
   },
   {
-    timeSinceVideoStartedInMs: 23000,
+    timeSinceVideoStartedInMs: 30000,
     persistInHistory: true,
     action: {
       channel: 'race.betting',
@@ -120,14 +85,14 @@ exports.betting = [
     }
   },
   {
-    timeSinceVideoStartedInMs: 39000,
+    timeSinceVideoStartedInMs: 136000,
     persistInHistory: true,
     action: {
       channel: 'race.betting',
       data: {
         type: 'betting_results',
         raceId: 1,
-        raceResults: [3, 7, 1]
+        raceResults: [2, 1, 3]
       }
     }
   }
