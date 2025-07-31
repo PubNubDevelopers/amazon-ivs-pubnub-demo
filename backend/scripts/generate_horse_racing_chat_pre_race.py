@@ -156,12 +156,112 @@ def generate_horse_racing_chat():
             "en": "Here we go—any second now!",
             "nl": "Daar gaan we—elk moment nu!",
             "pt": "Lá vamos nós—a qualquer segundo agora!"
+        },
+        {
+            "en": "The suspense is killing me!",
+            "nl": "De spanning brengt me om!",
+            "pt": "O suspense está me matando!"
+        },
+        {
+            "en": "First time at the races and I'm already hooked.",
+            "nl": "Eerste keer bij de races en ik ben al verslaafd.",
+            "pt": "Primeira vez nas corridas e já estou viciado."
+        },
+        {
+            "en": "The horses look so majestic today.",
+            "nl": "De paarden zien er zo majestueus uit vandaag.",
+            "pt": "Os cavalos parecem tão majestosos hoje."
+        },
+        {
+            "en": "I wonder which jockey has the best strategy.",
+            "nl": "Ik vraag me af welke jockey de beste strategie heeft.",
+            "pt": "Me pergunto qual jóquei tem a melhor estratégia."
+        },
+        {
+            "en": "The weather conditions are perfect for racing.",
+            "nl": "De weersomstandigheden zijn perfect om te racen.",
+            "pt": "As condições climáticas estão perfeitas para correr."
+        },
+        {
+            "en": "My heart is already beating fast!",
+            "nl": "Mijn hart klopt al snel!",
+            "pt": "Meu coração já está batendo rápido!"
+        },
+        {
+            "en": "This is what live sports is all about.",
+            "nl": "Dit is waar live sport om draait.",
+            "pt": "É disso que se trata o esporte ao vivo."
+        },
+        {
+            "en": "The crowd's energy is infectious.",
+            "nl": "De energie van de menigte is aanstekelijk.",
+            "pt": "A energia da multidão é contagiosa."
+        },
+        {
+            "en": "I can barely contain my excitement.",
+            "nl": "Ik kan mijn opwinding nauwelijks bedwingen.",
+            "pt": "Mal consigo conter minha empolgação."
+        },
+        {
+            "en": "The starter looks ready to begin.",
+            "nl": "De starter ziet er klaar uit om te beginnen.",
+            "pt": "O juiz de largada parece pronto para começar."
+        },
+        {
+            "en": "Those colors look brilliant in the sunlight.",
+            "nl": "Die kleuren zien er schitterend uit in het zonlicht.",
+            "pt": "Essas cores ficam brilhantes na luz do sol."
+        },
+        {
+            "en": "Time to see who has the winning touch today.",
+            "nl": "Tijd om te zien wie vandaag de winnende touch heeft.",
+            "pt": "Hora de ver quem tem o toque vencedor hoje."
+        },
+        {
+            "en": "The anticipation is almost unbearable.",
+            "nl": "De verwachting is bijna ondraaglijk.",
+            "pt": "A expectativa é quase insuportável."
+        },
+        {
+            "en": "Every second feels like an eternity.",
+            "nl": "Elke seconde voelt als een eeuwigheid.",
+            "pt": "Cada segundo parece uma eternidade."
+        },
+        {
+            "en": "The bookmakers must be busy right now.",
+            "nl": "De bookmakers moeten nu druk bezig zijn.",
+            "pt": "Os casas de apostas devem estar ocupadas agora."
+        },
+        {
+            "en": "What a beautiful sight—horses and riders as one.",
+            "nl": "Wat een prachtig gezicht—paarden en ruiters als één.",
+            "pt": "Que visão linda—cavalos e cavaleiros como um só."
+        },
+        {
+            "en": "The final moments before the storm.",
+            "nl": "De laatste momenten voor de storm.",
+            "pt": "Os momentos finais antes da tempestade."
+        },
+        {
+            "en": "I hope everyone stays safe out there.",
+            "nl": "Ik hoop dat iedereen veilig blijft daarbuiten.",
+            "pt": "Espero que todos fiquem seguros lá fora."
+        },
+        {
+            "en": "The silence before the thunder.",
+            "nl": "De stilte voor de donder.",
+            "pt": "O silêncio antes do trovão."
+        },
+        {
+            "en": "This is why I love coming to the track.",
+            "nl": "Daarom hou ik ervan om naar de baan te komen.",
+            "pt": "É por isso que adoro vir à pista."
         }
     ]   
     
     chat_entries = []
     time_ms = 1000
-    time_end_ms = 22000  # You can change this value to set the end time in ms
+    time_end_ms = 30000  # You can change this value to set the end time in ms
 
     # Generate chat entries from time_ms up to and including time_end_ms, incrementing by 1000ms
     while time_ms <= time_end_ms:
