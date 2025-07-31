@@ -205,8 +205,8 @@ def generate_horse_racing_chat():
     ]
     
     chat_entries = []
-    time_ms = 39000
-    time_end_ms = 69000  # You can change this value to set the end time in ms
+    time_ms = 137000
+    time_end_ms = 179000  # You can change this value to set the end time in ms
 
     # Generate chat entries from time_ms up to and including time_end_ms, incrementing by 1000ms
     while time_ms <= time_end_ms:

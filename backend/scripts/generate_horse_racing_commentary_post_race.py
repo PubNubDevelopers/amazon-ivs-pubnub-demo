@@ -191,12 +191,62 @@ def generate_horse_racing_commentary():
             "en": "Congratulations to all involved on a fantastic race.",
             "nl": "Gefeliciteerd aan alle betrokkenen met een fantastische race.",
             "pt": "Parabéns a todos os envolvidos por uma corrida fantástica."
+        },
+        {
+            "en": "The official times confirm what we witnessed—a truly exceptional performance.",
+            "nl": "De officiële tijden bevestigen wat we meemaakten—een werkelijk uitzonderlijke prestatie.",
+            "pt": "Os tempos oficiais confirmam o que presenciamos—uma performance verdadeiramente excepcional."
+        },
+        {
+            "en": "Racing like this reminds us why it's called the most exciting two minutes in sports.",
+            "nl": "Racen zoals dit herinnert ons waarom het de meest spannende twee minuten in de sport wordt genoemd.",
+            "pt": "Corridas assim nos lembram por que são chamadas de os dois minutos mais emocionantes do esporte."
+        },
+        {
+            "en": "The winning owner's box is erupting in celebration—what a moment for them.",
+            "nl": "De winnaars loge barst uit in viering—wat een moment voor hen.",
+            "pt": "O camarote do proprietário vencedor está explodindo em celebração—que momento para eles."
+        },
+        {
+            "en": "This victory will echo through racing history for generations to come.",
+            "nl": "Deze overwinning zal door de racegeschiedenis echo'en voor generaties.",
+            "pt": "Esta vitória ecoará pela história das corridas por gerações vindouras."
+        },
+        {
+            "en": "What we've witnessed today transcends mere competition—it's pure artistry.",
+            "nl": "Wat we vandaag meemaakten overstijgt louter competitie—het is pure kunst.",
+            "pt": "O que presenciamos hoje transcende mera competição—é pura arte."
+        },
+        {
+            "en": "The bond between horse and rider has never been more beautifully displayed.",
+            "nl": "De band tussen paard en ruiter is nog nooit zo mooi getoond.",
+            "pt": "A ligação entre cavalo e cavaleiro nunca foi tão lindamente demonstrada."
+        },
+        {
+            "en": "Racing fans worldwide will be talking about this performance for decades.",
+            "nl": "Racefans wereldwijd zullen decennia lang over deze prestatie praten.",
+            "pt": "Fãs de corridas mundialmente estarão falando sobre esta performance por décadas."
+        },
+        {
+            "en": "The stewards have confirmed the result—a clean and decisive victory.",
+            "nl": "De officials hebben het resultaat bevestigd—een schone en beslissende overwinning.",
+            "pt": "Os comissários confirmaram o resultado—uma vitória limpa e decisiva."
+        },
+        {
+            "en": "Every element came together perfectly—the stars aligned for this magical moment.",
+            "nl": "Elk element kwam perfect samen—de sterren stonden goed voor dit magische moment.",
+            "pt": "Cada elemento se juntou perfeitamente—as estrelas se alinharam para este momento mágico."
+        },
+        {
+            "en": "This is why we dedicate our lives to covering the sport of kings.",
+            "nl": "Daarom wijden we ons leven aan het verslaan van de sport der koningen.",
+            "pt": "É por isso que dedicamos nossas vidas a cobrir o esporte dos reis."
         }
     ]
     
     chat_entries = []
-    time_ms = 39000
-    time_end_ms = 69000  # You can change this value to set the end time in ms
+    time_ms = 137000
+    time_end_ms = 179000  # You can change this value to set the end time in ms
 
     # Generate chat entries from time_ms up to and including time_end_ms, incrementing by 1000ms
     while time_ms <= time_end_ms:

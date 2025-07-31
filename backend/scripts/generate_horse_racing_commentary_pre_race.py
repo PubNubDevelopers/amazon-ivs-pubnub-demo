@@ -156,12 +156,107 @@ def generate_horse_racing_commentary():
             "en": "Here we go—stand by for the start of this much-anticipated contest!",
             "nl": "Daar gaan we—maak je klaar voor de start van deze langverwachte wedstrijd!",
             "pt": "Aqui vamos nós—preparem-se para o início desta disputa muito aguardada!"
+        },
+        {
+            "en": "The connections are watching anxiously from the grandstand.",
+            "nl": "De connecties kijken angstig toe vanaf de hoofdtribune.",
+            "pt": "As conexões estão observando ansiosamente da arquibancada principal."
+        },
+        {
+            "en": "This field represents some of the finest bloodlines in racing.",
+            "nl": "Dit veld vertegenwoordigt enkele van de beste bloedlijnen in de paardensport.",
+            "pt": "Este campo representa algumas das melhores linhagens nas corridas."
+        },
+        {
+            "en": "The stewards have given the all-clear—we're ready to proceed.",
+            "nl": "De officials hebben het sein op groen gegeven—we zijn klaar om te beginnen.",
+            "pt": "Os comissários deram sinal verde—estamos prontos para prosseguir."
+        },
+        {
+            "en": "Each horse and rider partnership tells a unique story today.",
+            "nl": "Elk paard-ruiter duo vertelt vandaag een uniek verhaal.",
+            "pt": "Cada parceria cavalo-cavaleiro conta uma história única hoje."
+        },
+        {
+            "en": "The bookmakers' boards show a fascinating picture of public opinion.",
+            "nl": "De borden van de bookmakers tonen een fascinerend beeld van de publieke opinie.",
+            "pt": "Os quadros das casas de apostas mostram um panorama fascinante da opinião pública."
+        },
+        {
+            "en": "Years of preparation have led to this single moment.",
+            "nl": "Jaren van voorbereiding hebben geleid tot dit ene moment.",
+            "pt": "Anos de preparação levaram a este único momento."
+        },
+        {
+            "en": "The veteran commentator in me has rarely seen such quality assembled.",
+            "nl": "De ervaren commentator in mij heeft zelden zoveel kwaliteit bij elkaar gezien.",
+            "pt": "O comentarista veterano em mim raramente viu tanta qualidade reunida."
+        },
+        {
+            "en": "Behind the scenes, trainers are offering final words of encouragement.",
+            "nl": "Achter de schermen geven trainers laatste woorden van aanmoediging.",
+            "pt": "Nos bastidores, treinadores estão oferecendo palavras finais de encorajamento."
+        },
+        {
+            "en": "The ground conditions could not be more perfect for fast times.",
+            "nl": "De bodemomstandigheden zouden niet perfecter kunnen zijn voor snelle tijden.",
+            "pt": "As condições do terreno não poderiam ser mais perfeitas para tempos rápidos."
+        },
+        {
+            "en": "This is what separates champions from the rest of the field.",
+            "nl": "Dit is wat kampioenen onderscheidt van de rest van het veld.",
+            "pt": "Isso é o que separa campeões do resto do campo."
+        },
+        {
+            "en": "The racing gods have blessed us with ideal conditions today.",
+            "nl": "De racegoden hebben ons vandaag gezegend met ideale omstandigheden.",
+            "pt": "Os deuses das corridas nos abençoaram com condições ideais hoje."
+        },
+        {
+            "en": "Every stride from this point forward will be etched in history.",
+            "nl": "Elke pas vanaf dit punt zal in de geschiedenis gegraveerd worden.",
+            "pt": "Cada passada deste ponto em diante será gravada na história."
+        },
+        {
+            "en": "The culmination of months of careful planning is about to unfold.",
+            "nl": "Het hoogtepunt van maanden zorgvuldige planning staat op het punt zich te ontvouwen.",
+            "pt": "O ápice de meses de planejamento cuidadoso está prestes a se desenrolar."
+        },
+        {
+            "en": "These magnificent athletes are poetry in motion even at rest.",
+            "nl": "Deze magnifieke atleten zijn poëzie in beweging, zelfs in rust.",
+            "pt": "Esses atletas magníficos são poesia em movimento mesmo em repouso."
+        },
+        {
+            "en": "The silence before the storm—you can cut the tension with a knife.",
+            "nl": "De stilte voor de storm—je kunt de spanning snijden met een mes.",
+            "pt": "O silêncio antes da tempestade—você pode cortar a tensão com uma faca."
+        },
+        {
+            "en": "Racing fans around the world are holding their collective breath.",
+            "nl": "Racefans over de hele wereld houden collectief hun adem in.",
+            "pt": "Fãs de corrida ao redor do mundo estão prendendo a respiração coletivamente."
+        },
+        {
+            "en": "The next few seconds will determine months of celebration or heartbreak.",
+            "nl": "De volgende paar seconden zullen maanden van viering of hartpijn bepalen.",
+            "pt": "Os próximos segundos determinarão meses de celebração ou desgosto."
+        },
+        {
+            "en": "This is why we fell in love with the sport of kings.",
+            "nl": "Daarom werden we verliefd op de sport der koningen.",
+            "pt": "É por isso que nos apaixonamos pelo esporte dos reis."
+        },
+        {
+            "en": "The final moments of anticipation before greatness is unleashed.",
+            "nl": "De laatste momenten van verwachting voordat grootsheid wordt losgelaten.",
+            "pt": "Os momentos finais de expectativa antes que a grandeza seja liberada."
         }
     ]   
     
     chat_entries = []
     time_ms = 1000
-    time_end_ms = 22000  # You can change this value to set the end time in ms
+    time_end_ms = 30000  # You can change this value to set the end time in ms
 
     # Generate chat entries from time_ms up to and including time_end_ms, incrementing by 1000ms
     while time_ms <= time_end_ms:

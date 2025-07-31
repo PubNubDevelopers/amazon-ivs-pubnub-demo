@@ -156,12 +156,107 @@ def generate_horse_racing_chat():
             "en": "What a race!",
             "nl": "Wat een race!",
             "pt": "Que corrida!"
+        },
+        {
+            "en": "This is absolutely incredible!",
+            "nl": "Dit is absoluut ongelooflijk!",
+            "pt": "Isso é absolutamente incrível!"
+        },
+        {
+            "en": "My horse is fighting for every inch!",
+            "nl": "Mijn paard vecht voor elke centimeter!",
+            "pt": "Meu cavalo está lutando por cada centímetro!"
+        },
+        {
+            "en": "The speed is phenomenal!",
+            "nl": "De snelheid is fenomenaal!",
+            "pt": "A velocidade é fenomenal!"
+        },
+        {
+            "en": "Look at that jockey's skill!",
+            "nl": "Kijk naar de vaardigheid van die jockey!",
+            "pt": "Olhem a habilidade desse jóquei!"
+        },
+        {
+            "en": "This is edge-of-your-seat stuff!",
+            "nl": "Dit is spanning ten top!",
+            "pt": "Isso é de tirar o fôlego!"
+        },
+        {
+            "en": "Every horse giving their maximum!",
+            "nl": "Elk paard geeft zijn maximum!",
+            "pt": "Cada cavalo dando o máximo!"
+        },
+        {
+            "en": "The crowd is going wild!",
+            "nl": "Het publiek wordt gek!",
+            "pt": "A multidão está enlouquecendo!"
+        },
+        {
+            "en": "I can't even blink!",
+            "nl": "Ik kan niet eens knipperen!",
+            "pt": "Não consigo nem piscar!"
+        },
+        {
+            "en": "The power in those strides!",
+            "nl": "De kracht in die passen!",
+            "pt": "A força nessas passadas!"
+        },
+        {
+            "en": "Who's going to make the first move?",
+            "nl": "Wie gaat de eerste zet doen?",
+            "pt": "Quem vai fazer o primeiro movimento?"
+        },
+        {
+            "en": "The thunder of hooves is deafening!",
+            "nl": "Het gedonder van hoeven is oorverdovend!",
+            "pt": "O trovão dos cascos é ensurdecedor!"
+        },
+        {
+            "en": "This is pure poetry in motion!",
+            "nl": "Dit is pure poëzie in beweging!",
+            "pt": "Isso é pura poesia em movimento!"
+        },
+        {
+            "en": "My heart can't take much more!",
+            "nl": "Mijn hart kan niet veel meer aan!",
+            "pt": "Meu coração não aguenta muito mais!"
+        },
+        {
+            "en": "The determination in their eyes!",
+            "nl": "De vastberadenheid in hun ogen!",
+            "pt": "A determinação em seus olhos!"
+        },
+        {
+            "en": "Every second counts now!",
+            "nl": "Elke seconde telt nu!",
+            "pt": "Cada segundo conta agora!"
+        },
+        {
+            "en": "The strategy is unfolding perfectly!",
+            "nl": "De strategie ontvouwt zich perfect!",
+            "pt": "A estratégia está se desenvolvendo perfeitamente!"
+        },
+        {
+            "en": "I'm on the edge of my seat!",
+            "nl": "Ik zit op het puntje van mijn stoel!",
+            "pt": "Estou na ponta da cadeira!"
+        },
+        {
+            "en": "The athleticism is breathtaking!",
+            "nl": "Het atletisme is adembenemend!",
+            "pt": "O atletismo é de tirar o fôlego!"
+        },
+        {
+            "en": "This is why I love this sport!",
+            "nl": "Daarom hou ik van deze sport!",
+            "pt": "É por isso que amo esse esporte!"
         }
     ]
     
     chat_entries = []
-    time_ms = 23000
-    time_end_ms = 38000  # You can change this value to set the end time in ms
+    time_ms = 31000
+    time_end_ms = 136000  # You can change this value to set the end time in ms
 
     # Generate chat entries from time_ms up to and including time_end_ms, incrementing by 1000ms
     while time_ms <= time_end_ms:
