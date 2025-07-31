@@ -141,6 +141,41 @@ export const skipToLatestTranslations = {
   'pt': 'Pular para o último'
 }
 
+// Translation map for Betting widget - Horse Details header
+export const horseDetailsTranslations = {
+  'en': 'Horse Details',
+  'nl': 'Paard Details',
+  'pt': 'Detalhes do Cavalo'
+}
+
+// Translation map for Betting widget - Age/Weight header
+export const ageWeightTranslations = {
+  'en': 'Age/Weight',
+  'nl': 'Leeftijd/Gewicht',
+  'pt': 'Idade/Peso'
+}
+
+// Translation map for Betting widget - Your Wager header
+export const yourWagerTranslations = {
+  'en': 'Your Wager',
+  'nl': 'Uw Inzet',
+  'pt': 'Sua Aposta'
+}
+
+// Translation map for Betting widget - Total Wager header
+export const totalWagerTranslations = {
+  'en': 'Total Wager',
+  'nl': 'Totale Inzet',
+  'pt': 'Aposta Total'
+}
+
+// Translation map for Betting widget - Odds header
+export const oddsTranslations = {
+  'en': 'Odds',
+  'nl': 'Kansen',
+  'pt': 'Probabilidades'
+}
+
 // Translation map for Chat channel names - indexed by channel ID
 export const chatChannelNamesTranslations = {
   'race.chat.all': {

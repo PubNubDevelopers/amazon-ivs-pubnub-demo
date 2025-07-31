@@ -11,7 +11,12 @@ import {
   bettingClosedTranslations,
   raceResultsTranslations,
   eachStakeTranslations,
-  eachWayTranslations
+  eachWayTranslations,
+  horseDetailsTranslations,
+  ageWeightTranslations,
+  yourWagerTranslations,
+  totalWagerTranslations,
+  oddsTranslations
 } from '../data/translations'
 import { AwardWallet } from '../commonLogic'
 
@@ -200,6 +205,46 @@ export default function BettingWidget ({
       return eachWayTranslations['en']
     } else {
       return eachWayTranslations[alternativeLanguage] || eachWayTranslations['en']
+    }
+  }
+
+  const getHorseDetailsText = () => {
+    if (isEnglish) {
+      return horseDetailsTranslations['en']
+    } else {
+      return horseDetailsTranslations[alternativeLanguage] || horseDetailsTranslations['en']
+    }
+  }
+
+  const getAgeWeightText = () => {
+    if (isEnglish) {
+      return ageWeightTranslations['en']
+    } else {
+      return ageWeightTranslations[alternativeLanguage] || ageWeightTranslations['en']
+    }
+  }
+
+  const getYourWagerText = () => {
+    if (isEnglish) {
+      return yourWagerTranslations['en']
+    } else {
+      return yourWagerTranslations[alternativeLanguage] || yourWagerTranslations['en']
+    }
+  }
+
+  const getTotalWagerText = () => {
+    if (isEnglish) {
+      return totalWagerTranslations['en']
+    } else {
+      return totalWagerTranslations[alternativeLanguage] || totalWagerTranslations['en']
+    }
+  }
+
+  const getOddsText = () => {
+    if (isEnglish) {
+      return oddsTranslations['en']
+    } else {
+      return oddsTranslations[alternativeLanguage] || oddsTranslations['en']
     }
   }
 
@@ -459,6 +504,11 @@ export default function BettingWidget ({
         getRaceResultsText={getRaceResultsText}
         getEachStakeText={getEachStakeText}
         getEachWayText={getEachWayText}
+        getHorseDetailsText={getHorseDetailsText}
+        getAgeWeightText={getAgeWeightText}
+        getYourWagerText={getYourWagerText}
+        getTotalWagerText={getTotalWagerText}
+        getOddsText={getOddsText}
       />
       
       {/* Results Popup */}
@@ -579,7 +629,12 @@ const BettingDashboard = memo(function BettingDashboard ({
   getBettingClosedText,
   getRaceResultsText,
   getEachStakeText,
-  getEachWayText
+  getEachWayText,
+  getHorseDetailsText,
+  getAgeWeightText,
+  getYourWagerText,
+  getTotalWagerText,
+  getOddsText
 }: {
   bettingStatus: string
   setBettingStatus: (status: string) => void
@@ -613,6 +668,11 @@ const BettingDashboard = memo(function BettingDashboard ({
   getRaceResultsText: () => string
   getEachStakeText: () => string
   getEachWayText: () => string
+  getHorseDetailsText: () => string
+  getAgeWeightText: () => string
+  getYourWagerText: () => string
+  getTotalWagerText: () => string
+  getOddsText: () => string
 }) {
 
   // Convert pounds to stone and pounds
@@ -1039,20 +1099,20 @@ const BettingDashboard = memo(function BettingDashboard ({
             <tr className='bg-gray-50 border-b border-gray-200'>
               {/* Desktop Headers */}
               <th className='px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell'>#</th>
-              <th className='px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell'>Silk</th>
-              <th className='px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell'>Horse Details</th>
-              <th className='px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell'>Age/Weight</th>
+              <th className='px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell'></th>
+              <th className='px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell'>{getHorseDetailsText()}</th>
+              <th className='px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell'>{getAgeWeightText()}</th>
               
               {/* Mobile Combined Header */}
               <th className='px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider sm:hidden'>Horse</th>
               
               {/* Common Headers */}
-              <th className='px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>Your Wager</th>
-              <th className='px-3 py-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider'>Total Wager</th>
+              <th className='px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>{getYourWagerText()}</th>
+              <th className='px-3 py-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider'>{getTotalWagerText()}</th>
               
               {/* Desktop Separate Betting Headers */}
-              <th className='px-3 py-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell'>Odds</th>
-              <th className='px-3 py-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell'>Each Way</th>
+              <th className='px-3 py-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell'>{getOddsText()}</th>
+              <th className='px-3 py-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell'>{getEachWayText()}</th>
               
               {/* Mobile Combined Betting Header */}
               <th className='px-3 py-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider sm:hidden'>Betting</th>
