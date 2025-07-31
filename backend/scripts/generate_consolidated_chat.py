@@ -5,7 +5,7 @@ import os
 import shutil
 
 # Configuration constants
-NUM_LOOPS = 3  # Number of times to loop through each child script
+NUM_LOOPS = 180  # Number of times to loop through each child script
 OFFSET_EACH_LOOP = 180000  # Time offset in ms to add for each loop iteration
 
 # Add the current directory to the Python path so we can import the other scripts

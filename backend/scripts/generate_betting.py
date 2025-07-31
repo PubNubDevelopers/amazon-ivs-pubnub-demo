@@ -4,7 +4,7 @@ import os
 import shutil
 
 # Configuration constants
-NUM_LOOPS = 3  # Number of times to loop through the betting template
+NUM_LOOPS = 180  # Number of times to loop through the betting template
 OFFSET_EACH_LOOP = 180000  # Time offset in ms to add for each loop iteration
 
 def get_betting_event_template():
