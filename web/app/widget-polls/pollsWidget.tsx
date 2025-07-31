@@ -302,7 +302,7 @@ export default function PollsWidget ({
                 <PollRowWithButton
                   key={index}
                   poll={poll}
-                  buttonText={`${isMobilePreview ? 'Win for' : 'Win for'} ${
+                  buttonText={`${isMobilePreview ? 'For' : 'For'} ${
                     poll.victoryPoints && poll.victoryPoints > 0
                       ? `${poll.victoryPoints} points`
                       : getWinForFunText()
