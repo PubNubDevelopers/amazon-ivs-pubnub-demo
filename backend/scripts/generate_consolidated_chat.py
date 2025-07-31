@@ -4,6 +4,10 @@ import sys
 import os
 import shutil
 
+# Configuration constants
+NUM_LOOPS = 3  # Number of times to loop through each child script
+OFFSET_EACH_LOOP = 180000  # Time offset in ms to add for each loop iteration
+
 # Add the current directory to the Python path so we can import the other scripts
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
@@ -13,23 +17,38 @@ from generate_horse_racing_chat_during_race import generate_horse_racing_chat as
 from generate_horse_racing_chat_post_race import generate_horse_racing_chat as generate_post_race_chat
 
 def generate_consolidated_chat():
-    """Generate consolidated chat data from all three phases"""
-    print("🔄 Generating pre-race chat data...")
-    pre_race_data = generate_pre_race_chat()
+    """Generate consolidated chat data from all three phases with multiple loops"""
+    all_chat_data = []
     
-    print("🔄 Generating during-race chat data...")
-    during_race_data = generate_during_race_chat()
-    
-    print("🔄 Generating post-race chat data...")
-    post_race_data = generate_post_race_chat()
-    
-    # Combine all chat data
-    all_chat_data = pre_race_data + during_race_data + post_race_data
+    for loop in range(NUM_LOOPS):
+        time_offset = loop * OFFSET_EACH_LOOP
+        print(f"🔄 Loop {loop + 1}/{NUM_LOOPS} (offset: {time_offset}ms)")
+        
+        print("   Generating pre-race chat data...")
+        pre_race_data = generate_pre_race_chat()
+        
+        print("   Generating during-race chat data...")
+        during_race_data = generate_during_race_chat()
+        
+        print("   Generating post-race chat data...")
+        post_race_data = generate_post_race_chat()
+        
+        # Combine data for this loop
+        loop_data = pre_race_data + during_race_data + post_race_data
+        
+        # Apply time offset to all entries in this loop
+        for entry in loop_data:
+            entry['timeSinceVideoStartedInMs'] += time_offset
+        
+        # Add to all chat data
+        all_chat_data.extend(loop_data)
+        
+        print(f"   Added {len(loop_data)} entries for loop {loop + 1}")
     
     # Sort by timestamp to ensure proper chronological order
     all_chat_data.sort(key=lambda x: x['timeSinceVideoStartedInMs'])
     
-    print(f"✅ Combined {len(all_chat_data)} total chat entries")
+    print(f"✅ Combined {len(all_chat_data)} total chat entries from {NUM_LOOPS} loops")
     print(f"⏱️  Time range: {all_chat_data[0]['timeSinceVideoStartedInMs']}ms to {all_chat_data[-1]['timeSinceVideoStartedInMs']}ms")
     
     return all_chat_data
