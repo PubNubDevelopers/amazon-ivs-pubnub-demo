@@ -50,7 +50,7 @@ export const adminPin = "8888"
 
 //  AWS IVS exports
 export const streamUrl = "https://5167a9755a8b.us-west-2.playback.live-video.net/api/video/v1/us-west-2.417887267817.channel.LyHsP83pWuGP.m3u8"
-export const ffmpegStreamFilename = "racenight_shorter_timer_1.mp4"
+export const ffmpegStreamFilename = "horse_race_3_9_hours_timecoded.mp4"
 
 export const reactions = ["👍", "❤️", "😂", "😮", "👏"]
 
