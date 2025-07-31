@@ -512,7 +512,7 @@ async function runLoop() {
     loopCount++;
     voteCounts = {};
     //  To save wasting resources, stop the loop after 5 loops in guided demo mode
-    if (loopCount >= 5 && process.env.GUIDED_DEMO === "true") {
+    if (loopCount >= 2 && process.env.GUIDED_DEMO === "true") {
       stopLoop();
     }
 
