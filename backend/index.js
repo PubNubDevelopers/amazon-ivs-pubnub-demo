@@ -484,7 +484,7 @@ async function runLoop() {
       }
       
       //console.log("publishing message");
-      await publishMessage(
+      publishMessage(
         eventObj.action.channel,
         eventObj.action.data,
         !!eventObj.persistInHistory
