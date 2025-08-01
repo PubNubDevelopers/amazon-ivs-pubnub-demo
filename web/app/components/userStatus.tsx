@@ -65,8 +65,8 @@ export default function UserStatus ({ chat, logout, currentScore, currentWallet,
           <Cash className={''} width={24} height={24} />
           <div className={`text-base font-bold ${currentWallet < 0 ? 'text-red-600' : 'text-neutral700'}`}>
             {currentWallet < 0 
-              ? `-(${currencySymbol}${Math.abs(currentWallet)})` 
-              : `${currencySymbol}${currentWallet}`
+              ? `-(${currencySymbol}${Math.abs(currentWallet).toFixed(2)})` 
+              : `${currencySymbol}${currentWallet.toFixed(2)}`
             }
           </div>
         </div>
