@@ -50,9 +50,12 @@ export async function AwardPoints(
     ? customMessage
     : `Point${Math.abs(pointsToAward) > 1 ? "s" : ""} Awarded`;
   awardPointsAnimation(pointsToAward, message);
+  
+  // Get the latest user data to avoid overwriting other custom fields
+  const latestUser = await chat.getUser(chat.currentUser.id);
   await chat.currentUser.update({
     custom: {
-      ...chat.currentUser.custom,
+      ...latestUser.custom,
       score: newScore,
     },
   });
@@ -66,9 +69,12 @@ export async function AwardWallet(
   if (!chat) return;
   
   const newWallet = currentWallet + walletChange;
+  
+  // Get the latest user data to avoid overwriting other custom fields
+  const latestUser = await chat.getUser(chat.currentUser.id);
   await chat.currentUser.update({
     custom: {
-      ...chat.currentUser.custom,
+      ...latestUser.custom,
       wallet: newWallet,
     },
   });
