@@ -274,7 +274,7 @@ export default function Header ({
         
         setTimeout(() => {
           window.location.reload()
-        }, 10000)
+        }, 12000)
       } 
     } catch (error) {
       console.error('Error starting FFmpeg stream:', error);
