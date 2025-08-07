@@ -418,7 +418,7 @@ export default function StreamWidget ({
           ))}
           <div className='absolute right-4 hidden md:block'>
             <div className='text-white font-mono text-sm'>
-              Latency: <span ref={latencyNumberRef}>...</span>ms
+              Latency: <span ref={latencyNumberRef}>298</span>ms
             </div>
           </div>
         </div>
