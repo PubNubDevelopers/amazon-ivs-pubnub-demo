@@ -16,6 +16,7 @@ import Alert from '../components/alert'
 import GuideOverlay from '../components/guideOverlay'
 import LiveStreamPoll from '../widget-polls/liveStreamPoll'
 import IvsPlayer from './IvsPlayer'
+import LocalVideoPlayer from './LocalVideoPlayer'
 import { actionCompleted } from 'pubnub-demo-integration'
 
 export default function StreamWidget ({
@@ -27,7 +28,9 @@ export default function StreamWidget ({
   visibleGuide,
   setVisibleGuide,
   awardPoints,
-  isEnglish
+  isEnglish,
+  useLocalVideo,
+  setUseLocalVideo
 }) {
   const [occupancy, setOccupancy] = useState(0)
   const [realOccupancy, setRealOccupancy] = useState(0)
@@ -60,6 +63,13 @@ export default function StreamWidget ({
   const [muted, setMuted] = useState(true)
   const playerRef = useRef<any>(null)
   const latencyNumberRef = useRef<HTMLSpanElement>(null)
+
+  // Ensure video is playing when switching to local video
+  useEffect(() => {
+    if (useLocalVideo) {
+      setIsVideoPlaying(true)
+    }
+  }, [useLocalVideo])
 
   useEffect(() => {
     //  Handle all types of message other than video control
@@ -268,15 +278,22 @@ export default function StreamWidget ({
         >
           {isVideoPlaying == true ? (
             <div className='pointer-events-none'>
-              <IvsPlayer
-                ref={playerRef}
-                url={streamUrl}
-                controls={false}
-                //width={isMobilePreview ? 418 : 698}
-                //height={isMobilePreview ? 235 : 393}
-                muted={isMobilePreview ? true : muted}
-                setIsVideoPlaying={setIsVideoPlaying}
-              />
+              {useLocalVideo ? (
+                <LocalVideoPlayer
+                  muted={isMobilePreview ? true : muted}
+                  setIsVideoPlaying={setIsVideoPlaying}
+                />
+              ) : (
+                <IvsPlayer
+                  ref={playerRef}
+                  url={streamUrl}
+                  controls={false}
+                  //width={isMobilePreview ? 418 : 698}
+                  //height={isMobilePreview ? 235 : 393}
+                  muted={isMobilePreview ? true : muted}
+                  setIsVideoPlaying={setIsVideoPlaying}
+                />
+              )}
             </div>
           ) : (
             <div

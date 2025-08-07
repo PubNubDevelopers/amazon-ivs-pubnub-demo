@@ -14,7 +14,9 @@ export default function Header ({
   guidesShown,
   setGuidesShown,
   chat,
-  isEnglish
+  isEnglish,
+  useLocalVideo,
+  setUseLocalVideo
 }) {
   const [adminModalOpen, setAdminModalOpen] = useState(false)
   const [pinInput, setPinInput] = useState('')
@@ -726,8 +728,27 @@ export default function Header ({
                     
                   </div>
 
+                  {/* Local Video Control Subsection */}
+                  <div className='mt-6'>
+                    <h3 className='text-lg font-semibold text-gray-900 mb-2'>Local Video Control</h3>
+                    <p className='text-gray-600 text-sm mb-3'>Toggle between live stream and local video file playback</p>
+                    <button
+                      onClick={() => setUseLocalVideo(!useLocalVideo)}
+                      className={`w-full py-2 px-4 rounded-md transition-colors ${
+                        useLocalVideo 
+                          ? 'bg-orange-300 text-orange-800 hover:bg-orange-400' 
+                          : 'bg-blue-300 text-blue-800 hover:bg-blue-400'
+                      }`}
+                    >
+                      {useLocalVideo ? 'Switch to Live Stream' : 'Do Not Stream. Play Local File'}
+                    </button>
+                    <p className='text-gray-500 text-xs mt-2 text-center'>
+                      Currently: {useLocalVideo ? 'Local Video' : 'Live Stream'}
+                    </p>
+                  </div>
+
                   {/* Bot Chat Subsection */}
-                  <div className='mt-8'>
+                  <div className='mt-4'>
                     <h3 className='text-lg font-semibold text-gray-900 mb-2'>Bot Chat</h3>
                     <p className='text-gray-600 text-sm mb-3'>Pause or resume bot chat in the public channel</p>
                     {botChatStatus === 'idle' && (

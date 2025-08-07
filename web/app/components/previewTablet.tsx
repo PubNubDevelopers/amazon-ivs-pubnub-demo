@@ -12,6 +12,8 @@ export default function PreviewTablet ({
   currentWallet,
   isEnglish,
   setIsEnglish,
+  useLocalVideo,
+  setUseLocalVideo,
 }) {
   return (
     <div className={``}>
@@ -26,6 +28,8 @@ export default function PreviewTablet ({
         currentWallet={currentWallet}
         isEnglish={isEnglish}
         setIsEnglish={setIsEnglish}
+        useLocalVideo={useLocalVideo}
+        setUseLocalVideo={setUseLocalVideo}
       />
     </div>
   )

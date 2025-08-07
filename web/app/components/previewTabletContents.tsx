@@ -33,6 +33,8 @@ export default function TabletContents ({
   currentWallet,
   isEnglish,
   setIsEnglish,
+  useLocalVideo,
+  setUseLocalVideo,
   heightConstrained = true
 }) {
   const [notification, setNotification] = useState<{
@@ -150,6 +152,8 @@ export default function TabletContents ({
                 )
               }}
               isEnglish={isEnglish}
+              useLocalVideo={useLocalVideo}
+              setUseLocalVideo={setUseLocalVideo}
             />
             <BettingWidget
               className={`${defaultWidgetClasses}`}
