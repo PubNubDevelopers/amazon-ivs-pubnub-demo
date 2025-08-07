@@ -382,6 +382,11 @@ export default function StreamWidget ({
           />
         )}
         <div className='flex flex-row gap-2 items-center justify-center bg-navy900 py-2 px-4 text- relative'>
+          <div className='absolute left-4'>
+            <div className='text-white font-mono text-sm'>
+              Betting Countdown goes here
+            </div>
+          </div>
           {reactions.map((reaction, index) => (
             <Reaction
               key={index}
