@@ -403,7 +403,7 @@ export default function StreamWidget ({
         )}
         <div className='flex flex-row gap-2 items-center justify-center bg-navy900 py-2 px-4 text- relative'>
           {bettingTimeRemaining > 0 && (
-            <div className='absolute left-4'>
+            <div className='absolute left-4 hidden md:block'>
               <div className='text-white font-mono text-sm'>
                 Betting closes in {bettingTimeRemaining} second{bettingTimeRemaining !== 1 ? 's' : ''}
               </div>
@@ -416,7 +416,7 @@ export default function StreamWidget ({
               upgraded={reaction.upgraded}
             />
           ))}
-          <div className='absolute right-4'>
+          <div className='absolute right-4 hidden md:block'>
             <div className='text-white font-mono text-sm'>
               Latency: <span ref={latencyNumberRef}>...</span>ms
             </div>
