@@ -504,7 +504,7 @@ export default function Header ({
           </div>
         </div>
         <div className='text-navy100 font-bold text-2xl'>
-          AWS IVS + PubNub Demo
+          Amazon IVS + PubNub Demo
         </div>
         <div className='flex flex-row gap-4'>
           {/*<div className='flex flex-row'>

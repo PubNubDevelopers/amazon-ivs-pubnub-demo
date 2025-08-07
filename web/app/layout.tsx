@@ -14,9 +14,9 @@ const figtree = Figtree({
 })
 
 export const metadata: Metadata = {
-  title: 'AWS IVS + PubNub Demo',
+  title: 'Amazon IVS + PubNub Demo',
   description:
-    'AWS IVS + PubNub Demo'
+    'Amazon IVS + PubNub Demo'
 }
 
 export default function RootLayout ({
