@@ -18,6 +18,7 @@ export default function Page () {
   const [currentScore, setCurrentScore] = useState(0)
   const [currentWallet, setCurrentWallet] = useState(1000)
   const [isEnglish, setIsEnglish] = useState(true)
+  const [useLocalVideo, setUseLocalVideo] = useState(false)
 
   function logout () {
     setLoginPageShown(true)
@@ -72,6 +73,8 @@ export default function Page () {
           heightConstrained={false}
           isEnglish={isEnglish}
           setIsEnglish={setIsEnglish}
+          useLocalVideo={useLocalVideo}
+          setUseLocalVideo={setUseLocalVideo}
         />
       </div>
     )

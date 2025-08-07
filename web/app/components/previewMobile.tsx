@@ -30,7 +30,9 @@ export default function PreviewMobile ({
   currentScore,
   currentWallet,
   isEnglish,
-  setIsEnglish
+  setIsEnglish,
+  useLocalVideo,
+  setUseLocalVideo
 }) {
   const [notification, setNotification] = useState<{
     heading: string
@@ -147,6 +149,8 @@ export default function PreviewMobile ({
                 )
               }}
               isEnglish={isEnglish}
+              useLocalVideo={useLocalVideo}
+              setUseLocalVideo={setUseLocalVideo}
             />
             {dynamicAd && (
               <AdvertsOfferWidget
