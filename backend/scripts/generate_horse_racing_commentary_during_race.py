@@ -43,9 +43,9 @@ def generate_horse_racing_commentary():
             "pt": "Os jóqueis estão incentivando seus cavalos por mais velocidade."
         },
         {
-            "en": "They're thundering down the backstretch—what a sight!",
-            "nl": "Ze denderen door de achterrechte—wat een spektakel!",
-            "pt": "Estão correndo como um trovão pela reta de trás—que visão!"
+            "en": "They're thundering down the backstretch - what a sight!",
+            "nl": "Ze denderen door de achterrechte - wat een spektakel!",
+            "pt": "Estão correndo como um trovão pela reta de trás - que visão!"
         },
         {
             "en": "A strong challenge coming from the middle of the pack.",
@@ -68,9 +68,9 @@ def generate_horse_racing_commentary():
             "pt": "Thunder Strike está sendo pressionado duramente pelos desafiantes."
         },
         {
-            "en": "What a surge from the outsider—he's closing the gap!",
-            "nl": "Wat een sprint van de outsider—hij dicht de kloof!",
-            "pt": "Que arrancada do azarão—ele está fechando a diferença!"
+            "en": "What a surge from the outsider - he's closing the gap!",
+            "nl": "Wat een sprint van de outsider - hij dicht de kloof!",
+            "pt": "Que arrancada do azarão - ele está fechando a diferença!"
         },
         {
             "en": "They're three wide as they swing into the home straight.",
@@ -83,9 +83,9 @@ def generate_horse_racing_commentary():
             "pt": "A multidão está rugindo enquanto os líderes disputam."
         },
         {
-            "en": "It's a duel to the finish—who will get there first?",
-            "nl": "Het is een duel tot de finish—wie komt er als eerste aan?",
-            "pt": "É um duelo até o final—quem chegará primeiro?"
+            "en": "It's a duel to the finish - who will get there first?",
+            "nl": "Het is een duel tot de finish - wie komt er als eerste aan?",
+            "pt": "É um duelo até o final - quem chegará primeiro?"
         },
         {
             "en": "A late charge from number 12 on the outside!",
@@ -103,9 +103,9 @@ def generate_horse_racing_commentary():
             "pt": "Chegada por foto se aproxima enquanto cruzam a linha juntos!"
         },
         {
-            "en": "What a thrilling race—absolutely breathtaking action!",
-            "nl": "Wat een spannende race—absoluut adembenemende actie!",
-            "pt": "Que corrida emocionante—ação absolutamente de tirar o fôlego!"
+            "en": "What a thrilling race - absolutely breathtaking action!",
+            "nl": "Wat een spannende race - absoluut adembenemende actie!",
+            "pt": "Que corrida emocionante - ação absolutamente de tirar o fôlego!"
         },
         {
             "en": "The favorite is digging deep, but the challengers won't quit.",
@@ -123,19 +123,19 @@ def generate_horse_racing_commentary():
             "pt": "Determinação inacreditável desses cavalos e cavaleiros."
         },
         {
-            "en": "The lead keeps changing—this is horse racing at its best!",
-            "nl": "De leiding blijft wisselen—dit is paardenrennen op zijn best!",
-            "pt": "A liderança continua mudando—isso é corrida de cavalos no seu melhor!"
+            "en": "The lead keeps changing - this is horse racing at its best!",
+            "nl": "De leiding blijft wisselen - dit is paardenrennen op zijn best!",
+            "pt": "A liderança continua mudando - isso é corrida de cavalos no seu melhor!"
         },
         {
-            "en": "A burst of speed from the back—can he catch them in time?",
-            "nl": "Een snelheidsvlaag van achteren—kan hij ze op tijd inhalen?",
-            "pt": "Uma rajada de velocidade de trás—conseguirá alcançá-los a tempo?"
+            "en": "A burst of speed from the back - can he catch them in time?",
+            "nl": "Een snelheidsvlaag van achteren - kan hij ze op tijd inhalen?",
+            "pt": "Uma rajada de velocidade de trás - conseguirá alcançá-los a tempo?"
         },
         {
-            "en": "They're all out—no one is holding back now!",
-            "nl": "Ze gaan voluit—niemand houdt zich nu in!",
-            "pt": "Estão dando tudo—ninguém está se segurando agora!"
+            "en": "They're all out - no one is holding back now!",
+            "nl": "Ze gaan voluit - niemand houdt zich nu in!",
+            "pt": "Estão dando tudo - ninguém está se segurando agora!"
         },
         {
             "en": "It's too close to call as they flash past the post!",
@@ -143,9 +143,9 @@ def generate_horse_racing_commentary():
             "pt": "Está muito disputado para decidir enquanto passam pelo poste!"
         },
         {
-            "en": "What a performance—this race will be talked about for years!",
-            "nl": "Wat een prestatie—over deze race wordt nog jaren gesproken!",
-            "pt": "Que performance—esta corrida será comentada por anos!"
+            "en": "What a performance - this race will be talked about for years!",
+            "nl": "Wat een prestatie - over deze race wordt nog jaren gesproken!",
+            "pt": "Que performance - esta corrida será comentada por anos!"
         },
         {
             "en": "The pace has been absolutely blistering from the very start!",
@@ -188,9 +188,9 @@ def generate_horse_racing_commentary():
             "pt": "Esta é uma obra-prima de estratégia de corrida em ação!"
         },
         {
-            "en": "The crowd has erupted—they can sense something special happening!",
-            "nl": "Het publiek is uitgebarsten—ze voelen dat er iets speciaals gebeurt!",
-            "pt": "A multidão explodiu—eles sentem que algo especial está acontecendo!"
+            "en": "The crowd has erupted - they can sense something special happening!",
+            "nl": "Het publiek is uitgebarsten - ze voelen dat er iets speciaals gebeurt!",
+            "pt": "A multidão explodiu - eles sentem que algo especial está acontecendo!"
         },
         {
             "en": "These horses are giving everything they have and then some!",
@@ -213,9 +213,9 @@ def generate_horse_racing_commentary():
             "pt": "A matemática desta corrida está sendo reescrita a cada passada!"
         },
         {
-            "en": "This is why we call it the sport of kings—pure majesty in motion!",
-            "nl": "Daarom noemen we het de sport der koningen—pure majesteit in beweging!",
-            "pt": "É por isso que chamamos de esporte dos reis—pura majestade em movimento!"
+            "en": "This is why we call it the sport of kings - pure majesty in motion!",
+            "nl": "Daarom noemen we het de sport der koningen - pure majesteit in beweging!",
+            "pt": "É por isso que chamamos de esporte dos reis - pura majestade em movimento!"
         },
         {
             "en": "The determination etched on every jockey's face tells the story!",
@@ -238,9 +238,9 @@ def generate_horse_racing_commentary():
             "pt": "Cada batimento cardíaco conta enquanto trovoam em direção à linha de chegada!"
         },
         {
-            "en": "This is racing at its absolute pinnacle—pure perfection!",
-            "nl": "Dit is racen op zijn absolute hoogtepunt—pure perfectie!",
-            "pt": "Esta é a corrida no seu ápice absoluto—pura perfeição!"
+            "en": "This is racing at its absolute pinnacle - pure perfection!",
+            "nl": "Dit is racen op zijn absolute hoogtepunt - pure perfectie!",
+            "pt": "Esta é a corrida no seu ápice absoluto - pura perfeição!"
         }
     ]
     

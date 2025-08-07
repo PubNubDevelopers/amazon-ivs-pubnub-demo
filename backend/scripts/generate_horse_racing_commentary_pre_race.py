@@ -18,9 +18,9 @@ def generate_horse_racing_commentary():
             "pt": "A tensão é palpável enquanto os cavalos se dirigem ao portão de largada."
         },
         {
-            "en": "All eyes are on Thunder Strike—can the favorite deliver under pressure?",
-            "nl": "Alle ogen zijn gericht op Thunder Strike—kan de favoriet presteren onder druk?",
-            "pt": "Todos os olhos estão em Thunder Strike—conseguirá o favorito entregar sob pressão?"
+            "en": "All eyes are on Thunder Strike - can the favorite deliver under pressure?",
+            "nl": "Alle ogen zijn gericht op Thunder Strike - kan de favoriet presteren onder druk?",
+            "pt": "Todos os olhos estão em Thunder Strike - conseguirá o favorito entregar sob pressão?"
         },
         {
             "en": "The horses look in magnificent condition as they parade before the crowd.",
@@ -48,9 +48,9 @@ def generate_horse_racing_commentary():
             "pt": "Há uma verdadeira agitação no ar enquanto os competidores se aproximam do portão."
         },
         {
-            "en": "This is the moment we've all been waiting for—the start is just moments away.",
-            "nl": "Dit is het moment waar we allemaal op hebben gewacht—de start is slechts momenten weg.",
-            "pt": "Este é o momento que todos esperávamos—a largada está a poucos momentos."
+            "en": "This is the moment we've all been waiting for - the start is just moments away.",
+            "nl": "Dit is het moment waar we allemaal op hebben gewacht - de start is slechts momenten weg.",
+            "pt": "Este é o momento que todos esperávamos - a largada está a poucos momentos."
         },
         {
             "en": "The field is strong today, and we could be in for a real spectacle.",
@@ -68,9 +68,9 @@ def generate_horse_racing_commentary():
             "pt": "Um silêncio toma conta da multidão enquanto o juiz de largada levanta a bandeira."
         },
         {
-            "en": "It's a wide-open contest—any one of these could take the honors.",
-            "nl": "Het is een open wedstrijd—elk van deze zou de eer kunnen behalen.",
-            "pt": "É uma disputa completamente aberta—qualquer um destes pode levar as honras."
+            "en": "It's a wide-open contest - any one of these could take the honors.",
+            "nl": "Het is een open wedstrijd - elk van deze zou de eer kunnen behalen.",
+            "pt": "É uma disputa completamente aberta - qualquer um destes pode levar as honras."
         },
         {
             "en": "The favorite looks calm and collected, but anything can happen in racing.",
@@ -78,9 +78,9 @@ def generate_horse_racing_commentary():
             "pt": "O favorito parece calmo e controlado, mas tudo pode acontecer nas corridas."
         },
         {
-            "en": "The last checks are being made—blinkers adjusted, girths tightened.",
-            "nl": "De laatste controles worden uitgevoerd—oogkleppen aangepast, buikbanden aangetrokken.",
-            "pt": "As últimas verificações estão sendo feitas—antolhos ajustados, cilhas apertadas."
+            "en": "The last checks are being made - blinkers adjusted, girths tightened.",
+            "nl": "De laatste controles worden uitgevoerd - oogkleppen aangepast, buikbanden aangetrokken.",
+            "pt": "As últimas verificações estão sendo feitas - antolhos ajustados, cilhas apertadas."
         },
         {
             "en": "The tension is mounting as the horses edge into the stalls.",
@@ -93,9 +93,9 @@ def generate_horse_racing_commentary():
             "pt": "Estamos a apenas segundos da largada aqui na pista."
         },
         {
-            "en": "The anticipation is building—who will get the best break from the gate?",
-            "nl": "De verwachting groeit—wie krijgt de beste start uit de poort?",
-            "pt": "A expectativa está crescendo—quem terá a melhor saída do portão?"
+            "en": "The anticipation is building - who will get the best break from the gate?",
+            "nl": "De verwachting groeit - wie krijgt de beste start uit de poort?",
+            "pt": "A expectativa está crescendo - quem terá a melhor saída do portão?"
         },
         {
             "en": "The starter is ready, and so are we. Stand by for action.",
@@ -103,9 +103,9 @@ def generate_horse_racing_commentary():
             "pt": "O juiz de largada está pronto, e nós também. Preparem-se para a ação."
         },
         {
-            "en": "And they're almost set—just waiting for the signal.",
-            "nl": "En ze zijn bijna klaar—wachten alleen nog op het signaal.",
-            "pt": "E eles estão quase prontos—apenas esperando pelo sinal."
+            "en": "And they're almost set - just waiting for the signal.",
+            "nl": "En ze zijn bijna klaar - wachten alleen nog op het signaal.",
+            "pt": "E eles estão quase prontos - apenas esperando pelo sinal."
         },
         {
             "en": "The crowd is on their feet, eager for the race to begin.",
@@ -118,9 +118,9 @@ def generate_horse_racing_commentary():
             "pt": "É um dia perfeito para corridas, e a emoção é tangível."
         },
         {
-            "en": "The horses are loaded, the gates are set—let's get ready for a great race.",
-            "nl": "De paarden zijn geladen, de poorten zijn klaar—laten we ons voorbereiden op een geweldige race.",
-            "pt": "Os cavalos estão carregados, os portões estão prontos—vamos nos preparar para uma grande corrida."
+            "en": "The horses are loaded, the gates are set - let's get ready for a great race.",
+            "nl": "De paarden zijn geladen, de poorten zijn klaar - laten we ons voorbereiden op een geweldige race.",
+            "pt": "Os cavalos estão carregados, os portões estão prontos - vamos nos preparar para uma grande corrida."
         },
         {
             "en": "There's a lot of confidence in the paddock, but only one can win.",
@@ -128,19 +128,19 @@ def generate_horse_racing_commentary():
             "pt": "Há muita confiança no paddock, mas apenas um pode vencer."
         },
         {
-            "en": "The bell is about to ring—hold your breath, folks.",
-            "nl": "De bel gaat zo rinkelen—houd je adem in, mensen.",
-            "pt": "O sino está prestes a tocar—prendam a respiração, pessoal."
+            "en": "The bell is about to ring - hold your breath, folks.",
+            "nl": "De bel gaat zo rinkelen - houd je adem in, mensen.",
+            "pt": "O sino está prestes a tocar - prendam a respiração, pessoal."
         },
         {
-            "en": "The underdog has caught the eye in the preliminaries—could we see an upset?",
-            "nl": "De underdog heeft de aandacht getrokken in de voorbereiding—zouden we een verrassing kunnen zien?",
-            "pt": "O azarão chamou atenção nos preliminares—poderíamos ver uma surpresa?"
+            "en": "The underdog has caught the eye in the preliminaries - could we see an upset?",
+            "nl": "De underdog heeft de aandacht getrokken in de voorbereiding - zouden we een verrassing kunnen zien?",
+            "pt": "O azarão chamou atenção nos preliminares - poderíamos ver uma surpresa?"
         },
         {
-            "en": "The starter is giving final instructions—any moment now.",
-            "nl": "De starter geeft laatste instructies—elk moment nu.",
-            "pt": "O juiz de largada está dando instruções finais—a qualquer momento agora."
+            "en": "The starter is giving final instructions - any moment now.",
+            "nl": "De starter geeft laatste instructies - elk moment nu.",
+            "pt": "O juiz de largada está dando instruções finais - a qualquer momento agora."
         },
         {
             "en": "The horses are restless in the stalls, sensing the race is near.",
@@ -153,9 +153,9 @@ def generate_horse_racing_commentary():
             "pt": "A grande pergunta: quem tomará a iniciativa quando os portões se abrirem?"
         },
         {
-            "en": "Here we go—stand by for the start of this much-anticipated contest!",
-            "nl": "Daar gaan we—maak je klaar voor de start van deze langverwachte wedstrijd!",
-            "pt": "Aqui vamos nós—preparem-se para o início desta disputa muito aguardada!"
+            "en": "Here we go - stand by for the start of this much-anticipated contest!",
+            "nl": "Daar gaan we - maak je klaar voor de start van deze langverwachte wedstrijd!",
+            "pt": "Aqui vamos nós - preparem-se para o início desta disputa muito aguardada!"
         },
         {
             "en": "The connections are watching anxiously from the grandstand.",
@@ -168,9 +168,9 @@ def generate_horse_racing_commentary():
             "pt": "Este campo representa algumas das melhores linhagens nas corridas."
         },
         {
-            "en": "The stewards have given the all-clear—we're ready to proceed.",
-            "nl": "De officials hebben het sein op groen gegeven—we zijn klaar om te beginnen.",
-            "pt": "Os comissários deram sinal verde—estamos prontos para prosseguir."
+            "en": "The stewards have given the all-clear - we're ready to proceed.",
+            "nl": "De officials hebben het sein op groen gegeven - we zijn klaar om te beginnen.",
+            "pt": "Os comissários deram sinal verde - estamos prontos para prosseguir."
         },
         {
             "en": "Each horse and rider partnership tells a unique story today.",
@@ -228,9 +228,9 @@ def generate_horse_racing_commentary():
             "pt": "Esses atletas magníficos são poesia em movimento mesmo em repouso."
         },
         {
-            "en": "The silence before the storm—you can cut the tension with a knife.",
-            "nl": "De stilte voor de storm—je kunt de spanning snijden met een mes.",
-            "pt": "O silêncio antes da tempestade—você pode cortar a tensão com uma faca."
+            "en": "The silence before the storm - you can cut the tension with a knife.",
+            "nl": "De stilte voor de storm - je kunt de spanning snijden met een mes.",
+            "pt": "O silêncio antes da tempestade - você pode cortar a tensão com uma faca."
         },
         {
             "en": "Racing fans around the world are holding their collective breath.",

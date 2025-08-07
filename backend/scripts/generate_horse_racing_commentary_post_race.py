@@ -23,9 +23,9 @@ def generate_horse_racing_commentary():
             "pt": "Uma performance verdadeiramente memorável do vencedor hoje."
         },
         {
-            "en": "That's what horse racing is all about—unpredictable and thrilling to the very end.",
-            "nl": "Dat is waar paardenrennen om draait—onvoorspelbaar en spannend tot het einde.",
-            "pt": "É disso que a corrida de cavalos se trata—imprevisível e emocionante até o fim."
+            "en": "That's what horse racing is all about - unpredictable and thrilling to the very end.",
+            "nl": "Dat is waar paardenrennen om draait - onvoorspelbaar en spannend tot het einde.",
+            "pt": "É disso que a corrida de cavalos se trata - imprevisível e emocionante até o fim."
         },
         {
             "en": "The jockey timed that run to perfection.",
@@ -33,9 +33,9 @@ def generate_horse_racing_commentary():
             "pt": "O jóquei cronometrou essa corrida à perfeição."
         },
         {
-            "en": "Let's take another look at that photo finish—absolutely remarkable.",
-            "nl": "Laten we nog eens kijken naar die fotofinish—absoluut opmerkelijk.",
-            "pt": "Vamos dar outra olhada nessa chegada por foto—absolutamente notável."
+            "en": "Let's take another look at that photo finish - absolutely remarkable.",
+            "nl": "Laten we nog eens kijken naar die fotofinish - absoluut opmerkelijk.",
+            "pt": "Vamos dar outra olhada nessa chegada por foto - absolutamente notável."
         },
         {
             "en": "The favorite lived up to the billing, but what a challenge from the runner-up.",
@@ -68,14 +68,14 @@ def generate_horse_racing_commentary():
             "pt": "Essa foi uma aula magistral de montar sob pressão."
         },
         {
-            "en": "The underdog gave it everything—what a run for second place.",
-            "nl": "De underdog gaf alles—wat een run voor de tweede plaats.",
-            "pt": "O azarão deu tudo de si—que corrida pelo segundo lugar."
+            "en": "The underdog gave it everything - what a run for second place.",
+            "nl": "De underdog gaf alles - wat een run voor de tweede plaats.",
+            "pt": "O azarão deu tudo de si - que corrida pelo segundo lugar."
         },
         {
-            "en": "The winning margin was just a nose—extraordinary scenes at the finish line.",
-            "nl": "De winnende marge was slechts een neus—buitengewone taferelen bij de finish.",
-            "pt": "A margem de vitória foi apenas um focinho—cenas extraordinárias na linha de chegada."
+            "en": "The winning margin was just a nose - extraordinary scenes at the finish line.",
+            "nl": "De winnende marge was slechts een neus - buitengewone taferelen bij de finish.",
+            "pt": "A margem de vitória foi apenas um focinho - cenas extraordinárias na linha de chegada."
         },
         {
             "en": "The horses gave their all, and the crowd is showing their appreciation.",
@@ -183,9 +183,9 @@ def generate_horse_racing_commentary():
             "pt": "A multidão ainda está vibrando após esse final de tirar o fôlego."
         },
         {
-            "en": "That's why we love this sport—anything can happen right up to the line.",
-            "nl": "Daarom houden we van deze sport—alles kan gebeuren tot de lijn.",
-            "pt": "É por isso que amamos este esporte—qualquer coisa pode acontecer até a linha."
+            "en": "That's why we love this sport - anything can happen right up to the line.",
+            "nl": "Daarom houden we van deze sport - alles kan gebeuren tot de lijn.",
+            "pt": "É por isso que amamos este esporte - qualquer coisa pode acontecer até a linha."
         },
         {
             "en": "Congratulations to all involved on a fantastic race.",
@@ -193,9 +193,9 @@ def generate_horse_racing_commentary():
             "pt": "Parabéns a todos os envolvidos por uma corrida fantástica."
         },
         {
-            "en": "The official times confirm what we witnessed—a truly exceptional performance.",
-            "nl": "De officiële tijden bevestigen wat we meemaakten—een werkelijk uitzonderlijke prestatie.",
-            "pt": "Os tempos oficiais confirmam o que presenciamos—uma performance verdadeiramente excepcional."
+            "en": "The official times confirm what we witnessed - a truly exceptional performance.",
+            "nl": "De officiële tijden bevestigen wat we meemaakten - een werkelijk uitzonderlijke prestatie.",
+            "pt": "Os tempos oficiais confirmam o que presenciamos - uma performance verdadeiramente excepcional."
         },
         {
             "en": "Racing like this reminds us why it's called the most exciting two minutes in sports.",
@@ -203,9 +203,9 @@ def generate_horse_racing_commentary():
             "pt": "Corridas assim nos lembram por que são chamadas de os dois minutos mais emocionantes do esporte."
         },
         {
-            "en": "The winning owner's box is erupting in celebration—what a moment for them.",
-            "nl": "De winnaars loge barst uit in viering—wat een moment voor hen.",
-            "pt": "O camarote do proprietário vencedor está explodindo em celebração—que momento para eles."
+            "en": "The winning owner's box is erupting in celebration - what a moment for them.",
+            "nl": "De winnaars loge barst uit in viering - wat een moment voor hen.",
+            "pt": "O camarote do proprietário vencedor está explodindo em celebração - que momento para eles."
         },
         {
             "en": "This victory will echo through racing history for generations to come.",
@@ -213,9 +213,9 @@ def generate_horse_racing_commentary():
             "pt": "Esta vitória ecoará pela história das corridas por gerações vindouras."
         },
         {
-            "en": "What we've witnessed today transcends mere competition—it's pure artistry.",
-            "nl": "Wat we vandaag meemaakten overstijgt louter competitie—het is pure kunst.",
-            "pt": "O que presenciamos hoje transcende mera competição—é pura arte."
+            "en": "What we've witnessed today transcends mere competition - it's pure artistry.",
+            "nl": "Wat we vandaag meemaakten overstijgt louter competitie - het is pure kunst.",
+            "pt": "O que presenciamos hoje transcende mera competição - é pura arte."
         },
         {
             "en": "The bond between horse and rider has never been more beautifully displayed.",
@@ -228,14 +228,14 @@ def generate_horse_racing_commentary():
             "pt": "Fãs de corridas mundialmente estarão falando sobre esta performance por décadas."
         },
         {
-            "en": "The stewards have confirmed the result—a clean and decisive victory.",
-            "nl": "De officials hebben het resultaat bevestigd—een schone en beslissende overwinning.",
-            "pt": "Os comissários confirmaram o resultado—uma vitória limpa e decisiva."
+            "en": "The stewards have confirmed the result - a clean and decisive victory.",
+            "nl": "De officials hebben het resultaat bevestigd - een schone en beslissende overwinning.",
+            "pt": "Os comissários confirmaram o resultado - uma vitória limpa e decisiva."
         },
         {
-            "en": "Every element came together perfectly—the stars aligned for this magical moment.",
-            "nl": "Elk element kwam perfect samen—de sterren stonden goed voor dit magische moment.",
-            "pt": "Cada elemento se juntou perfeitamente—as estrelas se alinharam para este momento mágico."
+            "en": "Every element came together perfectly - the stars aligned for this magical moment.",
+            "nl": "Elk element kwam perfect samen - de sterren stonden goed voor dit magische moment.",
+            "pt": "Cada elemento se juntou perfeitamente - as estrelas se alinharam para este momento mágico."
         },
         {
             "en": "This is why we dedicate our lives to covering the sport of kings.",

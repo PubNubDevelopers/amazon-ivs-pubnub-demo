@@ -33,9 +33,9 @@ def generate_horse_racing_chat():
             "pt": "Que movimento pela parte interna!"
         },
         {
-            "en": "He's gaining ground—can he catch up?",
-            "nl": "Hij wint terrein—kan hij inhalen?",
-            "pt": "Ele está ganhando terreno—consegue alcançar?"
+            "en": "He's gaining ground - can he catch up?",
+            "nl": "Hij wint terrein - kan hij inhalen?",
+            "pt": "Ele está ganhando terreno - consegue alcançar?"
         },
         {
             "en": "Come on, number 7!",

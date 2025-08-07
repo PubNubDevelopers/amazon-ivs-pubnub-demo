@@ -23,9 +23,9 @@ def generate_horse_racing_chat():
             "pt": "A tensão está crescendo no portão de largada."
         },
         {
-            "en": "All eyes on Thunder Strike—can he pull it off?",
-            "nl": "Alle ogen op Thunder Strike—kan hij het voor elkaar krijgen?",
-            "pt": "Todos os olhos em Thunder Strike—será que ele consegue?"
+            "en": "All eyes on Thunder Strike - can he pull it off?",
+            "nl": "Alle ogen op Thunder Strike - kan hij het voor elkaar krijgen?",
+            "pt": "Todos os olhos em Thunder Strike - será que ele consegue?"
         },
         {
             "en": "The horses look so calm before the storm.",
@@ -103,9 +103,9 @@ def generate_horse_racing_chat():
             "pt": "Os cavalos estão se alinhando no portão."
         },
         {
-            "en": "It's almost time—good luck to all the riders!",
-            "nl": "Het is bijna tijd—veel succes aan alle ruiters!",
-            "pt": "Está quase na hora—boa sorte a todos os cavaleiros!"
+            "en": "It's almost time - good luck to all the riders!",
+            "nl": "Het is bijna tijd - veel succes aan alle ruiters!",
+            "pt": "Está quase na hora - boa sorte a todos os cavaleiros!"
         },
         {
             "en": "Who's ready for some action?",
@@ -153,9 +153,9 @@ def generate_horse_racing_chat():
             "pt": "Posso sentir a adrenalina no ar."
         },
         {
-            "en": "Here we go—any second now!",
-            "nl": "Daar gaan we—elk moment nu!",
-            "pt": "Lá vamos nós—a qualquer segundo agora!"
+            "en": "Here we go - any second now!",
+            "nl": "Daar gaan we - elk moment nu!",
+            "pt": "Lá vamos nós - a qualquer segundo agora!"
         },
         {
             "en": "The suspense is killing me!",
@@ -233,9 +233,9 @@ def generate_horse_racing_chat():
             "pt": "Os casas de apostas devem estar ocupadas agora."
         },
         {
-            "en": "What a beautiful sight—horses and riders as one.",
-            "nl": "Wat een prachtig gezicht—paarden en ruiters als één.",
-            "pt": "Que visão linda—cavalos e cavaleiros como um só."
+            "en": "What a beautiful sight - horses and riders as one.",
+            "nl": "Wat een prachtig gezicht - paarden en ruiters als één.",
+            "pt": "Que visão linda - cavalos e cavaleiros como um só."
         },
         {
             "en": "The final moments before the storm.",
