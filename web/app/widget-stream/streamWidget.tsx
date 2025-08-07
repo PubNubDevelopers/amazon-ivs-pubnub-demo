@@ -405,7 +405,7 @@ export default function StreamWidget ({
           {bettingTimeRemaining > 0 && (
             <div className='absolute left-4'>
               <div className='text-white font-mono text-sm'>
-                Bets close in {bettingTimeRemaining} second{bettingTimeRemaining !== 1 ? 's' : ''}
+                Betting closes in {bettingTimeRemaining} second{bettingTimeRemaining !== 1 ? 's' : ''}
               </div>
             </div>
           )}

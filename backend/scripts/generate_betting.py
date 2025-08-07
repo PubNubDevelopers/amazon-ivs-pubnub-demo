@@ -80,6 +80,66 @@ def get_betting_event_template():
             }
         },
         {
+            "timeSinceVideoStartedInMs": 25000,
+            "persistInHistory": True,
+            "action": {
+                "channel": "race.betting",
+                "data": {
+                    "raceId": 1,
+                    "type": "betting_closing_soon",
+                    "timeRemaining": 5000
+                }
+            }
+        },
+        {
+            "timeSinceVideoStartedInMs": 26000,
+            "persistInHistory": True,
+            "action": {
+                "channel": "race.betting",
+                "data": {
+                    "raceId": 1,
+                    "type": "betting_closing_soon",
+                    "timeRemaining": 4000
+                }
+            }
+        },
+        {
+            "timeSinceVideoStartedInMs": 27000,
+            "persistInHistory": True,
+            "action": {
+                "channel": "race.betting",
+                "data": {
+                    "raceId": 1,
+                    "type": "betting_closing_soon",
+                    "timeRemaining": 3000
+                }
+            }
+        },
+        {
+            "timeSinceVideoStartedInMs": 28000,
+            "persistInHistory": True,
+            "action": {
+                "channel": "race.betting",
+                "data": {
+                    "raceId": 1,
+                    "type": "betting_closing_soon",
+                    "timeRemaining": 2000
+                }
+            }
+        },
+        {
+            "timeSinceVideoStartedInMs": 29000,
+            "persistInHistory": True,
+            "action": {
+                "channel": "race.betting",
+                "data": {
+                    "raceId": 1,
+                    "type": "betting_closing_soon",
+                    "timeRemaining": 1000
+                }
+            }
+        },
+        {
             "timeSinceVideoStartedInMs": 30000,
             "persistInHistory": True,
             "action": {
