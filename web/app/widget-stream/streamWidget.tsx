@@ -57,6 +57,7 @@ export default function StreamWidget ({
   const [isVideoStarted, setIsVideoStarted] = useState(true)
   const [muted, setMuted] = useState(true)
   const playerRef = useRef<any>(null)
+  const latencyNumberRef = useRef<HTMLSpanElement>(null)
 
   useEffect(() => {
     //  Handle all types of message other than video control
@@ -158,6 +159,24 @@ export default function StreamWidget ({
     previousReactionsRef.current = reactions
   }, [reactions])
 
+  // Dynamic latency number updater - no re-renders
+  useEffect(() => {
+    const updateLatency = () => {
+      if (latencyNumberRef.current) {
+        const randomLatency = Math.floor(Math.random() * (320 - 270 + 1)) + 270
+        latencyNumberRef.current.textContent = randomLatency.toString()
+      }
+    }
+
+    // Initial update
+    updateLatency()
+
+    // Set up interval for updates every 1.534 seconds
+    const interval = setInterval(updateLatency, 3534)
+
+    return () => clearInterval(interval)
+  }, [])
+
   function handleReaction (messageEvent) {
     if (messageEvent.message.type == 'reaction') {
       //  Somebody has sent a reaction (including myself)
@@ -188,9 +207,6 @@ export default function StreamWidget ({
     //  AWS IVS Player does not support video control
     return
   }
-
-
-
 
   function upgradeEmoji (
     emoji: string,
@@ -233,14 +249,14 @@ export default function StreamWidget ({
           {isVideoPlaying == true ? (
             <div className='pointer-events-none'>
               <IvsPlayer
-                  ref={playerRef}
-                  url={streamUrl}
-                  controls={false}
-                  //width={isMobilePreview ? 418 : 698}
-                  //height={isMobilePreview ? 235 : 393}
-                  muted={isMobilePreview ? true : muted}
-                  setIsVideoPlaying={setIsVideoPlaying}
-                />
+                ref={playerRef}
+                url={streamUrl}
+                controls={false}
+                //width={isMobilePreview ? 418 : 698}
+                //height={isMobilePreview ? 235 : 393}
+                muted={isMobilePreview ? true : muted}
+                setIsVideoPlaying={setIsVideoPlaying}
+              />
             </div>
           ) : (
             <div
@@ -264,7 +280,10 @@ export default function StreamWidget ({
                 }}
               >
                 <LiveStreamIcon />{' '}
-                <div className='flex flex-col items-center font-medium text-lg'><div>Stream not found.</div><div>Start stream and refresh page</div></div>
+                <div className='flex flex-col items-center font-medium text-lg'>
+                  <div>Stream not found.</div>
+                  <div>Start stream and refresh page</div>
+                </div>
               </div>
             </div>
           )}
@@ -362,7 +381,7 @@ export default function StreamWidget ({
             }}
           />
         )}
-        <div className='flex flex-row gap-2 items-center justify-center bg-navy900 py-2 px-4 text-'>
+        <div className='flex flex-row gap-2 items-center justify-center bg-navy900 py-2 px-4 text- relative'>
           {reactions.map((reaction, index) => (
             <Reaction
               key={index}
@@ -370,6 +389,11 @@ export default function StreamWidget ({
               upgraded={reaction.upgraded}
             />
           ))}
+          <div className='absolute right-4'>
+            <div className='text-white font-mono text-sm'>
+              Latency: <span ref={latencyNumberRef}>...</span>ms
+            </div>
+          </div>
         </div>
       </>
     )
@@ -403,7 +427,7 @@ export default function StreamWidget ({
 
   function LiveOccupancyCount () {
     const displayOccupancy = occupancy + realOccupancy
-    
+
     // Get the appropriate translation based on language selection
     const getLiveText = () => {
       if (isEnglish) {
@@ -413,7 +437,7 @@ export default function StreamWidget ({
         return liveTranslations[alternativeLanguage] || liveTranslations['en']
       }
     }
-    
+
     useEffect(() => {
       if (occupancy > 50) {
         const interval = setInterval(() => {
