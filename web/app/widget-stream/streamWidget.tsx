@@ -5,6 +5,7 @@ import {
   serverVideoControlChannelId,
   illuminateUpgradeReaction,
   dataControlOccupancyChannelId,
+  bettingChannelId,
   AlertType,
   streamUrl,
   alternativeLanguage
@@ -30,6 +31,7 @@ export default function StreamWidget ({
 }) {
   const [occupancy, setOccupancy] = useState(0)
   const [realOccupancy, setRealOccupancy] = useState(0)
+  const [bettingTimeRemaining, setBettingTimeRemaining] = useState(0)
   const [alert, setAlert] = useState<{
     points: number | null
     body: string
@@ -106,10 +108,28 @@ export default function StreamWidget ({
       upgradeEmoji(emojiToUpgrade, replacementEmoji)
     }
     illuminateEmojiSubscription.subscribe()
+
+    //  Betting updates
+    const bettingChannel = chat.sdk.channel(bettingChannelId)
+    const bettingSubscription = bettingChannel.subscription({
+      receivePresenceEvents: false
+    })
+    bettingSubscription.onMessage = messageEvent => {
+      if (messageEvent.message.type === 'betting_closing_soon') {
+        const timeRemaining = messageEvent.message.timeRemaining
+        setBettingTimeRemaining(Math.floor(timeRemaining / 1000)) // Convert ms to seconds
+      } else if (messageEvent.message.type === 'betting_open' || 
+                 messageEvent.message.type === 'betting_closed' || 
+                 messageEvent.message.type === 'betting_results') {
+        setBettingTimeRemaining(0)
+      }
+    }
+    bettingSubscription.subscribe()
     return () => {
       reactionsSubscription.unsubscribe()
       occupancySubscription.unsubscribe()
       illuminateEmojiSubscription.unsubscribe()
+      bettingSubscription.unsubscribe()
     }
   }, [chat])
 
@@ -382,11 +402,13 @@ export default function StreamWidget ({
           />
         )}
         <div className='flex flex-row gap-2 items-center justify-center bg-navy900 py-2 px-4 text- relative'>
-          <div className='absolute left-4'>
-            <div className='text-white font-mono text-sm'>
-              Betting Countdown goes here
+          {bettingTimeRemaining > 0 && (
+            <div className='absolute left-4'>
+              <div className='text-white font-mono text-sm'>
+                Bets close in {bettingTimeRemaining} second{bettingTimeRemaining !== 1 ? 's' : ''}
+              </div>
             </div>
-          </div>
+          )}
           {reactions.map((reaction, index) => (
             <Reaction
               key={index}
