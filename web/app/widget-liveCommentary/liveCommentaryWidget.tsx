@@ -23,7 +23,9 @@ export default function LiveCommentaryWidget ({
     const subscription = channel.subscription({ receivePresenceEvents: false })
     subscription.onMessage = messageEvent => {
       setMessages(messages => {
-        return uniqueById([...messages, messageEvent])
+        const newMessages = uniqueById([...messages, messageEvent])
+        // Keep only the last 100 messages
+        return newMessages.slice(-100)
       })
     }
     subscription.subscribe()
