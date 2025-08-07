@@ -734,13 +734,27 @@ export default function Header ({
                     <p className='text-gray-600 text-sm mb-3'>Toggle between live stream and local video file playback</p>
                     <button
                       onClick={() => setUseLocalVideo(!useLocalVideo)}
-                      className={`w-full py-2 px-4 rounded-md transition-colors ${
+                      className={`w-full py-2 px-4 rounded-md transition-colors flex items-center justify-center gap-2 ${
                         useLocalVideo 
-                          ? 'bg-orange-300 text-orange-800 hover:bg-orange-400' 
-                          : 'bg-blue-300 text-blue-800 hover:bg-blue-400'
+                          ? 'bg-green-300 text-green-800 hover:bg-green-400' 
+                          : 'bg-orange-300 text-orange-800 hover:bg-orange-400'
                       }`}
                     >
-                      {useLocalVideo ? 'Switch to Live Stream' : 'Do Not Stream. Play Local File'}
+                      {!useLocalVideo && (
+                        <>
+                          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                          </svg>
+                        </>
+                      )}
+                      <span>
+                        {useLocalVideo ? 'Switch to Live Stream' : 'DO NOT STREAM. Play Local File'}
+                      </span>
+                      {!useLocalVideo && (
+                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                        </svg>
+                      )}
                     </button>
                     <p className='text-gray-500 text-xs mt-2 text-center'>
                       Currently: {useLocalVideo ? 'Local Video' : 'Live Stream'}
