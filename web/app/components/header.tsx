@@ -600,6 +600,39 @@ export default function Header ({
               </div>
             ) : (
               <div className='space-y-6'>
+                {/* Video Source Selection Section */}
+                <div>
+                  <h2 className='text-xl font-bold text-gray-900 mb-4'>Video Source</h2>
+                  <p className='text-gray-600 text-sm mb-3'>Choose between live streamed video or local video playback</p>
+                  
+                  <div className='flex space-x-2'>
+                    <button
+                      onClick={() => setUseLocalVideo(false)}
+                      className={`flex-1 py-2 px-4 rounded-md transition-colors ${
+                        !useLocalVideo 
+                          ? 'bg-blue-600 text-white' 
+                          : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                      }`}
+                    >
+                      Streamed Video (IVS)
+                    </button>
+                    <button
+                      onClick={() => setUseLocalVideo(true)}
+                      className={`flex-1 py-2 px-4 rounded-md transition-colors ${
+                        useLocalVideo 
+                          ? 'bg-blue-600 text-white' 
+                          : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                      }`}
+                    >
+                      Local Video
+                    </button>
+                  </div>
+                  
+                  <p className='text-gray-500 text-xs mt-2 text-center'>
+                    Currently: {useLocalVideo ? 'Local Video (users can select their own files)' : 'Streamed Video via AWS IVS'}
+                  </p>
+                </div>
+
                 {/* Backend Generator Controls Section */}
                 <div>
                   <h2 className='text-xl font-bold text-gray-900 mb-4'>Backend Generator Controls</h2>
@@ -676,90 +709,60 @@ export default function Header ({
                     )}
                   </div>
 
-                  {/* Stream Control Subsection */}
-                  <div>
-                    <h3 className='text-lg font-semibold text-gray-900 mb-2'>Stream Control</h3>
-                    <p className='text-gray-600 text-sm mb-3'>Start or stop streaming the live streamed video over AWS IVS</p>
-                    {ffmpegStatus === 'idle' && (
-                      <div className='space-y-3'>
-                        <div className='flex space-x-2'>
-                          <button
-                            onClick={startFFmpegStream}
-                            className='flex-1 bg-green-300 text-green-800 py-2 px-4 rounded-md hover:bg-green-400 transition-colors'
-                          >
-                            Start FFmpeg Stream
-                          </button>
-                          <button
-                            onClick={stopFFmpegStream}
-                            className='flex-1 bg-red-200 text-red-800 py-2 px-4 rounded-md hover:bg-red-300 transition-colors'
-                          >
-                            Stop FFmpeg Stream
-                          </button>
+                  {/* Stream Control Subsection - Only show when using streamed video */}
+                  {!useLocalVideo && (
+                    <div>
+                      <h3 className='text-lg font-semibold text-gray-900 mb-2'>Stream Control</h3>
+                      <p className='text-gray-600 text-sm mb-3'>Start or stop streaming the live streamed video over AWS IVS</p>
+                      {ffmpegStatus === 'idle' && (
+                        <div className='space-y-3'>
+                          <div className='flex space-x-2'>
+                            <button
+                              onClick={startFFmpegStream}
+                              className='flex-1 bg-green-300 text-green-800 py-2 px-4 rounded-md hover:bg-green-400 transition-colors'
+                            >
+                              Start FFmpeg Stream
+                            </button>
+                            <button
+                              onClick={stopFFmpegStream}
+                              className='flex-1 bg-red-200 text-red-800 py-2 px-4 rounded-md hover:bg-red-300 transition-colors'
+                            >
+                              Stop FFmpeg Stream
+                            </button>
+                          </div>
+                          {ffmpegMessage && (
+                            <p className='text-green-600 text-center'>{ffmpegMessage}</p>
+                          )}
                         </div>
-                        {ffmpegMessage && (
-                          <p className='text-green-600 text-center'>{ffmpegMessage}</p>
-                        )}
-                      </div>
-                    )}
-                    
-                    {ffmpegStatus === 'starting' && (
-                      <div className='space-y-3'>
-                        <button
-                          disabled
-                          className='w-full bg-gray-400 text-white py-2 px-4 rounded-md cursor-not-allowed'
-                        >
-                          Starting...
-                        </button>
-                        <p className='text-blue-600 text-center'>{ffmpegMessage}</p>
-                      </div>
-                    )}
-                    
-                    {ffmpegStatus === 'stopping' && (
-                      <div className='space-y-3'>
-                        <button
-                          disabled
-                          className='w-full bg-gray-400 text-white py-2 px-4 rounded-md cursor-not-allowed'
-                        >
-                          Stopping...
-                        </button>
-                        <p className='text-blue-600 text-center'>{ffmpegMessage}</p>
-                      </div>
-                    )}
-                    
-                  </div>
+                      )}
+                      
+                      {ffmpegStatus === 'starting' && (
+                        <div className='space-y-3'>
+                          <button
+                            disabled
+                            className='w-full bg-gray-400 text-white py-2 px-4 rounded-md cursor-not-allowed'
+                          >
+                            Starting...
+                          </button>
+                          <p className='text-blue-600 text-center'>{ffmpegMessage}</p>
+                        </div>
+                      )}
+                      
+                      {ffmpegStatus === 'stopping' && (
+                        <div className='space-y-3'>
+                          <button
+                            disabled
+                            className='w-full bg-gray-400 text-white py-2 px-4 rounded-md cursor-not-allowed'
+                          >
+                            Stopping...
+                          </button>
+                          <p className='text-blue-600 text-center'>{ffmpegMessage}</p>
+                        </div>
+                      )}
+                      
+                    </div>
+                  )}
 
-                  {/* Local Video Control Subsection */}
-                  <div className='mt-6'>
-                    <h3 className='text-lg font-semibold text-gray-900 mb-2'>Local Video Control</h3>
-                    <p className='text-gray-600 text-sm mb-3'>Toggle between live stream and local video playback. In local mode, users can select their own video files.</p>
-                    <button
-                      onClick={() => setUseLocalVideo(!useLocalVideo)}
-                      className={`w-full py-2 px-4 rounded-md transition-colors flex items-center justify-center gap-2 ${
-                        useLocalVideo 
-                          ? 'bg-green-300 text-green-800 hover:bg-green-400' 
-                          : 'bg-orange-300 text-orange-800 hover:bg-orange-400'
-                      }`}
-                    >
-                      {!useLocalVideo && (
-                        <>
-                          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                            <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                          </svg>
-                        </>
-                      )}
-                      <span>
-                        {useLocalVideo ? 'Switch to Live Stream' : 'DO NOT STREAM. Use Local Video'}
-                      </span>
-                      {!useLocalVideo && (
-                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                        </svg>
-                      )}
-                    </button>
-                    <p className='text-gray-500 text-xs mt-2 text-center'>
-                      Currently: {useLocalVideo ? 'Local Video (users can select their own files)' : 'Live Stream'}
-                    </p>
-                  </div>
 
                   {/* Bot Chat Subsection */}
                   <div className='mt-4'>

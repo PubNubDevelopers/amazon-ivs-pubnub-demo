@@ -166,7 +166,8 @@ const LocalVideoPlayer = forwardRef<LocalVideoPlayerRef, LocalVideoPlayerProps>(
     <div 
       style={{ 
         position: 'relative',
-        backgroundColor: '#000'
+        backgroundColor: '#000',
+        minHeight: '393px'
       }}
     >
       {videoSrc ? (
