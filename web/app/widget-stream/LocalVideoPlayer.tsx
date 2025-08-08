@@ -220,8 +220,8 @@ const LocalVideoPlayer = forwardRef<LocalVideoPlayerRef, LocalVideoPlayerProps>(
               marginBottom: '20px',
               transition: 'background-color 0.2s'
             }}
-            onMouseOver={(e) => e.target.style.backgroundColor = '#2563eb'}
-            onMouseOut={(e) => e.target.style.backgroundColor = '#3b82f6'}
+            onMouseOver={(e) => (e.target as HTMLButtonElement).style.backgroundColor = '#2563eb'}
+            onMouseOut={(e) => (e.target as HTMLButtonElement).style.backgroundColor = '#3b82f6'}
           >
             📁 Select Local Video
           </button>
