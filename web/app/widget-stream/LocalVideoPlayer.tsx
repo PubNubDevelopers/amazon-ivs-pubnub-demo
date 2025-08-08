@@ -243,23 +243,6 @@ const LocalVideoPlayer = forwardRef<LocalVideoPlayerRef, LocalVideoPlayerProps>(
           </button>
         )}
 
-        {videoSrc && selectedFile && (
-          <div
-            style={{
-              backgroundColor: 'rgba(0, 0, 0, 0.7)',
-              color: 'white',
-              padding: '8px 12px',
-              borderRadius: '4px',
-              fontSize: '12px',
-              maxWidth: '200px',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              whiteSpace: 'nowrap'
-            }}
-          >
-            📄 {selectedFile.name}
-          </div>
-        )}
       </div>
 
       {/* Hidden file input */}
