@@ -166,7 +166,7 @@ const LocalVideoPlayer = forwardRef<LocalVideoPlayerRef, LocalVideoPlayerProps>(
     <div 
       style={{ 
         position: 'relative',
-        backgroundColor: '#000',
+        backgroundColor: videoSrc ? '#000' : '#e5e5e5',
         minHeight: '393px'
       }}
     >
@@ -190,61 +190,47 @@ const LocalVideoPlayer = forwardRef<LocalVideoPlayerRef, LocalVideoPlayerProps>(
         <div
           style={{
             width: '100%',
-            height: '100%',
+            minHeight: '393px',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            color: 'white',
+            color: '#374151',
             textAlign: 'center',
             padding: '40px',
             fontSize: '18px'
           }}
         >
-          <div style={{ fontSize: '48px', marginBottom: '20px' }}>🎥</div>
-          <div style={{ marginBottom: '10px', fontWeight: 'bold' }}>Select a Local Video File</div>
-          <div style={{ marginBottom: '20px', opacity: 0.8, fontSize: '14px' }}>
-            Click "Select Local Video" to choose a file
-          </div>
+          <div style={{ fontSize: '48px', marginBottom: '20px' }}>📼</div>
+          <div style={{ marginBottom: '20px', fontWeight: 'bold' }}>Select a Local Video File</div>
+          <button
+            onClick={() => fileInputRef.current?.click()}
+            style={{
+              backgroundColor: '#3b82f6',
+              color: 'white',
+              border: 'none',
+              padding: '12px 24px',
+              borderRadius: '6px',
+              fontSize: '14px',
+              fontWeight: '500',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              marginBottom: '20px',
+              transition: 'background-color 0.2s'
+            }}
+            onMouseOver={(e) => e.target.style.backgroundColor = '#2563eb'}
+            onMouseOut={(e) => e.target.style.backgroundColor = '#3b82f6'}
+          >
+            📁 Select Local Video
+          </button>
           <div style={{ fontSize: '12px', opacity: 0.6 }}>
             Supported formats: MP4, WebM, OGG, MOV, AVI
           </div>
         </div>
       )}
       
-      {/* File controls overlay */}
-      <div
-        style={{
-          position: 'absolute',
-          top: '8px',
-          left: '8px',
-          display: 'flex',
-          gap: '8px',
-          flexWrap: 'wrap',
-          zIndex: 5
-        }}
-      >
-        {!videoSrc && (
-          <button
-            onClick={() => fileInputRef.current?.click()}
-            style={{
-              backgroundColor: 'rgba(0, 0, 0, 0.7)',
-              color: 'white',
-              border: 'none',
-              padding: '8px 12px',
-              borderRadius: '4px',
-              fontSize: '12px',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '4px'
-            }}
-          >
-            📁 Select Local Video
-          </button>
-        )}
-
-      </div>
 
       {/* Hidden file input */}
       <input
