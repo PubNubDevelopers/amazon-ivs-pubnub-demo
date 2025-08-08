@@ -808,7 +808,7 @@ export default function Header ({
                 {/* Synchronization Section */}
                 <div>
                   <h2 className='text-xl font-bold text-gray-900 mb-2'>Synchronization</h2>
-                  <p className='text-gray-600 text-sm mb-4'>Synchronize the backend data with the video stream (requires stream to be started and visible)</p>
+                  <p className='text-gray-600 text-sm mb-4'>Synchronize the backend data with the video stream (requires backend to be started and the stream to be started, and visible)</p>
                   {syncStatus === 'idle' && (
                     <button
                       onClick={captureVideoScreenshot}
