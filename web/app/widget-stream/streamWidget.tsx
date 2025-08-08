@@ -64,12 +64,8 @@ export default function StreamWidget ({
   const playerRef = useRef<any>(null)
   const latencyNumberRef = useRef<HTMLSpanElement>(null)
 
-  // Ensure video is playing when switching to local video
-  useEffect(() => {
-    if (useLocalVideo) {
-      setIsVideoPlaying(true)
-    }
-  }, [useLocalVideo])
+  // Local video player manages its own playing state
+  // No need to force isVideoPlaying=true here since LocalVideoPlayer will handle it
 
   useEffect(() => {
     //  Handle all types of message other than video control
@@ -276,24 +272,22 @@ export default function StreamWidget ({
           id={`live-stream-${isMobilePreview}`}
           className={`bg-neutral200 ${isMobilePreview ? '' : ''}`}
         >
-          {isVideoPlaying == true ? (
+          {useLocalVideo ? (
+            <LocalVideoPlayer
+              muted={isMobilePreview ? true : muted}
+              setIsVideoPlaying={setIsVideoPlaying}
+            />
+          ) : isVideoPlaying == true ? (
             <div className='pointer-events-none'>
-              {useLocalVideo ? (
-                <LocalVideoPlayer
-                  muted={isMobilePreview ? true : muted}
-                  setIsVideoPlaying={setIsVideoPlaying}
-                />
-              ) : (
-                <IvsPlayer
-                  ref={playerRef}
-                  url={streamUrl}
-                  controls={false}
-                  //width={isMobilePreview ? 418 : 698}
-                  //height={isMobilePreview ? 235 : 393}
-                  muted={isMobilePreview ? true : muted}
-                  setIsVideoPlaying={setIsVideoPlaying}
-                />
-              )}
+              <IvsPlayer
+                ref={playerRef}
+                url={streamUrl}
+                controls={false}
+                //width={isMobilePreview ? 418 : 698}
+                //height={isMobilePreview ? 235 : 393}
+                muted={isMobilePreview ? true : muted}
+                setIsVideoPlaying={setIsVideoPlaying}
+              />
             </div>
           ) : (
             <div

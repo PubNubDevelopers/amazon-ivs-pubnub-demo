@@ -731,7 +731,7 @@ export default function Header ({
                   {/* Local Video Control Subsection */}
                   <div className='mt-6'>
                     <h3 className='text-lg font-semibold text-gray-900 mb-2'>Local Video Control</h3>
-                    <p className='text-gray-600 text-sm mb-3'>Toggle between live stream and local video file playback</p>
+                    <p className='text-gray-600 text-sm mb-3'>Toggle between live stream and local video playback. In local mode, users can select their own video files.</p>
                     <button
                       onClick={() => setUseLocalVideo(!useLocalVideo)}
                       className={`w-full py-2 px-4 rounded-md transition-colors flex items-center justify-center gap-2 ${
@@ -748,7 +748,7 @@ export default function Header ({
                         </>
                       )}
                       <span>
-                        {useLocalVideo ? 'Switch to Live Stream' : 'DO NOT STREAM. Play Local File'}
+                        {useLocalVideo ? 'Switch to Live Stream' : 'DO NOT STREAM. Use Local Video'}
                       </span>
                       {!useLocalVideo && (
                         <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -757,7 +757,7 @@ export default function Header ({
                       )}
                     </button>
                     <p className='text-gray-500 text-xs mt-2 text-center'>
-                      Currently: {useLocalVideo ? 'Local Video' : 'Live Stream'}
+                      Currently: {useLocalVideo ? 'Local Video (users can select their own files)' : 'Live Stream'}
                     </p>
                   </div>
 
