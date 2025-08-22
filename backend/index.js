@@ -1,0 +1,586 @@
+"use strict";
+
+// index.js
+
+require("dotenv").config();
+const PubNub = require("pubnub");
+const { spawn } = require("child_process");
+
+// Import the data modules:
+const { chat } = require("./game-data/chat.js");
+const { commentary } = require("./game-data/commentary.js");
+const { polls } = require("./game-data/polls.js");
+const { reactions } = require("./game-data/reactions.js");
+const { stats } = require("./game-data/stats.js");
+const { betting } = require("./game-data/betting.js");
+const { engagement } = require("./illuminate/illuminate-polls.js");
+
+// Initialize PubNub
+const pubnub = new PubNub({
+  publishKey: process.env.PUBNUB_PUBLISH_KEY,
+  subscribeKey: process.env.PUBNUB_SUBSCRIBE_KEY,
+  secretKey: process.env.PUBNUB_SECRET_KEY,
+  userId: "game-server",
+});
+
+// Track vote counts for each poll
+let voteCounts = {};
+
+// Track FFmpeg process
+let ffmpegProcess = null;
+
+// FFmpeg configuration constants
+const FFMPEG_CONFIG = {
+  INGEST_SERVER: 'rtmps://5167a9755a8b.global-contribute.live-video.net:443/app',
+  STREAM_KEY: process.env.AWS_IVS_STREAM_KEY
+};
+
+// Subscribe to control events from the UI
+const CONTROL_CHANNEL = "game.server-video-control";
+const POLL_DECLARATION_CHANNEL = "game.new-poll";
+const POLL_VOTE_CHANNEL = "game.poll-votes";
+const POLL_RESULTS_CHANNEL = "game.poll-results";
+pubnub.subscribe({
+  channels: [CONTROL_CHANNEL, POLL_DECLARATION_CHANNEL, POLL_VOTE_CHANNEL],
+});
+pubnub.addListener({
+  message: async ({ channel, message }) => {
+    //console.log("Received message on channel:", channel, "with message:", message);
+    if (channel === CONTROL_CHANNEL) {
+      await handleControlMessage(message);
+    } else if (
+      channel === POLL_DECLARATION_CHANNEL &&
+      message.pollType === "side"
+    ) {
+      await handlePollDeclarationMessage(message);
+    } else if (channel === POLL_VOTE_CHANNEL && message.pollType === "side") {
+      await handleVoteMessage(message);
+    }
+  },
+});
+
+/**
+ * Handle UI control messages to manipulate the timeline.
+ * Supported message types:
+ *  - START_STREAM: reset to start
+ *  - SEEK: jump to playbackTime
+ *  - END_STREAM: advance to end
+ */
+async function handleControlMessage(msg) {
+  switch (msg.type) {
+    case "START_STREAM":
+      currentTime = 0;
+      scriptIndex = 0;
+      loopCount = 0;
+      voteCounts = {};
+      shouldSendChatMessages = true;
+      matchScript = buildMatchScript();
+      await publishVideoEvent("START_STREAM", {});
+      startLoop();
+      break;
+    case "SEEK": {
+      if (!intervalId) return;
+      const seekTime = msg.params.playbackTime;
+      console.log("SEEKING TO: ", seekTime);
+      currentTime = seekTime;
+      scriptIndex = matchScript.findIndex(
+        (ev) => ev.timeSinceVideoStartedInMs >= currentTime
+      );
+      if (scriptIndex < 0) scriptIndex = matchScript.length;
+      await publishVideoEvent("SEEK", { playbackTime: currentTime });
+      break;
+    }
+    case "END_STREAM":
+      stopLoop();
+      currentTime = lastEventTime; // 20 minutes
+      scriptIndex = matchScript.findIndex(
+        (ev) => ev.timeSinceVideoStartedInMs >= currentTime
+      );
+      await publishVideoEvent("END_STREAM", {});
+      break;
+    case "BOT_CHAT":
+      if (!intervalId) return;
+      let messageText = "Messages Sped up";
+      if (shouldSendChatMessages) {
+        messageText = "Messages Slowed down";
+      }
+      shouldSendChatMessages = !shouldSendChatMessages;
+      publishMessage("race.chat.all", { user: "bot-33", text: messageText }, false);
+      break;
+    case "ON_DEMAND_SCRIPT":
+      if (!intervalId) return;
+      const scriptName = msg.params.scriptName;
+      const scriptEmoji = msg.params.emoji;
+
+      var onDemandScript = null;
+      var delay = 0;
+
+      if (scriptName === "engagement") {
+        onDemandScript = engagement;
+        delay = 30000;
+      } else {
+        console.error("[Control] Unknown script name:", scriptName);
+        return;
+      }
+
+      runOnDemandScript(onDemandScript, delay);
+
+      break;
+    case "START_FFMPEG_STREAM":
+      await handleStartFFmpegStream(msg.params.filename);
+      break;
+    case "STOP_FFMPEG_STREAM":
+      await handleStopFFmpegStream();
+      break;
+    default:
+      console.log("[Control] Unknown control type:", msg.type);
+  }
+}
+
+async function handlePollDeclarationMessage(msg) {
+  const pollId = msg.id;
+  const numOptions = msg.options.length;
+  for (let i = 0; i < 10; i++) {
+    setTimeout(async () => {
+      const randomOption = msg.options[Math.floor(Math.random() * numOptions)];
+      const randomIndex = randomOption.id;
+      const message = {
+        pollId: pollId,
+        questionId: "1",
+        choiceId: randomIndex,
+        pollType: "side",
+      };
+      await publishMessage(POLL_VOTE_CHANNEL, message);
+    }, i * 3000);
+  }
+}
+
+async function handleVoteMessage(msg) {
+  const pollId = msg.pollId;
+  const choiceId = msg.choiceId;
+
+  // Initialize vote counts for this poll if not already tracked
+  if (!voteCounts[pollId]) {
+    voteCounts[pollId] = {};
+  }
+
+  // Increment the vote count for this choice
+  if (!voteCounts[pollId][choiceId]) {
+    voteCounts[pollId][choiceId] = 0;
+  }
+  voteCounts[pollId][choiceId]++;
+}
+
+async function handleStartFFmpegStream(filename) {
+  console.log("[FFmpeg] Starting FFmpeg stream process...");
+  
+  // Check if FFmpeg process is already running
+  if (ffmpegProcess && !ffmpegProcess.killed) {
+    console.log("[FFmpeg] FFmpeg process is already running");
+    return;
+  }
+
+  // FFmpeg command arguments
+  const ffmpegArgs = [
+    '-re',
+    '-i', filename,
+    '-c:v', 'libx264',
+    '-preset', 'veryfast',
+    '-maxrate', '3000k',
+    '-bufsize', '6000k',
+    '-g', '60',
+    '-c:a', 'aac',
+    '-b:a', '160k',
+    '-ar', '44100',
+    '-f', 'flv',
+    `${FFMPEG_CONFIG.INGEST_SERVER}/${FFMPEG_CONFIG.STREAM_KEY}`
+  ];
+
+  try {
+    // Spawn FFmpeg process
+    ffmpegProcess = spawn('ffmpeg', ffmpegArgs, {
+      stdio: ['pipe', 'pipe', 'pipe']
+    });
+
+    console.log(`[FFmpeg] FFmpeg process started with PID: ${ffmpegProcess.pid}`);
+
+    // Handle stdout
+    ffmpegProcess.stdout.on('data', (data) => {
+      console.log(`[FFmpeg stdout] ${data}`);
+    });
+
+    // Handle stderr (FFmpeg sends most output to stderr)
+    ffmpegProcess.stderr.on('data', (data) => {
+      console.log(`[FFmpeg stderr] ${data}`);
+    });
+
+    // Handle process exit
+    ffmpegProcess.on('close', (code) => {
+      console.log(`[FFmpeg] Process exited with code ${code}`);
+      ffmpegProcess = null;
+    });
+
+    // Handle process error
+    ffmpegProcess.on('error', (error) => {
+      console.error(`[FFmpeg] Process error: ${error.message}`);
+      ffmpegProcess = null;
+    });
+
+  } catch (error) {
+    console.error(`[FFmpeg] Failed to start FFmpeg process: ${error.message}`);
+    ffmpegProcess = null;
+  }
+}
+
+async function handleStopFFmpegStream() {
+  console.log("[FFmpeg] Stopping FFmpeg stream process...");
+  
+  if (!ffmpegProcess || ffmpegProcess.killed) {
+    console.log("[FFmpeg] No FFmpeg process is currently running");
+    return;
+  }
+
+  try {
+    // Send SIGTERM to gracefully stop FFmpeg
+    ffmpegProcess.kill('SIGTERM');
+    console.log(`[FFmpeg] Sent SIGTERM to FFmpeg process PID: ${ffmpegProcess.pid}`);
+    
+    // Set a timeout to force kill if it doesn't stop gracefully
+    setTimeout(() => {
+      if (ffmpegProcess && !ffmpegProcess.killed) {
+        console.log("[FFmpeg] Force killing FFmpeg process...");
+        ffmpegProcess.kill('SIGKILL');
+      }
+    }, 5000); // 5 second timeout
+
+  } catch (error) {
+    console.error(`[FFmpeg] Error stopping FFmpeg process: ${error.message}`);
+  }
+}
+
+async function handlePollResultsMessage(msg) {
+  const votes = voteCounts[msg.id];
+  if (!votes) {
+    console.log("No votes, or poll was not declared");
+    //  No votes, or poll was not declared
+    return;
+  }
+
+  const options = Object.entries(voteCounts[msg.id] || {}).map(
+    ([id, score]) => ({
+      id: parseInt(id),
+      score: score,
+    })
+  );
+  const message = {
+    id: msg.id,
+    options: options,
+    ...(msg.correctOption !== undefined && {
+      correctOption: msg.correctOption,
+    }),
+    pollType: "side",
+  };
+  await pubnub.publish({
+    channel: POLL_RESULTS_CHANNEL,
+    message: message,
+    storeInHistory: false,
+  });
+}
+
+// --------------------------------------------------------------------------------
+// Expand repeated events with realistic random delays
+function expandRepeatedEvents(events) {
+  const expanded = [];
+
+  events.forEach((ev) => {
+    if (ev.repeat && ev.repeat > 1) {
+      // We'll expand this event into multiple occurrences with random delays
+      let lastTime = ev.timeSinceVideoStartedInMs;
+      for (let i = 0; i < ev.repeat; i++) {
+        // Random delay between 500ms and 2500ms
+        let randomDelay = Math.floor(500 + Math.random() * 2000);
+
+        // The first of the repeated actions occurs exactly at the original time
+        if (i === 0) {
+          randomDelay = 0;
+        }
+
+        let newTime = lastTime + randomDelay;
+        lastTime = newTime;
+
+        let newItem = {
+          ...ev,
+          timeSinceVideoStartedInMs: newTime,
+          repeat: 1, // Mark as processed so we don't expand again
+        };
+
+        expanded.push(newItem);
+      }
+    } else {
+      expanded.push(ev);
+    }
+  });
+
+  return expanded;
+}
+
+// --------------------------------------------------------------------------------
+// Merge data from all modules and sort by the timeline
+function buildMatchScript() {
+  // All modules combined
+  let merged = [...chat, ...commentary, ...polls, ...reactions, ...stats, ...betting];
+
+  // Expand repeats first
+  let expanded = expandRepeatedEvents(merged);
+
+  // Sort by timeSinceVideoStartedInMs
+  expanded.sort(
+    (a, b) => a.timeSinceVideoStartedInMs - b.timeSinceVideoStartedInMs
+  );
+
+  return expanded;
+}
+
+// --------------------------------------------------------------------------------
+// Main timeline logic
+let matchScript = buildMatchScript();
+let currentTime = 0;
+let scriptIndex = 0;
+let loopCount = 0;
+let shouldSendChatMessages = true;
+const MS_INTERVAL = 1000;
+
+// Identify the final time for resetting the timeline
+const lastEventTime =
+  matchScript.length > 0
+    ? matchScript[matchScript.length - 1].timeSinceVideoStartedInMs
+    : 0;
+
+// Clear message history for a specific channel
+async function clearHistory(channelId) {
+  try {
+    await pubnub.deleteMessages({
+      channel: channelId
+    });
+    console.log(`History cleared for channel: ${channelId}`);
+  } catch (err) {
+    console.error(`Error clearing history for channel ${channelId}:`, err);
+  }
+}
+
+// Publish a message to PubNub
+async function publishMessage(channel, message, persistInHistory = false) {
+  try {
+    if (channel === POLL_RESULTS_CHANNEL && message.pollType === "side") {
+      handlePollResultsMessage(message);
+    } else {
+      // Set User ID
+      let userId = message.user || "other";
+      pubnub.setUUID(userId);
+      
+      // For bot messages with translations, encode all translations into the text field as JSON
+      let messageToSend = { ...message };
+      if (userId.startsWith('bot-') && (message['text-nl'] || message['text-pt'])) {
+        // Create a JSON object with all translations
+        const translationsData = {
+          type: 'bot_translations',
+          text: message.text,
+          'text-nl': message['text-nl'],
+          'text-pt': message['text-pt']
+        };
+        
+        // Replace the text field with the JSON string
+        messageToSend.text = JSON.stringify(translationsData);
+        
+        // Remove translation fields from main message
+        delete messageToSend['text-nl'];
+        delete messageToSend['text-pt'];
+      }
+      
+      //console.log("Publishing message to channel:", channel, "with message:", messageToSend);
+      await pubnub.publish({
+        channel: channel,
+        message: messageToSend,
+        storeInHistory: persistInHistory,
+      });
+    }
+  } catch (err) {
+    console.error("Error publishing message:", err);
+  }
+}
+
+// Send the current video time so clients can sync
+async function publishVideoStatus() {
+  return;//  not used for AWS IVS demo
+  const isStart = currentTime === 0;
+  // If we consider "end" as the final event time
+  const isEnd = currentTime >= lastEventTime;
+
+  const message = {
+    type: "STATUS",
+    params: {
+      playbackTime: currentTime,
+      videoStarted: isStart,
+      videoEnded: isEnd,
+    },
+  };
+
+  await publishMessage("game.client-video-control", message);
+}
+
+//  Send a message to the client to indicate a video playback event has occurred
+async function publishVideoEvent(videoEvent, eventData) {
+  const message = {
+    type: videoEvent,
+    params: eventData,
+  };
+  await publishMessage("game.client-video-control", message);
+}
+
+// Fisher-Yates shuffle algorithm
+function shuffleArray(array) {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
+async function runOnDemandScript(script, delay = 0) {
+  let index = 0;
+  while (index < script.length) {
+    const eventObj = script[index];
+    // Publish the event
+    await publishMessage(
+      eventObj.action.channel,
+      eventObj.action.data,
+      !!eventObj.persistInHistory
+    );
+
+    if (delay > 0) {
+      await new Promise((resolve) => setTimeout(resolve, delay));
+    }
+
+    index++;
+  }
+}
+
+// We'll run the timeline in a loop
+async function runLoop() {
+  // 1. Check if we have reached or passed the next event in matchScript
+  //console.log("currentTime", currentTime);
+  while (
+    scriptIndex < matchScript.length &&
+    matchScript[scriptIndex].timeSinceVideoStartedInMs <= currentTime
+  ) {
+    const eventObj = matchScript[scriptIndex];
+    // Publish the event
+
+    if (!(eventObj.action.channel === "race.chat.all" && !shouldSendChatMessages && (Math.floor(currentTime / 1000) * 1000) % 5000 !== 0)) {
+      // Check for betting open events
+      if (eventObj.action?.channel === "race.betting" && eventObj.action?.data?.type === "betting_open") {
+        await clearHistory("race.betting");
+      }
+      
+      //console.log("publishing message");
+      publishMessage(
+        eventObj.action.channel,
+        eventObj.action.data,
+        !!eventObj.persistInHistory
+      );
+      //console.log("published message");
+    }
+
+    scriptIndex++;
+  }
+  //console.log("finished publishing events")
+
+  // 2. Send a periodic video status message
+  if (!intervalId) return;
+
+  await publishVideoStatus();
+
+  // 3. Increment the current time
+  //console.log("incrementing currentTime by", MS_INTERVAL, "ms");
+  currentTime += MS_INTERVAL;
+
+  // 4. If we've hit the end, reset everything
+  if (currentTime > lastEventTime) {
+    currentTime = 0;
+    scriptIndex = 0;
+    loopCount++;
+    voteCounts = {};
+    //  To save wasting resources, stop the loop after 5 loops in guided demo mode
+    if (loopCount >= 2 && process.env.GUIDED_DEMO === "true") {
+      stopLoop();
+    }
+
+    // Re-build the script with new random expansions for repeats on each loop
+    matchScript = buildMatchScript();
+  }
+}
+
+let intervalId = null;
+
+const startLoop = () => {
+  if (intervalId) {
+    return;
+  }
+
+  console.log("Starting loop...");
+  intervalId = setInterval(async () => {
+    try {
+      await runLoop();
+    } catch (err) {
+      console.error("Error in runLoop:", err);
+      // Optionally stop the loop on critical errors
+      if (err.isCritical) {
+        stopLoop();
+      }
+    }
+  }, MS_INTERVAL);
+};
+
+const stopLoop = () => {
+  if (intervalId) {
+    console.log("Stopping loop...");
+    clearInterval(intervalId);
+    intervalId = null;
+  }
+};
+
+// Handle graceful shutdown
+process.on("SIGTERM", () => {
+  console.log("SIGTERM received. Shutting down gracefully...");
+  stopLoop();
+  
+  // Stop FFmpeg process if running
+  if (ffmpegProcess && !ffmpegProcess.killed) {
+    console.log("Stopping FFmpeg process...");
+    ffmpegProcess.kill('SIGTERM');
+  }
+  
+  process.exit(0);
+});
+
+process.on("SIGINT", () => {
+  console.log("SIGINT received. Shutting down gracefully...");
+  stopLoop();
+  
+  // Stop FFmpeg process if running
+  if (ffmpegProcess && !ffmpegProcess.killed) {
+    console.log("Stopping FFmpeg process...");
+    ffmpegProcess.kill('SIGTERM');
+  }
+  
+  process.exit(0);
+});
+
+// Start the loop only if GUIDED_DEMO is true
+if (process.env.GUIDED_DEMO === "true") {
+  console.log("GUIDED_DEMO is true, loop will not start automatically");
+} else {
+  console.log("GUIDED_DEMO is not true, starting loop");
+  startLoop();
+}

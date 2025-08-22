@@ -1,0 +1,180 @@
+import { useState, useEffect, useRef } from 'react'
+import { liveCommentaryChannelId, alternativeLanguage } from '../data/constants'
+import { liveCommentaryTranslations, skipToLatestTranslations } from '../data/translations'
+import GuideOverlay from '../components/guideOverlay'
+import { Channel, Message as pnMessage } from '@pubnub/chat'
+
+export default function LiveCommentaryWidget ({
+  className,
+  isMobilePreview,
+  chat,
+  guidesShown,
+  visibleGuide,
+  setVisibleGuide,
+  isEnglish
+}) {
+  const liveCommentaryScrollRef = useRef<HTMLDivElement>(null)
+  const [messages, setMessages] = useState<any[]>([])
+  const [scrolledToBottom, setScrolledToBottom] = useState(true)
+
+  useEffect(() => {
+    if (!chat) return
+    const channel = chat.sdk.channel(liveCommentaryChannelId)
+    const subscription = channel.subscription({ receivePresenceEvents: false })
+    subscription.onMessage = messageEvent => {
+      setMessages(messages => {
+        const newMessages = uniqueById([...messages, messageEvent])
+        // Keep only the last 100 messages
+        return newMessages.slice(-100)
+      })
+    }
+    subscription.subscribe()
+    return () => {
+      subscription.unsubscribe()
+    }
+  }, [chat])
+
+  useEffect(() => {
+    //  Scroll the message list when a new message is received
+    if (!liveCommentaryScrollRef.current) return
+    if (!scrolledToBottom) return
+
+    setTimeout(() => {
+      if (liveCommentaryScrollRef.current) {
+        liveCommentaryScrollRef.current.scrollTop =
+          liveCommentaryScrollRef.current?.scrollHeight
+      }
+    }, 10) //  Some weird timing issue
+  }, [messages])
+
+  function handleScroll (e) {
+    const scrollTop = e.currentTarget.scrollTop
+    const scrollHeight = e.currentTarget.scrollHeight
+    const clientHeight = e.currentTarget.clientHeight
+    if (scrollTop + clientHeight >= scrollHeight - 5) {
+      setScrolledToBottom(true)
+    } else {
+      setScrolledToBottom(false)
+    }
+  }
+
+  function uniqueById (items) {
+    const set = new Set()
+    return items.filter(item => {
+      const isDuplicate = set.has(item.timetoken)
+      set.add(item.timetoken)
+      return !isDuplicate
+    })
+  }
+
+  // Get the appropriate translation based on language selection
+  const getHeaderText = () => {
+    if (isEnglish) {
+      return liveCommentaryTranslations['en']
+    } else {
+      // Use alternative language or fallback to English
+      return liveCommentaryTranslations[alternativeLanguage] || liveCommentaryTranslations['en']
+    }
+  }
+
+  return (
+    <div className={`${className} px-3 pt-3 pb-4`}>
+      <div className='font-semibold text-base pb-1'>{getHeaderText()}</div>
+      <GuideOverlay
+        id={'liveCommentary'}
+        guidesShown={guidesShown}
+        visibleGuide={visibleGuide}
+        setVisibleGuide={setVisibleGuide}
+        text={
+          <span>
+            PubNub Core Services includes a{' '}
+            <span className='font-semibold'>Pub/Sub Event API</span>, allowing
+            for{' '}
+            <span className='font-semibold'>
+              unlimited channels, message persistence, channel groups and
+              multiplexing
+            </span>
+            . Live commentary is delivered to any number of subscribed users as
+            they happen.
+          </span>
+        }
+        xOffset={`right-[50px]`}
+        yOffset={'top-[10px]'}
+        flexStyle={'flex-row items-start'}
+      />
+
+      {!scrolledToBottom && (
+        <SkipToLatestButton liveCommentaryScrollRef={liveCommentaryScrollRef} isEnglish={isEnglish} />
+      )}
+      <div
+        className='flex flex-col gap-1 min-h-32 max-h-32 overflow-y-auto overscroll-none'
+        onScroll={handleScroll}
+        ref={liveCommentaryScrollRef}
+      >
+        {messages.map(message => {
+          return (
+            <CommentaryRow
+              key={message.timetoken}
+              message={message.message}
+              timeCode={message.message.timeCode}
+              isEnglish={isEnglish}
+            />
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
+function CommentaryRow ({ message, timeCode, isEnglish }) {
+  const getDisplayText = () => {
+    if (isEnglish) {
+      return message.text
+    } else {
+      const translatedTextKey = `text-${alternativeLanguage}`
+      return message[translatedTextKey] || message.text
+    }
+  }
+
+  return (
+    <div className='flex flex-row items-center justify-between font-normal text-sm'>
+      <div className=''>{getDisplayText()}</div>
+      {/*<div className='text-neutral500'>{timeCode}</div>*/}
+    </div>
+  )
+}
+
+function SkipToLatestButton ({ liveCommentaryScrollRef, isEnglish }) {
+  function scrollToBottom (e) {
+    if (liveCommentaryScrollRef.current) {
+      liveCommentaryScrollRef.current.scrollTop =
+        liveCommentaryScrollRef.current?.scrollHeight
+    }
+    e.stopPropagation()
+  }
+
+  // Get the appropriate translation based on language selection
+  const getButtonText = () => {
+    if (isEnglish) {
+      return skipToLatestTranslations['en']
+    } else {
+      // Use alternative language or fallback to English
+      return skipToLatestTranslations[alternativeLanguage] || skipToLatestTranslations['en']
+    }
+  }
+
+  return (
+    <div className='relative w-full'>
+      <div className='absolute w-full'>
+        <div className='flex justify-center'>
+          <div
+            className='px-3 py-1 w-fit min-h-8 max-h-8 font-medium text-sm bg-navy50 border-1 border-navy300 rounded-md shadow-sm cursor-pointer'
+            onClick={e => scrollToBottom(e)}
+          >
+            {getButtonText()}
+          </div>{' '}
+        </div>
+      </div>
+    </div>
+  )
+}
