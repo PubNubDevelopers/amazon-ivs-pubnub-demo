@@ -352,7 +352,7 @@ export default function StreamWidget ({
           <LiveOccupancyCount />
         </div>
         {!isMobilePreview && (
-          <div className='absolute bottom-4 right-4 z-50 flex items-center gap-2'>
+          <div className='absolute bottom-4 right-4 z-40 flex items-center gap-2'>
             {showStreamLatency && (
               <div className='bg-black bg-opacity-70 text-white px-2 py-1 rounded text-sm font-mono'>
                 {latencyValue}ms
