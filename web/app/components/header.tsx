@@ -16,7 +16,9 @@ export default function Header ({
   chat,
   isEnglish,
   useLocalVideo,
-  setUseLocalVideo
+  setUseLocalVideo,
+  showStreamLatency,
+  setShowStreamLatency
 }) {
   const [adminModalOpen, setAdminModalOpen] = useState(false)
   const [pinInput, setPinInput] = useState('')
@@ -813,17 +815,18 @@ export default function Header ({
                 <div>
                   <h2 className='text-xl font-bold text-gray-900 mb-2'>Synchronization</h2>
                   <p className='text-gray-600 text-sm mb-4'>Synchronize the backend data with the video stream (requires backend to be started and the stream to be started, and visible)</p>
+                  
                   {syncStatus === 'idle' && (
                     <button
                       onClick={captureVideoScreenshot}
-                      className='w-full bg-blue-300 text-blue-800 py-2 px-4 rounded-md hover:bg-blue-400 transition-colors'
+                      className='w-full bg-blue-300 text-blue-800 py-2 px-4 rounded-md hover:bg-blue-400 transition-colors mb-4'
                     >
                       Sync video to data
                     </button>
                   )}
                   
                   {syncStatus === 'syncing' && (
-                    <div className='space-y-3'>
+                    <div className='space-y-3 mb-4'>
                       <button
                         disabled
                         className='w-full bg-gray-400 text-white py-2 px-4 rounded-md cursor-not-allowed'
@@ -835,7 +838,7 @@ export default function Header ({
                   )}
                   
                   {syncStatus === 'success' && (
-                    <div className='space-y-3'>
+                    <div className='space-y-3 mb-4'>
                       <div className='w-full bg-green-600 text-white py-2 px-4 rounded-md text-center'>
                         ✓ Success
                       </div>
@@ -844,7 +847,7 @@ export default function Header ({
                   )}
                   
                   {syncStatus === 'error' && (
-                    <div className='space-y-3'>
+                    <div className='space-y-3 mb-4'>
                       <button
                         onClick={captureVideoScreenshot}
                         className='w-full bg-green-300 text-green-800 py-2 px-4 rounded-md hover:bg-green-400 transition-colors'
@@ -854,6 +857,19 @@ export default function Header ({
                       <p className='text-red-600 text-center'>{syncMessage}</p>
                     </div>
                   )}
+                  
+                  <div>
+                    <label className='flex items-center space-x-2'>
+                      <input
+                        type='checkbox'
+                        checked={showStreamLatency}
+                        onChange={(e) => setShowStreamLatency(e.target.checked)}
+                        className='rounded border-gray-300 text-blue-600 focus:ring-blue-500'
+                      />
+                      <span className='text-gray-700'>Show stream latency</span>
+                    </label>
+                    <p className='text-gray-500 text-xs mt-1'>Displays a latency overlay on the video stream</p>
+                  </div>
                 </div>
               </div>
             )}

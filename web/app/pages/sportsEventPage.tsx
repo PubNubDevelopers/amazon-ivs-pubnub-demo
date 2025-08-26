@@ -27,6 +27,10 @@ export default function SportsEventPage ({
   useState(false)
   const [isEnglish, setIsEnglish] = useState(true) // Language toggle state for all components
   const [useLocalVideo, setUseLocalVideo] = useState(false) // Local video toggle state
+  const [showStreamLatency, setShowStreamLatency] = useState<boolean>(() => {
+    const envValue = process.env.NEXT_PUBLIC_SHOW_STREAM_LATENCY
+    return envValue === 'true'
+  }) // Stream latency display state
 
   function backgroundClicked () {
     //console.log('background clicked')
@@ -94,6 +98,8 @@ export default function SportsEventPage ({
         isEnglish={isEnglish}
         useLocalVideo={useLocalVideo}
         setUseLocalVideo={setUseLocalVideo}
+        showStreamLatency={showStreamLatency}
+        setShowStreamLatency={setShowStreamLatency}
       ></Header>
 
       {/*<div className='sm:hidden flex flex-col mt-10 h-screen justify-center w-full text-center gap-16 text-4xl'>
@@ -139,6 +145,7 @@ export default function SportsEventPage ({
               setIsEnglish={setIsEnglish}
               useLocalVideo={useLocalVideo}
               setUseLocalVideo={setUseLocalVideo}
+              showStreamLatency={showStreamLatency}
             ></PreviewTablet>
           </div>
           {/*<PreviewMobile
@@ -150,6 +157,12 @@ export default function SportsEventPage ({
             setVisibleGuide={setVisibleGuide}
             logout={logout}
             currentScore={currentScore}
+            currentWallet={currentWallet}
+            isEnglish={isEnglish}
+            setIsEnglish={setIsEnglish}
+            useLocalVideo={useLocalVideo}
+            setUseLocalVideo={setUseLocalVideo}
+            showStreamLatency={showStreamLatency}
           ></PreviewMobile>*/}
         </div>
       </div>

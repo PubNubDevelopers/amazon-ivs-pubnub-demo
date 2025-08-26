@@ -30,7 +30,8 @@ export default function StreamWidget ({
   awardPoints,
   isEnglish,
   useLocalVideo,
-  setUseLocalVideo
+  setUseLocalVideo,
+  showStreamLatency
 }) {
   const [occupancy, setOccupancy] = useState(0)
   const [realOccupancy, setRealOccupancy] = useState(0)
@@ -62,9 +63,38 @@ export default function StreamWidget ({
   const [isVideoStarted, setIsVideoStarted] = useState(true)
   const [muted, setMuted] = useState(true)
   const playerRef = useRef<any>(null)
+  const [latencyValue, setLatencyValue] = useState(300)
 
   // Local video player manages its own playing state
   // No need to force isVideoPlaying=true here since LocalVideoPlayer will handle it
+
+  // Function to generate normally distributed random numbers using Box-Muller transform
+  const generateNormalRandom = (mean: number, stdDev: number): number => {
+    let u = 0, v = 0;
+    while(u === 0) u = Math.random(); // Converting [0,1) to (0,1)
+    while(v === 0) v = Math.random();
+    
+    const z = Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+    return Math.round(mean + z * stdDev);
+  }
+
+  // Update latency value every 4 seconds when showStreamLatency is true
+  useEffect(() => {
+    if (!showStreamLatency) return;
+    
+    const updateLatency = () => {
+      const newLatency = generateNormalRandom(300, 30);
+      // Clamp latency between 200ms and 500ms
+      setLatencyValue(Math.max(200, Math.min(500, newLatency)));
+    };
+    
+    // Set initial value
+    updateLatency();
+    
+    const interval = setInterval(updateLatency, 4000);
+    
+    return () => clearInterval(interval);
+  }, [showStreamLatency]);
 
   useEffect(() => {
     //  Handle all types of message other than video control
@@ -322,7 +352,12 @@ export default function StreamWidget ({
           <LiveOccupancyCount />
         </div>
         {!isMobilePreview && (
-          <div className='absolute bottom-4 right-4 z-50'>
+          <div className='absolute bottom-4 right-4 z-40 flex items-center gap-2'>
+            {showStreamLatency && (
+              <div className='bg-black bg-opacity-70 text-white px-2 py-1 rounded text-sm font-mono'>
+                {latencyValue}ms
+              </div>
+            )}
             <VolumeButton />
           </div>
         )}

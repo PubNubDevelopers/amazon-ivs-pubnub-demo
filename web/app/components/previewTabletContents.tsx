@@ -35,6 +35,7 @@ export default function TabletContents ({
   setIsEnglish,
   useLocalVideo,
   setUseLocalVideo,
+  showStreamLatency,
   heightConstrained = true
 }) {
   const [notification, setNotification] = useState<{
@@ -154,6 +155,7 @@ export default function TabletContents ({
               isEnglish={isEnglish}
               useLocalVideo={useLocalVideo}
               setUseLocalVideo={setUseLocalVideo}
+              showStreamLatency={showStreamLatency}
             />
             <BettingWidget
               className={`${defaultWidgetClasses}`}

@@ -14,6 +14,7 @@ export default function PreviewTablet ({
   setIsEnglish,
   useLocalVideo,
   setUseLocalVideo,
+  showStreamLatency,
 }) {
   return (
     <div className={``}>
@@ -30,6 +31,7 @@ export default function PreviewTablet ({
         setIsEnglish={setIsEnglish}
         useLocalVideo={useLocalVideo}
         setUseLocalVideo={setUseLocalVideo}
+        showStreamLatency={showStreamLatency}
       />
     </div>
   )
