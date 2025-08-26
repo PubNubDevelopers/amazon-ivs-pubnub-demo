@@ -32,7 +32,8 @@ export default function PreviewMobile ({
   isEnglish,
   setIsEnglish,
   useLocalVideo,
-  setUseLocalVideo
+  setUseLocalVideo,
+  showStreamLatency
 }) {
   const [notification, setNotification] = useState<{
     heading: string
@@ -151,6 +152,7 @@ export default function PreviewMobile ({
               isEnglish={isEnglish}
               useLocalVideo={useLocalVideo}
               setUseLocalVideo={setUseLocalVideo}
+              showStreamLatency={showStreamLatency}
             />
             {dynamicAd && (
               <AdvertsOfferWidget

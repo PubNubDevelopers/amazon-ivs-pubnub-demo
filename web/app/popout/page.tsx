@@ -19,6 +19,10 @@ export default function Page () {
   const [currentWallet, setCurrentWallet] = useState(1000)
   const [isEnglish, setIsEnglish] = useState(true)
   const [useLocalVideo, setUseLocalVideo] = useState(false)
+  const [showStreamLatency, setShowStreamLatency] = useState<boolean>(() => {
+    const envValue = process.env.NEXT_PUBLIC_SHOW_STREAM_LATENCY
+    return envValue === 'true'
+  })
 
   function logout () {
     setLoginPageShown(true)
@@ -75,6 +79,7 @@ export default function Page () {
           setIsEnglish={setIsEnglish}
           useLocalVideo={useLocalVideo}
           setUseLocalVideo={setUseLocalVideo}
+          showStreamLatency={showStreamLatency}
         />
       </div>
     )

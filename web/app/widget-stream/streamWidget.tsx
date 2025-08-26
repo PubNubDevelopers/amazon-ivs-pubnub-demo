@@ -30,7 +30,8 @@ export default function StreamWidget ({
   awardPoints,
   isEnglish,
   useLocalVideo,
-  setUseLocalVideo
+  setUseLocalVideo,
+  showStreamLatency
 }) {
   const [occupancy, setOccupancy] = useState(0)
   const [realOccupancy, setRealOccupancy] = useState(0)
@@ -322,7 +323,12 @@ export default function StreamWidget ({
           <LiveOccupancyCount />
         </div>
         {!isMobilePreview && (
-          <div className='absolute bottom-4 right-4 z-50'>
+          <div className='absolute bottom-4 right-4 z-50 flex items-center gap-2'>
+            {showStreamLatency && (
+              <div className='bg-black bg-opacity-70 text-white px-2 py-1 rounded text-sm font-mono'>
+                LATENCY
+              </div>
+            )}
             <VolumeButton />
           </div>
         )}
