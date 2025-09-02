@@ -59,6 +59,8 @@ To run this project yourself you will need a PubNub account
 
 Start your Amazon IVS stream, e.g. https://docs.aws.amazon.com/ivs/latest/LowLatencyUserGuide/getting-started-set-up-streaming.html.
 
+**Note:** Although the `/backend/` folder contains logic for streaming a file to a named stream through ffmpeg, this is designed for internal testing only - you should follow the steps above to set up your own stream.
+
 ### Front-end
 
 Rename the `.env.example` file found under the `web` directory to `.env` and populate it with your PubNub keys, Giphy key (optional), and your Amazon IVS stream URL 
